@@ -1,3 +1,8 @@
+#ifndef __ANIMATION_CLIENT_H__
+#define __ANIMATION_CLIENT_H__ 1
+
+#include "../mango.h"
+
 static inline bool client_is_ignore_output_clip(Client *c) {
 	return c == grabc || (!ISSCROLLTILED(c) && !c->animation.tagining &&
 						  !c->animation.tagouting);
@@ -18,11 +23,9 @@ static inline struct ivec2 compute_edge_offsets(Client *c) {
 	return offsets;
 }
 
-void client_actual_size(Client *c, int32_t *width, int32_t *height) {
-	*width = c->animation.current.width - 2 * (int32_t)c->bw;
-	*height = c->animation.current.height - 2 * (int32_t)c->bw;
-}
+void client_actual_size(Client *pclient, int32_t *pwidth, int32_t *pheight);
 
+// TODO continue refactoring from this line down
 void set_rect_size(struct wlr_scene_rect *rect, int32_t width, int32_t height) {
 	wlr_scene_rect_set_size(rect, GEZERO(width), GEZERO(height));
 }
@@ -1673,3 +1676,4 @@ bool client_draw_frame(Client *c) {
 
 	return need_next_tick || need_fade_focus;
 }
+#endif
