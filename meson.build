@@ -93,11 +93,14 @@ if get_option('asan')
   link_args += '-fsanitize=address'
 endif
 
+# Auto-include every .c file under src/ (recursively) so new source files
+# are picked up at `meson setup` time without editing this file.
+# NOTE: mmsg/mmsg.c lives outside src/ on purpose (separate binary, own main()).
+find = find_program('find')
+mango_sources = files(run_command(find, 'src', '-name', '*.c', check: true).stdout().split())
+
 executable('mango',
-  'src/mango.c',
-  'src/common/log.c',
-  'src/common/util.c',
-  'src/draw/text-node.c',
+  mango_sources,
 
   wayland_sources,
   dependencies : [
