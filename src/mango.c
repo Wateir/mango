@@ -3,6 +3,8 @@
  */
 #include "mango.h"
 #include "wlr/util/box.h"
+/* Mango includes */
+#include "animation/client.h"
 
 
 /* function declarations */
@@ -178,9 +180,7 @@ static struct wlr_output_mode *
 get_nearest_output_mode(struct wlr_output *output, int32_t width,
 						int32_t height, float refresh);
 
-static void client_commit(Client *c);
 static void layer_commit(LayerSurface *l);
-static void client_draw_border(Client *c, struct ivec2 offsets);
 static void client_set_opacity(Client *c, double opacity);
 static void init_baked_points(void);
 static void scene_buffer_apply_opacity(struct wlr_scene_buffer *buffer,
@@ -190,18 +190,12 @@ static Client *direction_select(const Arg *arg);
 static void view_in_mon(const Arg *arg, bool want_animation, Monitor *m,
 						bool changefocus);
 
-static void buffer_set_effect(Client *c, BufferData buffer_data);
-static void snap_scene_buffer_apply_effect(struct wlr_scene_buffer *buffer,
-										   int32_t sx, int32_t sy, void *data);
 static void client_send_frame_done(Client *c, const struct timespec *now);
 static void overview_layout_card(Client *c);
 static void overview_destroy_card(Client *c);
 static void overview_card_set_corner_radii(Client *c,
 										   struct fx_corner_radii corners);
-static void client_set_pending_state(Client *c);
 static void layer_set_pending_state(LayerSurface *l);
-static void set_rect_size(struct wlr_scene_rect *rect, int32_t width,
-						  int32_t height);
 static Client *center_tiled_select(Monitor *m);
 static void handlecursoractivity(void);
 static int32_t hidecursor(void *data);
@@ -215,13 +209,10 @@ static void init_fadeout_layers(LayerSurface *l);
 static void layer_actual_size(LayerSurface *l, int32_t *width, int32_t *height);
 static void get_layer_target_geometry(LayerSurface *l,
 									  struct wlr_box *target_box);
-static void scene_buffer_apply_effect(struct wlr_scene_buffer *buffer,
-									  int32_t sx, int32_t sy, void *data);
 static double find_animation_curve_at(double t, int32_t type);
 
 static void apply_opacity_to_rect_nodes(Client *c, struct wlr_scene_node *node,
 										double animation_passed);
-static struct fx_corner_radii set_client_corner_location(Client *c);
 static double all_output_frame_duration_ms();
 static struct wlr_scene_tree *
 wlr_scene_tree_snapshot(struct wlr_scene_node *node,
@@ -294,8 +285,6 @@ static void overview_backup_surface(Client *c);
 static void create_jump_hints(Monitor *m);
 static void finish_jump_mode(Monitor *m);
 static void begin_jump_mode(Monitor *m);
-static void global_draw_group_bar(Client *c, int32_t x, int32_t y,
-								  int32_t width, int32_t height);
 
 static void client_reparent_group(Client *c);
 static void client_change_mon(Client *c, Monitor *m);
