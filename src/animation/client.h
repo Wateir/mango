@@ -1,5 +1,3 @@
-#include "wlr/util/log.h"
-
 static inline bool client_is_ignore_output_clip(Client *c) {
 	return c == grabc || (!ISSCROLLTILED(c) && !c->animation.tagining &&
 						  !c->animation.tagouting);

@@ -1,16 +1,12 @@
 /*
  * See LICENSE file for copyright and license details.
  */
-#include "wlr-layer-shell-unstable-v1-protocol.h"
 #include "wlr/util/box.h"
-#include "wlr/util/edges.h"
-#include <errno.h>
 #include <fcntl.h>
 #include <getopt.h>
 #include <libinput.h>
 #include <limits.h>
 #include <linux/input-event-codes.h>
-#include <math.h>
 #include <scenefx/render/fx_renderer/fx_renderer.h>
 #include <scenefx/types/fx/blur_data.h>
 #include <scenefx/types/fx/clipped_region.h>
