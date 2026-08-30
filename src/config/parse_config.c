@@ -14,15 +14,6 @@
 #define SYSCONFDIR "/etc"
 #endif
 
-// 整数版本 - 截断小数部分
-#define CLAMP_INT(x, min, max)                                                 \
-	((int32_t)(x) < (int32_t)(min)                                             \
-		 ? (int32_t)(min)                                                      \
-		 : ((int32_t)(x) > (int32_t)(max) ? (int32_t)(max) : (int32_t)(x)))
-
-// 浮点数版本 - 保留小数部分
-#define CLAMP_FLOAT(x, min, max)                                               \
-	((x) < (min) ? (min) : ((x) > (max) ? (max) : (x)))
 
 enum render_bit_depth {
 	MANGO_RENDER_BIT_DEPTH_DEFAULT = 0,
