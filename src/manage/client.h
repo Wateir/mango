@@ -3,51 +3,51 @@
 
 #include "../config/parse_config.h"
 
-static void client_update_geometry(Client *c);
-static void client_init_xwayland(Client *c);
-static bool client_init_unmanaged(Client *c);
-static void client_apply_xwayland(Client *c);
-static void apply_rule_properties(Client *c, const ConfigWinRule *r);
-static bool is_window_rule_matches(const ConfigWinRule *r, const char *appid,
+void client_update_geometry(Client *c);
+void client_init_xwayland(Client *c);
+bool client_init_unmanaged(Client *c);
+void client_apply_xwayland(Client *c);
+void apply_rule_properties(Client *c, const ConfigWinRule *r);
+bool is_window_rule_matches(const ConfigWinRule *r, const char *appid,
 								   const char *title);
-static void client_swap_layout_properties(Client *c1, Client *c2);
-static void client_swap_monitors_and_tags(Client *c1, Client *c2);
-static void finish_exchange_arrange_and_focus(Client *c1, Client *c2,
+void client_swap_layout_properties(Client *c1, Client *c2);
+void client_swap_monitors_and_tags(Client *c1, Client *c2);
+void finish_exchange_arrange_and_focus(Client *c1, Client *c2,
 											  Monitor *m1, Monitor *m2);
 #ifdef XWAYLAND
-static bool
+bool
 xwayland_scene_buffer_point_accepts_input(struct wlr_scene_buffer *buffer,
 										  double *sx, double *sy);
-static void xwayland_apply_scale(Client *c);
-static void xwayland_logical_to_x11(struct wlr_box *box, float scale);
-static void xwayland_x11_to_logical(struct wlr_box *box, float scale);
-static void fix_xwayland_coordinate(struct wlr_box *geom);
-static Monitor *xwayland_monitor(Client *c);
+void xwayland_apply_scale(Client *c);
+void xwayland_logical_to_x11(struct wlr_box *box, float scale);
+void xwayland_x11_to_logical(struct wlr_box *box, float scale);
+void fix_xwayland_coordinate(struct wlr_box *geom);
+Monitor *xwayland_monitor(Client *c);
 #endif
 
-static int32_t client_is_x11(Client *c);
-static struct wlr_surface *client_surface(Client *c);
-static int32_t toplevel_from_wlr_surface(struct wlr_surface *s, Client **pc,
+int32_t client_is_x11(Client *c);
+struct wlr_surface *client_surface(Client *c);
+int32_t toplevel_from_wlr_surface(struct wlr_surface *s, Client **pc,
 										  LayerSurface **pl);
 
 /* The others */
-static void client_activate_surface(struct wlr_surface *s, int32_t activated);
-static const char *client_get_appid(Client *c);
-static int32_t client_get_pid(Client *c);
-static void client_get_clip(Client *c, struct wlr_box *clip);
-static void client_get_geometry(Client *c, struct wlr_box *geom);
-static Client *client_get_parent(Client *c);
-static int32_t client_has_children(Client *c);
-static const char *client_get_title(Client *c);
-static int32_t client_is_float_type(Client *c);
-static int32_t client_is_rendered_on_mon(Client *c, Monitor *m);
-static int32_t client_is_unmanaged(Client *c);
-static void client_notify_enter(struct wlr_surface *s,
+void client_activate_surface(struct wlr_surface *s, int32_t activated);
+const char *client_get_appid(Client *c);
+int32_t client_get_pid(Client *c);
+void client_get_clip(Client *c, struct wlr_box *clip);
+void client_get_geometry(Client *c, struct wlr_box *geom);
+Client *client_get_parent(Client *c);
+int32_t client_has_children(Client *c);
+const char *client_get_title(Client *c);
+int32_t client_is_float_type(Client *c);
+int32_t client_is_rendered_on_mon(Client *c, Monitor *m);
+int32_t client_is_unmanaged(Client *c);
+void client_notify_enter(struct wlr_surface *s,
 								struct wlr_keyboard *kb);
-static void client_send_close(Client *c);
-static void client_set_border_color(Client *c, const float color[static 4]);
-static void client_set_fullscreen(Client *c, int32_t fullscreen);
-static void client_set_scale(struct wlr_surface *s, float scale);
+void client_send_close(Client *c);
+void client_set_border_color(Client *c, const float color[4]);
+void client_set_fullscreen(Client *c, int32_t fullscreen);
+void client_set_scale(struct wlr_surface *s, float scale);
 
 /* XWayland 根 surface 的 source_box 裁剪。
  *
@@ -59,23 +59,23 @@ static void client_set_scale(struct wlr_surface *s, float scale);
  *   - dest_size 用逻辑坐标（clip 逻辑尺寸），保持逻辑缩放显示；
  *   - buffer 节点平移到 (clip.x, clip.y)，让可见内容保持在原屏幕位置
  *     （否则窗口向左溢出时，裁剩的内容不会右移，仍会溢出到屏幕外）。 */
-static void client_update_xwayland_clip(Client *c, struct wlr_box *clip);
+void client_update_xwayland_clip(Client *c, struct wlr_box *clip);
 /* 同步 XWayland 根 surface 的 dest_size（逻辑尺寸） */
-static void client_update_xwayland_dest_size(Client *c);
-static uint32_t client_set_size(Client *c, uint32_t width, uint32_t height);
-static void client_set_minimized(Client *c, bool minimized);
-static void client_set_maximized(Client *c, bool maximized);
-static void client_set_tiled(Client *c, uint32_t edges);
+void client_update_xwayland_dest_size(Client *c);
+uint32_t client_set_size(Client *c, uint32_t width, uint32_t height);
+void client_set_minimized(Client *c, bool minimized);
+void client_set_maximized(Client *c, bool maximized);
+void client_set_tiled(Client *c, uint32_t edges);
 
-static int32_t client_should_ignore_focus(Client *c);
-static int32_t client_is_x11_popup(Client *c);
-static int32_t client_should_global(Client *c);
-static int32_t client_should_overtop(Client *c);
-static int32_t client_wants_focus(Client *c);
-static int32_t client_wants_fullscreen(Client *c);
-static bool client_request_minimize(Client *c, void *data);
-static bool client_request_maximize(Client *c, void *data);
-static void client_set_size_bound(Client *c);
+int32_t client_should_ignore_focus(Client *c);
+int32_t client_is_x11_popup(Client *c);
+int32_t client_should_global(Client *c);
+int32_t client_should_overtop(Client *c);
+int32_t client_wants_focus(Client *c);
+int32_t client_wants_fullscreen(Client *c);
+bool client_request_minimize(Client *c, void *data);
+bool client_request_maximize(Client *c, void *data);
+void client_set_size_bound(Client *c);
 bool check_hit_no_border(Client *c);
 Client *termforwin(Client *w);
 Client *get_client_by_id_or_title(const char *arg_id, const char *arg_title);
@@ -84,7 +84,7 @@ struct wlr_box // 计算客户端居中坐标
 setclient_coordinate_center(Client *c, Monitor *tm, struct wlr_box geom,
 											int32_t offsetx, int32_t offsety);
 /* Helper: Check if rule matches client */
-static bool is_window_rule_matches(const ConfigWinRule *r, const char *appid,
+bool is_window_rule_matches(const ConfigWinRule *r, const char *appid,
 									const char *title);
 Client *center_tiled_select(Monitor *m);
 Client *find_client_by_direction(Client *tc, const Arg *arg,
@@ -101,7 +101,7 @@ int32_t is_single_bit_set(uint32_t x);
 bool client_only_in_one_tag(Client *c);
 bool client_is_in_same_stack(Client *sc, Client *tc, Client *fc);
 Client *get_focused_stack_client(Client *sc, Client *custom_focus_client);
-static void apply_rule_properties(Client *c, const ConfigWinRule *r);
+void apply_rule_properties(Client *c, const ConfigWinRule *r);
 void set_float_malposition(Client *tc);
 void client_reset_mon_tags(Client *c, Monitor *mon, uint32_t newtags);
 void check_match_tag_floating_rule(Client *c, Monitor *mon);
@@ -111,11 +111,11 @@ void apply_window_snap(Client *c);
  * Client 管理：窗口生命周期、规则、聚焦、平铺/浮动/全屏状态切换，
  * 以及 XWayland 客户端相关处理。
  */
-static void client_update_geometry(Client *c);
-static void client_init_xwayland(Client *c);
-static bool client_init_unmanaged(Client *c);
-static void client_apply_xwayland(Client *c);
-static bool
+void client_update_geometry(Client *c);
+void client_init_xwayland(Client *c);
+bool client_init_unmanaged(Client *c);
+void client_apply_xwayland(Client *c);
+bool
 xwayland_scene_buffer_point_accepts_input(struct wlr_scene_buffer *buffer,
 										   double *sx, double *sy);
 void
@@ -135,7 +135,7 @@ void updatetitle(struct wl_listener *listener, void *data);
 void
 urgent(struct wl_listener *listener, void *data);
 void pending_kill_client(Client *c);
-static void iter_xdg_scene_buffers(struct wlr_scene_buffer *buffer, int32_t sx,
+void iter_xdg_scene_buffers(struct wlr_scene_buffer *buffer, int32_t sx,
 									int32_t sy, void *user_data);
 void scene_buffer_apply_opacity(struct wlr_scene_buffer *buffer, int32_t sx,
 								int32_t sy, void *data);
@@ -149,7 +149,7 @@ void tag_client(const Arg *arg, Client *target_client);
 void show_hide_client(Client *c);
 void setmon(Client *c, Monitor *m, uint32_t newtags, bool focus);
 void client_change_mon(Client *c, Monitor *m);
-static void view_insert_shift_tags(Monitor *m, uint32_t target);
+void view_insert_shift_tags(Monitor *m, uint32_t target);
 void
 setfloating(Client *c, int32_t floating);
 void setfullscreen(Client *c, int32_t fullscreen,
@@ -176,9 +176,9 @@ void client_replace(Client *c, Client *w, bool is_group_change_member,
 					bool is_swallow);
 void client_update_oldmonname_record(Client *c, Monitor *m);
 void applybounds(Client *c, struct wlr_box *bbox);
-static void client_swap_layout_properties(Client *c1, Client *c2);
-static void client_swap_monitors_and_tags(Client *c1, Client *c2);
-static void finish_exchange_arrange_and_focus(Client *c1, Client *c2,
+void client_swap_layout_properties(Client *c1, Client *c2);
+void client_swap_monitors_and_tags(Client *c1, Client *c2);
+void finish_exchange_arrange_and_focus(Client *c1, Client *c2,
 											   Monitor *m1, Monitor *m2);
 void client_tile_resize(Client *c, struct wlr_box geo, int32_t interact);
 uint32_t generate_client_id(void);
@@ -205,28 +205,28 @@ void mango_surface_frame_done(struct wlr_surface *surface, int sx, int sy,
 void client_send_frame_done(Client *c, const struct timespec *now);
 bool client_force_render(Client *c);
 
-static uint32_t next_client_id = 0;
+uint32_t next_client_id = 0;
 
 /* 获取当前 XWayland 客户端的 monitor（尚未绑定 monitor 时回退到 selmon） */
 #ifdef XWAYLAND
 
 /* X11 坐标相对逻辑坐标的缩放：fzs 时为 monitor scale，否则为 1 */
-static Monitor *xwayland_monitor(Client *c);
+Monitor *xwayland_monitor(Client *c);
 
 /* 提示 X11 客户端按何分辨率渲染 */
-static float xwayland_client_scale(Client *c);
+float xwayland_client_scale(Client *c);
 
 /* 提示 X11 客户端按何分辨率渲染 */
-static float xwayland_preferred_scale(Client *c);
+float xwayland_preferred_scale(Client *c);
 
 /* 更新 XWayland 缩放并通知客户端 */
-static void xwayland_apply_scale(Client *c);
+void xwayland_apply_scale(Client *c);
 
 /* wayland 逻辑坐标 -> X11 物理尺寸（X11 = 逻辑 * scale） */
-static void xwayland_logical_to_x11(struct wlr_box *box, float scale);
+void xwayland_logical_to_x11(struct wlr_box *box, float scale);
 
 /* X11 物理尺寸 -> wayland 逻辑坐标（逻辑 = X11 / scale） */
-static void xwayland_x11_to_logical(struct wlr_box *box, float scale);
+void xwayland_x11_to_logical(struct wlr_box *box, float scale);
 void fix_xwayland_coordinate(struct wlr_box *geom);
 void activatex11(struct wl_listener *listener, void *data);
 void configurex11(struct wl_listener *listener, void *data);
@@ -236,7 +236,7 @@ void associatex11(struct wl_listener *listener, void *data);
 void dissociatex11(struct wl_listener *listener, void *data);
 void sethints(struct wl_listener *listener, void *data);
 void xwaylandready(struct wl_listener *listener, void *data);
-static void setgeometrynotify(struct wl_listener *listener, void *data);
+void setgeometrynotify(struct wl_listener *listener, void *data);
 
 #endif
 
