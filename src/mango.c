@@ -6,6 +6,7 @@
 /* Mango includes */
 #include "animation/client.h"
 #include "animation/common.h"
+#include "animation/layer.h"
 
 
 /* function declarations */
@@ -180,7 +181,6 @@ static struct wlr_output_mode *
 get_nearest_output_mode(struct wlr_output *output, int32_t width,
 						int32_t height, float refresh);
 
-static void layer_commit(LayerSurface *l);
 static void client_set_opacity(Client *c, double opacity);
 static void scene_buffer_apply_opacity(struct wlr_scene_buffer *buffer,
 									   int32_t sx, int32_t sy, void *data);
@@ -194,7 +194,6 @@ static void overview_layout_card(Client *c);
 static void overview_destroy_card(Client *c);
 static void overview_card_set_corner_radii(Client *c,
 										   struct fx_corner_radii corners);
-static void layer_set_pending_state(LayerSurface *l);
 static Client *center_tiled_select(Monitor *m);
 static void handlecursoractivity(void);
 static int32_t hidecursor(void *data);
@@ -204,10 +203,6 @@ static void client_update_oldmonname_record(Client *c, Monitor *m);
 static void pending_kill_client(Client *c);
 static uint32_t get_tags_first_tag_num(uint32_t source_tags);
 static void set_layer_open_animaiton(LayerSurface *l, struct wlr_box geo);
-static void init_fadeout_layers(LayerSurface *l);
-static void layer_actual_size(LayerSurface *l, int32_t *width, int32_t *height);
-static void get_layer_target_geometry(LayerSurface *l,
-									  struct wlr_box *target_box);
 
 static void apply_opacity_to_rect_nodes(Client *c, struct wlr_scene_node *node,
 										double animation_passed);
