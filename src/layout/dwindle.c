@@ -1,11 +1,5 @@
-static DwindleNode *dwindle_locked_h_node = NULL;
-static DwindleNode *dwindle_locked_v_node = NULL;
-
-static DwindleNode *dwindle_new_leaf(Client *c) {
-	DwindleNode *n = calloc(1, sizeof(DwindleNode));
-	n->client = c;
-	return n;
-}
+#include "dwindle.h"
+#include "src/common/util.h"
 
 // 统计同方向上的节点总和 (N_old)
 static int count_block_items(DwindleNode *node, bool split_h) {
@@ -78,7 +72,7 @@ static void dwindle_free_tree(DwindleNode *node) {
 	free(node);
 }
 
-static void dwindle_insert(DwindleNode **root, Client *new_c, Client *focused,
+void dwindle_insert(DwindleNode **root, Client *new_c, Client *focused,
 						   float ratio, bool as_first, bool split_h,
 						   bool lock) {
 	DwindleNode *new_leaf = dwindle_new_leaf(new_c);
@@ -329,7 +323,6 @@ static void dwindle_move_client(DwindleNode **root, Client *c, Client *target,
 }
 
 static void dwindle_swap_clients(Client *c1, Client *c2) {
-
 	if (!c1 || !c2 || !c1->mon || !c2->mon || c1 == c2)
 		return;
 
@@ -494,7 +487,6 @@ static void dwindle_remove_client(Client *c) {
  * dwindle_smart_split config options. */
 static void dwindle_insert_with_config(DwindleNode **root, Client *new_c,
 									   Client *focused, float ratio) {
-
 	if (!new_c || !focused)
 		return;
 
