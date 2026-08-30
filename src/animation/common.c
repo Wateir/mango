@@ -1,4 +1,6 @@
 #include "common.h"
+#include "../common/util.h"
+#include "../mango.h"
 
 struct dvec2 calculate_animation_curve_at(double t, int32_t type) {
 	struct dvec2 point;
@@ -110,7 +112,7 @@ double find_animation_curve_at(double t, int32_t type) {
 	}
 	return baked_points[up].y;
 }
-static bool scene_node_snapshot(struct wlr_scene_node *node, int32_t lx,
+bool scene_node_snapshot(struct wlr_scene_node *node, int32_t lx,
 								int32_t ly,
 								struct wlr_scene_tree *snapshot_tree) {
 	if (!node->enabled && node->type != WLR_SCENE_NODE_TREE) {

@@ -2,9 +2,6 @@
 #define __EXT_PROTOCOL_XDG_OUTPUT_H__ 1
 
 /* 自定义 xdg-output：xwayland_ignore_scale 时给 XWayland 发物理坐标/尺寸 */
-#include <math.h>
-#include <stdlib.h>
-
 #include <wayland-server-core.h>
 #include <wlr/types/wlr_output.h>
 #include <wlr/util/log.h>

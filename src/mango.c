@@ -4,10 +4,7 @@
 #include "mango.h"
 #include "wlr/util/box.h"
 /* Mango includes */
-#include "animation/client.h"
 #include "animation/common.h"
-#include "animation/layer.h"
-#include "animation/tag.h"
 
 /* function declarations */
 static void applybounds(
@@ -229,7 +226,7 @@ static void refresh_monitors_workspaces_status(Monitor *m);
 static void init_client_properties(Client *c);
 static float *get_border_color(Client *c);
 static void clear_fullscreen_and_maximized_state(Monitor *m);
-static void request_fresh_all_monitors(void);
+void request_fresh_all_monitors(void);
 static Client *find_client_by_direction(Client *tc, const Arg *arg,
 										bool findfloating);
 static void exit_scroller_stack(Client *c);
@@ -366,8 +363,7 @@ Monitor *dirtomon(enum wlr_direction dir);
 Monitor *xytomon(double x, double y);
 Monitor *get_monitor_nearest_to(int32_t lx, int32_t ly);
 
-#include "data/static_keymap.h"
-#include "dispatch/bind_declare.h"
+#include "dispatch/bind.h"
 #include "layout/layout.h"
 #include "common/util.h"
 
@@ -375,31 +371,21 @@ Monitor *get_monitor_nearest_to(int32_t lx, int32_t ly);
 
 static void ipc_notify_device_event(struct wlr_input_device *device);
 
-#include "animation/client.h"
 #include "animation/common.h"
-#include "animation/layer.h"
-#include "animation/tag.h"
 #include "dispatch/bind_define.h"
-#include "ext-protocol/all.h"
 #include "input/touch.h"
 #include "input/switch.h"
 #include "input/tablet.h"
 #include "ipc/ipc.h"
-#include "layout/arrange.h"
 #include "layout/dwindle.h"
 #include "layout/horizontal.h"
 #include "layout/overview.h"
 #include "layout/scroll.h"
 #include "layout/vertical.h"
-#include "overview/overview.h"
-#include "switcher/switcher.h"
 
-#include "manage/client.h"
 #include "input/keyboard.h"
-#include "manage/layer.h"
 #include "input/pointer.h"
 #include "manage/monitor.h"
-#include "input/device.h"
 #include "manage/misc.h"
 
 void handlesig(int32_t signo) {

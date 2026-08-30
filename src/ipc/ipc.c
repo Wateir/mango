@@ -8,6 +8,10 @@
 #include <sys/un.h>
 #include <unistd.h>
 #include "ipc.h"
+#include "../common/util.h"
+#include "../common/log.h"
+#include "../layout/layout.h"
+#include "../ext-protocol/ext-workspace.h"
 
 static struct wl_list watch_clients;
 static int device_watch_count;
@@ -604,7 +608,7 @@ static void ipc_notify_json_to_fd(int fd, cJSON *json) {
 }
 
 /* 向 watch all-devices 客户端推送最后触发事件的设备 */
-static void ipc_notify_device_event(struct wlr_input_device *dev) {
+void ipc_notify_device_event(struct wlr_input_device *dev) {
 	if (!dev || !device_watch_count)
 		return;
 

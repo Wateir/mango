@@ -33,6 +33,8 @@ void ipc_notify_last_surface_ws_name(Monitor *m);
 
 void ipc_notify_focusing_client(void);
 
+void ipc_notify_device_event(struct wlr_input_device *dev);
+
 void ipc_notify_client(Client *c);
 
 void ipc_notify_tags(Monitor *m);

@@ -507,6 +507,15 @@ typedef struct {
 	int line_number;
 } BindingConflictMeta;
 
+static ConfigDeviceRule *find_device_rule(struct wlr_input_device *device);
+bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
+static void standalone_keyboard_apply_config(KeyboardGroup *group,
+											 ConfigDeviceRule *rule);
+static void create_standalone_keyboard(InputDevice *input_dev,
+									   struct wlr_keyboard *keyboard,
+									   ConfigDeviceRule *rule);
+void destroy_standalone_keyboard(struct wl_listener *listener, void *data);
+
 bool parse_config_file(Config *config, const char *file_path, bool must_exist);
 
 bool apply_rule_to_state(Monitor *m, const ConfigMonitorRule *rule,

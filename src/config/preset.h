@@ -1,5 +1,6 @@
 #ifndef __CONFIG_PRESET_H__
 #define __CONFIG_PRESET_H__ 1
+#include <xkbcommon/xkbcommon.h>
 
 #define MODKEY WLR_MODIFIER_ALT
 

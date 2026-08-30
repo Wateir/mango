@@ -1,3 +1,5 @@
+#include "parse_config.h"
+
 #include <ctype.h>
 #include <libgen.h>
 #include <math.h>
@@ -7,21 +9,17 @@
 
 #include "../mango.h"
 #include "../common/log.h"
-#include "parse_config.h"
 #include "../dispatch/bind.h"
+#include "../common/util.h"
+#include "../ext-protocol/hdr.h"
+#include "../layout/arrange.h"
+#include "../layout/layout.h"
+#include "../animation/common.h"
 
 #ifndef SYSCONFDIR
 #define SYSCONFDIR "/etc"
 #endif
 
-static ConfigDeviceRule *find_device_rule(struct wlr_input_device *device);
-bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
-static void standalone_keyboard_apply_config(KeyboardGroup *group,
-											 ConfigDeviceRule *rule);
-static void create_standalone_keyboard(InputDevice *input_dev,
-									   struct wlr_keyboard *keyboard,
-									   ConfigDeviceRule *rule);
-void destroy_standalone_keyboard(struct wl_listener *listener, void *data);
 
 // 修改后的宏定义
 #define CHVT(n)                                                                \

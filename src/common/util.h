@@ -5,6 +5,14 @@
 #include <time.h>
 #include <wayland-util.h>
 #include "../mango.h"
+#include "../ipc/ipc.h"
+#include "../input/pointer.h"
+#include "../input/device.h"
+#include "../input/keyboard.h"
+#include "../manage/client.h"
+#include "../manage/layer.h"
+#include "../manage/misc.h"
+#include "../manage/monitor.h"
 
 /* Global variables */
 static const char broken[] = "broken";
@@ -173,25 +181,25 @@ static struct wl_listener last_cursor_surface_destroy_listener = {
 	.notify = last_cursor_surface_destroy};
 
 #ifdef XWAYLAND
-static float xwayland_client_scale(Client *c);
-static float xwayland_preferred_scale(Client *c);
-static void xwayland_apply_scale(Client *c);
-static void xwayland_logical_to_x11(struct wlr_box *box, float scale);
-static void xwayland_x11_to_logical(struct wlr_box *box, float scale);
-static bool
+float xwayland_client_scale(Client *c);
+float xwayland_preferred_scale(Client *c);
+void xwayland_apply_scale(Client *c);
+void xwayland_logical_to_x11(struct wlr_box *box, float scale);
+void xwayland_x11_to_logical(struct wlr_box *box, float scale);
+bool
 xwayland_scene_buffer_point_accepts_input(struct wlr_scene_buffer *buffer,
 										  double *sx, double *sy);
-static void fix_xwayland_coordinate(struct wlr_box *geom);
-static int32_t synckeymap(void *data);
-static void activatex11(struct wl_listener *listener, void *data);
-static void configurex11(struct wl_listener *listener, void *data);
-static void createnotifyx11(struct wl_listener *listener, void *data);
-static void dissociatex11(struct wl_listener *listener, void *data);
-static void commitx11(struct wl_listener *listener, void *data);
-static void associatex11(struct wl_listener *listener, void *data);
-static void sethints(struct wl_listener *listener, void *data);
-static void xwaylandready(struct wl_listener *listener, void *data);
-static void setgeometrynotify(struct wl_listener *listener, void *data);
+void fix_xwayland_coordinate(struct wlr_box *geom);
+int32_t synckeymap(void *data);
+void activatex11(struct wl_listener *listener, void *data);
+void configurex11(struct wl_listener *listener, void *data);
+void createnotifyx11(struct wl_listener *listener, void *data);
+void dissociatex11(struct wl_listener *listener, void *data);
+void commitx11(struct wl_listener *listener, void *data);
+void associatex11(struct wl_listener *listener, void *data);
+void sethints(struct wl_listener *listener, void *data);
+void xwaylandready(struct wl_listener *listener, void *data);
+void setgeometrynotify(struct wl_listener *listener, void *data);
 static struct wl_listener new_xwayland_surface = {.notify = createnotifyx11};
 static struct wl_listener xwayland_ready = {.notify = xwaylandready};
 static struct wlr_xwayland *xwayland;

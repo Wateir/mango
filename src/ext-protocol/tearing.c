@@ -1,5 +1,4 @@
 #include "tearing.h"
-#include "xdg-activation.h"
 #include "../mango.h"
 #include "../common/util.h"
 #include "../common/log.h"

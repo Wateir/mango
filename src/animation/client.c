@@ -1,6 +1,31 @@
 #include "client.h"
 #include <stdint.h>
 #include "../mango.h"
+#include "../common/util.h"
+#include "../layout/layout.h"
+#include "../animation/common.h"
+#include "../overview/overview.h"
+#include "../layout/dwindle.h"
+
+inline bool client_is_ignore_output_clip(Client *c) {
+	return c == grabc || (!ISSCROLLTILED(c) && !c->animation.tagining &&
+						  !c->animation.tagouting);
+}
+
+inline struct ivec2 compute_edge_offsets(Client *c) {
+	struct ivec2 offsets = {0};
+	if (client_is_ignore_output_clip(c))
+		return offsets;
+
+	struct wlr_box cur = c->animation.current;
+	offsets.width =
+		GEZERO(cur.x + cur.width - c->mon->m.x - c->mon->m.width); // right
+	offsets.height =
+		GEZERO(cur.y + cur.height - c->mon->m.y - c->mon->m.height); // bottom
+	offsets.x = GEZERO(c->mon->m.x - cur.x);						 // left
+	offsets.y = GEZERO(c->mon->m.y - cur.y);						 // top
+	return offsets;
+}
 
 void client_actual_size(Client *c, int32_t *width, int32_t *height) {
 	*width = c->animation.current.width - 2 * (int32_t)c->bw;

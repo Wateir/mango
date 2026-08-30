@@ -3,25 +3,8 @@
 
 #include "../mango.h"
 
-static inline bool client_is_ignore_output_clip(Client *c) {
-	return c == grabc || (!ISSCROLLTILED(c) && !c->animation.tagining &&
-						  !c->animation.tagouting);
-}
-
-static inline struct ivec2 compute_edge_offsets(Client *c) {
-	struct ivec2 offsets = {0};
-	if (client_is_ignore_output_clip(c))
-		return offsets;
-
-	struct wlr_box cur = c->animation.current;
-	offsets.width =
-		GEZERO(cur.x + cur.width - c->mon->m.x - c->mon->m.width); // right
-	offsets.height =
-		GEZERO(cur.y + cur.height - c->mon->m.y - c->mon->m.height); // bottom
-	offsets.x = GEZERO(c->mon->m.x - cur.x);						 // left
-	offsets.y = GEZERO(c->mon->m.y - cur.y);						 // top
-	return offsets;
-}
+inline bool client_is_ignore_output_clip(Client *c);
+inline struct ivec2 compute_edge_offsets(Client *c);
 
 void client_actual_size(Client *client, int32_t *width, int32_t *height);
 void set_rect_size(struct wlr_scene_rect *rect, int32_t width, int32_t height);

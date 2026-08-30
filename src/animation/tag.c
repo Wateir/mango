@@ -1,5 +1,7 @@
 #include "tag.h"
 #include "../mango.h"
+#include "../animation/client.h"
+#include "../common/util.h"
 
 void set_tagin_animation(Monitor *m, Client *c) {
 	if (c->animation.running) {

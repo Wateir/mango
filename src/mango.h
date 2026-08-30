@@ -82,14 +82,10 @@
 #include <scenefx/types/fx/blur_data.h>
 #include <scenefx/types/fx/clipped_region.h>
 #include <scenefx/types/wlr_scene.h>
-#include <signal.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
-#include <time.h>
 #include <unistd.h>
 #include <wordexp.h>
 #include <xkbcommon/xkbcommon.h>
@@ -99,7 +95,6 @@
 #include <xcb/xcb_icccm.h>
 #endif
 #include "draw/text-node.h"
-#include "data/static_keymap.h"
 
 /* macros */
 #define MANGO_MAX(A, B) ((A) > (B) ? (A) : (B))

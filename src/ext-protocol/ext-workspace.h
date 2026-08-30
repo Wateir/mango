@@ -2,7 +2,6 @@
 #define __EXT_PROTOCOL_WORKSPACE_H__ 1
 
 #include "../mango.h"
-#include "../manage/client.h"
 #include <wlr/types/wlr_ext_workspace_v1.h>
 
 #define EXT_WORKSPACE_ENABLE_CAPS                                              \

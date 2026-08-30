@@ -1,4 +1,6 @@
 #include "layer.h"
+#include "../animation/common.h"
+#include "../common/util.h"
 
 void layer_actual_size(LayerSurface *l, int32_t *width, int32_t *height) {
 	if (l->animation.running) {
