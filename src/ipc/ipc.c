@@ -1,4 +1,3 @@
-#include <cjson/cJSON.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <stdbool.h>
@@ -9,24 +8,6 @@
 #include <sys/un.h>
 #include <unistd.h>
 #include "ipc.h"
-
-struct ipc_watch_client {
-	struct wl_list link;
-	int fd;
-	struct wl_event_source *source;
-	enum ipc_watch_type type;
-	union {
-		struct {
-			char name[64];
-		} monitor;
-		struct {
-			uint32_t id;
-		} client;
-		struct {
-			char mon_name[64];
-		} tags;
-	} target;
-};
 
 static struct wl_list watch_clients;
 static int device_watch_count;
