@@ -604,7 +604,7 @@ static void ipc_notify_json_to_fd(int fd, cJSON *json) {
 }
 
 /* 向 watch all-devices 客户端推送最后触发事件的设备 */
-static void ipc_notify_device_event(struct wlr_input_device *dev) {
+void ipc_notify_device_event(struct wlr_input_device *dev) {
 	if (!dev || !device_watch_count)
 		return;
 

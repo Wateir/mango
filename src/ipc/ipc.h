@@ -47,6 +47,8 @@ void ipc_notify_keymode(void);
 
 void ipc_notify_kb_layout(void);
 
+void ipc_notify_device_event(struct wlr_input_device *dev);
+
 void printstatus(enum ipc_watch_type type);
 
 void handle_print_status(struct wl_listener *listener, void *data);
