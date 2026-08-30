@@ -14,8 +14,6 @@
 #define SYSCONFDIR "/etc"
 #endif
 
-
-
 static ConfigDeviceRule *find_device_rule(struct wlr_input_device *device);
 bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
 static void standalone_keyboard_apply_config(KeyboardGroup *group,
@@ -4601,7 +4599,7 @@ void reapply_master(void) {
 }
 
 // Reset a pertag slot to defaults.
-static void tag_slot_set_defaults(Monitor *m, uint32_t tag) {
+void tag_slot_set_defaults(Monitor *m, uint32_t tag) {
 	m->pertag->nmasters[tag] = config.default_nmaster;
 	m->pertag->mfacts[tag] = config.default_mfact;
 	m->pertag->ltidxs[tag] = &layouts[0];
@@ -4614,7 +4612,7 @@ static void tag_slot_set_defaults(Monitor *m, uint32_t tag) {
 }
 
 // Does this tag rule match the monitor?
-static bool tag_rule_matches_monitor(const ConfigTagRule *tr, Monitor *m) {
+bool tag_rule_matches_monitor(const ConfigTagRule *tr, Monitor *m) {
 	if (tr->monitor_name != NULL &&
 		!regex_match(tr->monitor_name, m->wlr_output->name))
 		return false;
@@ -4634,8 +4632,7 @@ static bool tag_rule_matches_monitor(const ConfigTagRule *tr, Monitor *m) {
 }
 
 // Apply one tag rule to a slot (caller checks coverage).
-static void tag_rule_apply_to_slot(Monitor *m, const ConfigTagRule *tr,
-								   uint32_t tag) {
+void tag_rule_apply_to_slot(Monitor *m, const ConfigTagRule *tr, uint32_t tag) {
 	int32_t jk;
 
 	for (jk = 0; jk < LENGTH(layouts); jk++) {

@@ -9,7 +9,6 @@
 #include "animation/layer.h"
 #include "animation/tag.h"
 
-
 /* function declarations */
 static void applybounds(
 	Client *c,
@@ -36,7 +35,7 @@ static void pinch_update(struct wl_listener *listener, void *data);
 static void pinch_end(struct wl_listener *listener, void *data);
 static void hold_begin(struct wl_listener *listener, void *data);
 static void hold_end(struct wl_listener *listener, void *data);
-static void checkidleinhibitor(struct wlr_surface *exclude);
+void checkidleinhibitor(struct wlr_surface *exclude);
 static void cleanupmon(struct wl_listener *listener, void *data); // 退出清理
 static void closemon(Monitor *m);
 static void toggle_hotarea(int32_t x_root, int32_t y_root); // 触发热区
@@ -114,7 +113,7 @@ static void outputmgrapplyortest(struct wlr_output_configuration_v1 *config,
 static void outputmgrtest(struct wl_listener *listener, void *data);
 static void pointerfocus(Client *c, struct wlr_surface *surface, double sx,
 						 double sy, uint32_t time);
-static void printstatus(enum ipc_watch_type type);
+void printstatus(enum ipc_watch_type type);
 static void powermgrsetmode(struct wl_listener *listener, void *data);
 static void rendermon(struct wl_listener *listener, void *data);
 static void requestdecorationmode(struct wl_listener *listener, void *data);

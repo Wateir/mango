@@ -623,4 +623,11 @@ void reset_tag(int old_tag_num);
 
 void reload_config(const Arg *arg);
 
+void tag_slot_set_defaults(Monitor *m, uint32_t tag);
+
+bool tag_rule_matches_monitor(const ConfigTagRule *tr, Monitor *m);
+
+void tag_rule_apply_to_slot(Monitor *m, const ConfigTagRule *tr,
+    uint32_t tag);
+
 #endif
