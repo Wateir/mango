@@ -1,3 +1,5 @@
+#include "../mango.h"
+
 static void tile(Monitor *m);
 static void center_tile(Monitor *m);
 static void right_tile(Monitor *m);
