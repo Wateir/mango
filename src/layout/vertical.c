@@ -1,5 +1,6 @@
 #include "vertical.h"
 #include "../common/util.h"
+#include "../manage/client.h"
 
 void vertical_tile(Monitor *m) {
 	int32_t i, n = 0, w, r, ie = enablegaps, mh, mx, tx;
@@ -560,4 +561,3 @@ void vertical_fair(Monitor *m) {
 	free(col_x_max);
 	free(col_w_max);
 }
-

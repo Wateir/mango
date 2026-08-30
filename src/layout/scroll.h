@@ -34,8 +34,8 @@ void scroller_insert_stack(Client *c, Client *target_client,
 void scroller_drop_tile(Client *c, Client *closest, int vertical);
 Client *scroll_get_stack_head_client(Client *c);
 Client *scroll_get_stack_tail_client(Client *c);
-static void update_scroller_state(Monitor *m);
-static void scroller_swap_nodes_in_same_stack(struct ScrollerStackNode *n1,
+void update_scroller_state(Monitor *m);
+void scroller_swap_nodes_in_same_stack(struct ScrollerStackNode *n1,
 											  struct ScrollerStackNode *n2);
 static void scroller_swap_different_stacks(struct ScrollerStackNode *head1,
 										   struct ScrollerStackNode *head2);

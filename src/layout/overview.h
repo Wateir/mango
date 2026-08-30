@@ -17,7 +17,6 @@ typedef struct {
 	float orig_h;
 	float area;
 } OvLayoutItem;
-
 /* Declarations */
 static int compare_layout_items(const void *a, const void *b);
 static bool try_place(OvPlacedRect *placed, int placed_cnt, float w, float h,

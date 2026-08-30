@@ -1,5 +1,6 @@
 #include "scroll.h"
 #include "../common/util.h"
+#include "../manage/client.h"
 #include "../layout/arrange.h"
 
 /* 获取或创建指定 monitor 某个 tag 的 scroller 状态 */
@@ -913,7 +914,7 @@ Client *scroll_get_stack_tail_client(Client *c) {
 	return c;
 }
 
-static void update_scroller_state(Monitor *m) {
+void update_scroller_state(Monitor *m) {
 	uint32_t tag = m->pertag->curtag;
 	struct TagScrollerState *st = ensure_scroller_state(m, tag);
 
@@ -959,7 +960,7 @@ static void update_scroller_state(Monitor *m) {
 	free(vis);
 }
 
-static void scroller_swap_nodes_in_same_stack(struct ScrollerStackNode *n1,
+void scroller_swap_nodes_in_same_stack(struct ScrollerStackNode *n1,
 											  struct ScrollerStackNode *n2) {
 	float tmp_sc = n1->scroller_proportion;
 	float tmp_st = n1->stack_proportion;
@@ -1099,5 +1100,3 @@ void exchange_two_scroller_clients(Client *c1, Client *c2) {
 
 	return;
 }
-
-

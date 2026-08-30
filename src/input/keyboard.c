@@ -127,7 +127,7 @@ void createkeyboard(struct wlr_keyboard *keyboard) {
 	wlr_keyboard_group_add_keyboard(kb_group->wlr_group, keyboard);
 }
 
-static bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule) {
+bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule) {
 	return rule &&
 		   (rule->repeat_rate != -1 || rule->repeat_delay != -1 ||
 			rule->kb_rules[0] || rule->kb_model[0] || rule->kb_layout[0] ||

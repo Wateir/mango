@@ -1,5 +1,10 @@
 #include "overview.h"
 #include "src/common/util.h"
+#include "../manage/client.h"
+#include "../common/util.h"
+#include "../config/parse_config.h"
+#include <stdbool.h>
+
 
 static int compare_layout_items(const void *a, const void *b) {
 	float area_a = ((const OvLayoutItem *)a)->area;
@@ -490,4 +495,3 @@ void overview(Monitor *m) {
 		create_jump_hints(m);
 	}
 }
-

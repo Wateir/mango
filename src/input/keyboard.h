@@ -9,7 +9,7 @@ static void create_standalone_keyboard(InputDevice *input_dev,
 									   struct wlr_keyboard *keyboard,
 									   ConfigDeviceRule *rule);
 
-static bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
+bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
 
 void createkeyboard(struct wlr_keyboard *keyboard);
 

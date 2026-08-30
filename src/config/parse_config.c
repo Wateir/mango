@@ -38,7 +38,6 @@ KeyBinding default_key_bindings[] = {CHVT(1), CHVT(2),	CHVT(3),  CHVT(4),
 
 typedef void (*BindingMetaFunc)(const void *elem, BindingConflictMeta *meta);
 
-
 bool parse_config_file(Config *config, const char *file_path, bool must_exist);
 bool apply_rule_to_state(Monitor *m, const ConfigMonitorRule *rule,
 						 struct wlr_output_state *state);
