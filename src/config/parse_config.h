@@ -20,6 +20,13 @@
 #define CLAMP_FLOAT(x, min, max)                                               \
 	((x) < (min) ? (min) : ((x) > (max) ? (max) : (x)))
 
+/* Variables */
+// 默认跳转标签字符序列（静态数组，未配置 jump_labels 时使用）
+static const char default_jump_labels[] = "HJKLASDFGQWERTYUIOPZXCVBNM";
+static char **file_paths = NULL;
+static int file_paths_count = 0;
+static int current_file_index = -1;
+
 /* Enums */
 enum { NUM_TYPE_MINUS, NUM_TYPE_PLUS, NUM_TYPE_DEFAULT };
 
