@@ -12,4 +12,5 @@ static bool scene_node_snapshot(struct wlr_scene_node *node, int32_t lx,
 
 struct wlr_scene_tree *wlr_scene_tree_snapshot(struct wlr_scene_node *node,
 												struct wlr_scene_tree *parent);
+void request_fresh_all_monitors(void);
 #endif
