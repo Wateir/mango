@@ -5,7 +5,10 @@
 #include <stdint.h>
 #include <string.h>
 
+#include "../mango.h"
+#include "../common/log.h"
 #include "parse_config.h"
+#include "../dispatch/bind_declare.h"
 
 #ifndef SYSCONFDIR
 #define SYSCONFDIR "/etc"
@@ -32,18 +35,18 @@ enum render_bit_depth {
 };
 
 static ConfigDeviceRule *find_device_rule(struct wlr_input_device *device);
-static bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
+bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
 static void standalone_keyboard_apply_config(KeyboardGroup *group,
 											 ConfigDeviceRule *rule);
 static void create_standalone_keyboard(InputDevice *input_dev,
 									   struct wlr_keyboard *keyboard,
 									   ConfigDeviceRule *rule);
-static void destroy_standalone_keyboard(struct wl_listener *listener,
+void destroy_standalone_keyboard(struct wl_listener *listener,
 										void *data);
 static void create_standalone_keyboard(InputDevice *input_dev,
 									   struct wlr_keyboard *keyboard,
 									   ConfigDeviceRule *rule);
-static void destroy_standalone_keyboard(struct wl_listener *listener,
+void destroy_standalone_keyboard(struct wl_listener *listener,
 										void *data);
 
 // 修改后的宏定义
@@ -61,293 +64,7 @@ KeyBinding default_key_bindings[] = {CHVT(1), CHVT(2),	CHVT(3),  CHVT(4),
 									 CHVT(5), CHVT(6),	CHVT(7),  CHVT(8),
 									 CHVT(9), CHVT(10), CHVT(11), CHVT(12)};
 
-typedef struct {
-	int32_t id;
-	bool id_wildcard;
-	char *layout_name;
-	char *monitor_name;
-	char *monitor_make;
-	char *monitor_model;
-	char *monitor_serial;
-	float mfact;
-	int32_t nmaster;
-	float scroller_default_proportion;
-	float scroller_default_proportion_single;
-	int32_t scroller_ignore_proportion_single;
-	int32_t no_render_border;
-	int32_t open_as_floating;
-	int32_t no_hide;
-} ConfigTagRule;
-
-typedef struct {
-	char *layer_name; // 布局名称
-	char *animation_type_open;
-	char *animation_type_close;
-	int32_t shield_when_capture;
-	int32_t noblur;
-	int32_t noanim;
-	int32_t noshadow;
-} ConfigLayerRule;
-
-typedef struct {
-	int32_t animations;
-	int32_t layer_animations;
-	char animation_type_open[10];
-	char animation_type_close[10];
-	char layer_animation_type_open[10];
-	char layer_animation_type_close[10];
-	int32_t animation_fade_in;
-	int32_t animation_fade_out;
-	int32_t tag_animation_direction;
-	float zoom_initial_ratio;
-	float zoom_end_ratio;
-	float fadein_begin_opacity;
-	float fadeout_begin_opacity;
-	uint32_t animation_duration_move;
-	uint32_t animation_duration_open;
-	uint32_t animation_duration_tag;
-	uint32_t animation_duration_close;
-	uint32_t animation_duration_focus;
-	double animation_curve_move[4];
-	double animation_curve_open[4];
-	double animation_curve_tag[4];
-	double animation_curve_close[4];
-	double animation_curve_focus[4];
-	double animation_curve_opafadein[4];
-	double animation_curve_opafadeout[4];
-
-	int32_t scroller_structs;
-	float scroller_default_proportion;
-	float scroller_default_proportion_single;
-	int32_t scroller_ignore_proportion_single;
-	int32_t scroller_focus_center;
-	int32_t scroller_prefer_center;
-	int32_t scroller_prefer_overspread;
-	int32_t edge_scroller_pointer_focus;
-	double edge_scroller_focus_allow_speed;
-	int32_t focus_cross_monitor;
-	int32_t exchange_cross_monitor;
-	int32_t scratchpad_cross_monitor;
-	int32_t focus_cross_tag;
-	int32_t view_current_to_back;
-	int32_t no_border_when_single;
-	int32_t no_radius_when_single;
-	int32_t snap_distance;
-	int32_t enable_floating_snap;
-	int32_t drag_tile_to_tile;
-	int32_t drag_tile_small;
-	uint32_t swipe_min_threshold;
-	float focused_opacity;
-	float unfocused_opacity;
-	float *scroller_proportion_preset;
-	int32_t scroller_proportion_preset_count;
-
-	char **circle_layout;
-	int32_t circle_layout_count;
-
-	uint32_t new_is_master;
-	float default_mfact;
-	uint32_t default_nmaster;
-	int32_t tag_num;	// 可配置的 tag 数量,范围 1..tag_num_MAX
-	int32_t tag_gather; // Compact tags to remove gaps
-	int32_t center_master_overspread;
-	int32_t center_when_single_stack;
-
-	/* dwindle layout */
-	int32_t dwindle_vsplit;
-	int32_t dwindle_hsplit;
-	int32_t dwindle_preserve_split;
-	int32_t dwindle_smart_split;
-	int32_t dwindle_smart_resize;
-	int32_t dwindle_drop_simple_split;
-	int32_t dwindle_manual_split;
-	float dwindle_split_ratio;
-
-	int32_t hotarea_size;
-	int32_t hotarea_corner;
-	int32_t enable_hotarea;
-
-	int32_t overviewgappi;
-	int32_t overviewgappo;
-	char *jump_labels;
-	uint32_t cursor_hide_timeout;
-	uint32_t cursor_hide_on_keypress;
-
-	uint32_t axis_bind_apply_timeout;
-	uint32_t focus_on_activate;
-	int32_t idleinhibit_ignore_visible;
-	int32_t sloppyfocus;
-	int32_t warpcursor;
-	int32_t drag_corner;
-	int32_t drag_warp_cursor;
-
-	/* keyboard */
-	int32_t repeat_rate;
-	int32_t repeat_delay;
-	uint32_t numlockon;
-
-	/* common pointer */
-	uint32_t send_events_mode;
-
-	/* mouse */
-	int32_t mouse_natural_scrolling;
-	uint32_t mouse_accel_profile;
-	double mouse_accel_speed;
-	double axis_scroll_factor;
-	/* 鼠标独立参数 */
-	int32_t mouse_left_handed;
-	int32_t mouse_middle_button_emulation;
-	uint32_t mouse_scroll_method;
-	uint32_t mouse_scroll_button;
-	uint32_t mouse_click_method;
-	uint32_t mouse_send_events_mode;
-
-	/* tablet */
-	char *tablet_map_to_mon;
-
-	/* Trackpad */
-	int32_t trackpad_natural_scrolling;
-	uint32_t trackpad_accel_profile;
-	double trackpad_accel_speed;
-	double trackpad_scroll_factor;
-	int32_t disable_trackpad;
-	int32_t tap_to_click;
-	int32_t tap_and_drag;
-	int32_t drag_lock;
-	uint32_t button_map;
-	/* 触摸板独立参数 */
-	int32_t trackpad_left_handed;
-	int32_t trackpad_middle_button_emulation;
-	int32_t trackpad_disable_while_typing;
-	uint32_t trackpad_scroll_method;
-	uint32_t trackpad_scroll_button;
-	uint32_t trackpad_click_method;
-	uint32_t trackpad_send_events_mode;
-
-	/* touch */
-	int32_t touch_enable;
-	int32_t touch_enable_mouse_emulation;
-	char *touch_map_to_mon;
-
-	/* window effects */
-	int32_t blur;
-	int32_t blur_layer;
-	int32_t blur_optimized;
-	int32_t border_radius;
-	int32_t border_radius_location_default;
-	struct blur_data blur_params;
-	int32_t shadows;
-	int32_t shadow_only_floating;
-	int32_t layer_shadows;
-	uint32_t shadows_size;
-	float shadows_blur;
-	int32_t shadows_position_x;
-	int32_t shadows_position_y;
-	float shadowscolor[4];
-
-	/* appearance */
-	int32_t smartgaps;
-	uint32_t gappih;
-	uint32_t gappiv;
-	uint32_t gappoh;
-	uint32_t gappov;
-	uint32_t borderpx;
-	uint32_t group_bar_height;
-	float scratchpad_width_ratio;
-	float scratchpad_height_ratio;
-	float rootcolor[4];
-	float bordercolor[4];
-	float dropcolor[4];
-	float splitcolor[4];
-	float focuscolor[4];
-	float maximizescreencolor[4];
-	float urgentcolor[4];
-	float scratchpadcolor[4];
-	float globalcolor[4];
-	float overlaycolor[4];
-
-	int32_t log_level;
-	uint32_t capslock;
-
-	ConfigTagRule *tag_rules; // 动态数组
-	int32_t tag_rules_count;  // 数量
-
-	ConfigLayerRule *layer_rules; // 动态数组
-	int32_t layer_rules_count;	  // 数量
-
-	ConfigWinRule *window_rules;
-	int32_t window_rules_count;
-
-	ConfigMonitorRule *monitor_rules; // 动态数组
-	int32_t monitor_rules_count;	  // 条数
-
-	ConfigDeviceRule *device_rules; // 动态数组
-	int32_t device_rules_count;		// 条数
-
-	KeyBinding *key_bindings;
-	int32_t key_bindings_count;
-
-	MouseBinding *mouse_bindings;
-	int32_t mouse_bindings_count;
-
-	AxisBinding *axis_bindings;
-	int32_t axis_bindings_count;
-
-	SwitchBinding *switch_bindings;
-	int32_t switch_bindings_count;
-
-	GestureBinding *gesture_bindings;
-	int32_t gesture_bindings_count;
-
-	ConfigEnv **env;
-	int32_t env_count;
-
-	char **exec;
-	int32_t exec_count;
-
-	char **exec_once;
-	int32_t exec_once_count;
-
-	char *cursor_theme;
-	uint32_t cursor_size;
-
-	int32_t single_scratchpad;
-	int32_t xwayland_persistence;
-	int32_t xwayland_ignore_scale;
-	int32_t syncobj_enable;
-	int32_t tag_carousel;
-	float drag_tile_refresh_interval;
-	float drag_floating_refresh_interval;
-	int32_t allow_tearing;
-	int32_t allow_shortcuts_inhibit;
-	int32_t allow_lock_transparent;
-
-	struct xkb_rule_names xkb_rules;
-	char xkb_rules_rules[128];
-	char xkb_rules_model[128];
-	char xkb_rules_layout[128];
-	char xkb_rules_variant[128];
-	char xkb_rules_options[128];
-
-	char keymode[28];
-
-	struct xkb_context *ctx;
-	struct xkb_keymap *keymap;
-	DecorateDrawData jumplabeldata;
-	DecorateDrawData groupbardata;
-
-	int32_t hdr_depth;
-} Config;
-
-typedef struct {
-	const char *mode;
-	bool iscommonmode;
-	int file_index;
-	int line_number;
-} BindingConflictMeta;
-
 typedef void (*BindingMetaFunc)(const void *elem, BindingConflictMeta *meta);
-Config config;
 
 // 默认跳转标签字符序列（静态数组，未配置 jump_labels 时使用）
 static const char default_jump_labels[] = "HJKLASDFGQWERTYUIOPZXCVBNM";
@@ -464,7 +181,6 @@ char *sanitize_string(char *str) {
 
 // 解析bind组合字符串
 void parse_bind_flags(const char *str, KeyBinding *kb) {
-
 	// 检查是否以"bind"开头
 	if (strncmp(str, "bind", 4) != 0) {
 		return;

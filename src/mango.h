@@ -98,8 +98,6 @@
 #include <wlr/xwayland.h>
 #include <xcb/xcb_icccm.h>
 #endif
-#include "common/log.h"
-#include "common/util.h"
 #include "draw/text-node.h"
 
 /* macros */
@@ -276,6 +274,7 @@ typedef struct {
 	uint32_t ui2;
 	Client *tc;
 } Arg;
+
 
 typedef struct {
 	char mode[28];

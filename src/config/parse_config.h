@@ -1,10 +1,13 @@
+#ifndef __CONFIG_PARSE_CONFIG_H__
+#define __CONFIG_PARSE_CONFIG_H__ 1
+
+#include "../mango.h"
 #include <stdbool.h>
 #include <stdint.h>
-#include <scenefx-0.5/scenefx/types/fx/blur_data.h>
+//#include <scenefx-0.5/scenefx/types/fx/blur_data.h> // Why has it been added by @Wateir in the first place ?
 #include <xkbcommon/xkbcommon.h>
 
 #include "../draw/text-node.h"
-#include "../mango.h"
 
 typedef void (*FuncType)(const Arg *);
 
@@ -474,6 +477,13 @@ typedef struct {
 	int32_t hdr_depth;
 } Config;
 
+typedef struct {
+	const char *mode;
+	bool iscommonmode;
+	int file_index;
+	int line_number;
+} BindingConflictMeta;
+
 bool parse_config_file(Config *config, const char *file_path, bool must_exist);
 
 bool apply_rule_to_state(Monitor *m, const ConfigMonitorRule *rule,
@@ -589,3 +599,5 @@ void reset_option(void);
 void reset_tag(int old_tag_num);
 
 void reload_config(const Arg *arg);
+
+#endif
