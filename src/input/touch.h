@@ -7,6 +7,13 @@
 
 void createtouch(struct wlr_touch *touch);
 
+extern struct wl_list touch_points;
+extern struct wl_listener cursor_touch_down;
+extern struct wl_listener cursor_touch_up;
+extern struct wl_listener cursor_touch_cancel;
+extern struct wl_listener cursor_touch_motion;
+extern struct wl_listener cursor_touch_frame;
+
 void touch_point_surface_destroy(struct wl_listener *listener, void *data);
 
 void touch_emulate_move_absolute(struct wlr_touch *touch, double x, double y,

@@ -52,9 +52,9 @@ struct text_input {
 	struct wl_listener destroy;
 };
 
-struct wlr_input_method_manager_v2 *input_method_manager;
-struct wlr_text_input_manager_v3 *text_input_manager;
-struct mango_input_method_relay *mango_input_method_relay;
+extern struct wlr_input_method_manager_v2 *input_method_manager;
+extern struct wlr_text_input_manager_v3 *text_input_manager;
+extern struct mango_input_method_relay *mango_input_method_relay;
 
 /*-------------------封装给外部调用-------------------------------*/
 bool mango_im_keyboard_grab_forward_key(KeyboardGroup *keyboard,

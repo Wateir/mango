@@ -18,16 +18,14 @@ struct workspace {
 	struct wl_listener commit;
 };
 
-struct wlr_ext_workspace_manager_v1 *ext_manager;
-struct wl_list workspaces;
+extern struct wlr_ext_workspace_manager_v1 *ext_manager;
+extern struct wl_list workspaces;
 
-static void handle_ext_commit(struct wl_listener *listener, void *data);
-static struct wl_listener ext_manager_commit_listener = {.notify =
-															 handle_ext_commit};
+void handle_ext_commit(struct wl_listener *listener, void *data);
+extern struct wl_listener ext_manager_commit_listener;
 
 void goto_workspace(struct workspace *target);
 void toggle_workspace(struct workspace *target);
-static void handle_ext_commit(struct wl_listener *listener, void *data);
 static const char *get_name_from_tag(uint32_t tag);
 void destroy_workspace(struct workspace *workspace);
 void cleanup_workspaces_by_monitor(Monitor *m);

@@ -1,11 +1,14 @@
 #include "pointer.h"
 #include "../animation/client.h"
+#include "../common/util.h"
 #include "../dispatch/bind.h"
 #include "../layout/arrange.h"
 #include "../layout/layout.h"
 #include "../layout/scroll.h"
 #include "../layout/dwindle.h"
 #include "../switcher/switcher.h"
+
+struct LastCursor last_cursor;
 
 void toggle_hotarea(int32_t x_root, int32_t y_root) {
 	// 左下角热区坐标计算,兼容多显示屏
@@ -1200,4 +1203,3 @@ void virtualpointer(struct wl_listener *listener, void *data) {
 
 	handlecursoractivity();
 }
-

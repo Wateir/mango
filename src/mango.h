@@ -705,12 +705,13 @@ typedef struct {
 // TODO Rearrenging correctly
 
 
-static struct {
+struct LastCursor {
 	enum wp_cursor_shape_device_v1_shape shape;
 	struct wlr_surface *surface;
 	int32_t hotspot_x;
 	int32_t hotspot_y;
-} last_cursor;
+};
+extern struct LastCursor last_cursor;
 
 #include "config/preset.h"
 struct Pertag {

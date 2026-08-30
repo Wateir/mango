@@ -30,15 +30,15 @@ struct touch_point {
 	struct wl_list link;
 };
 
-static struct wl_list touch_points;
+struct wl_list touch_points;
 // 指针模拟状态：仅第一个不支持触摸的触点模拟指针，pointer_touch_id 隔离多指
 static bool simulating_pointer_from_touch = false;
 static int32_t pointer_touch_id = -1;
-static struct wl_listener cursor_touch_down = {.notify = touch_down};
-static struct wl_listener cursor_touch_up = {.notify = touch_up};
-static struct wl_listener cursor_touch_cancel = {.notify = touch_cancel};
-static struct wl_listener cursor_touch_motion = {.notify = touch_motion};
-static struct wl_listener cursor_touch_frame = {.notify = touch_frame};
+struct wl_listener cursor_touch_down = {.notify = touch_down};
+struct wl_listener cursor_touch_up = {.notify = touch_up};
+struct wl_listener cursor_touch_cancel = {.notify = touch_cancel};
+struct wl_listener cursor_touch_motion = {.notify = touch_motion};
+struct wl_listener cursor_touch_frame = {.notify = touch_frame};
 
 // 将触摸设备映射到 touch_map_to_mon 指定的显示器。
 // 支持热插拔输出和配置重载，每次触摸按下时重新应用。

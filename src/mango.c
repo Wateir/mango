@@ -55,8 +55,6 @@ static void switch_toggle(struct wl_listener *listener, void *data);
 static void createpointerconstraint(struct wl_listener *listener, void *data);
 static void cursorconstrain(struct wlr_pointer_constraint_v1 *constraint);
 static void commitpopup(struct wl_listener *listener, void *data);
-static void createpopup(struct wl_listener *listener, void *data);
-static void cursorframe(struct wl_listener *listener, void *data);
 static void cursorwarptohint(void);
 static void destroydecoration(struct wl_listener *listener, void *data);
 static void destroydragicon(struct wl_listener *listener, void *data);
@@ -225,10 +223,7 @@ static void refresh_monitors_workspaces_status(Monitor *m);
 static void init_client_properties(Client *c);
 static float *get_border_color(Client *c);
 static void clear_fullscreen_and_maximized_state(Monitor *m);
-<<<<<<< HEAD
 void request_fresh_all_monitors(void);
-=======
->>>>>>> 9a5a20c (fix: Add missing include)
 static Client *find_client_by_direction(Client *tc, const Arg *arg,
 										bool findfloating);
 static void exit_scroller_stack(Client *c);
@@ -278,16 +273,12 @@ static void begin_jump_mode(Monitor *m);
 static void client_reparent_group(Client *c);
 static void client_change_mon(Client *c, Monitor *m);
 static void check_vrr_enable(Client *c);
-static void output_state_setup_hdr(Monitor *m, bool silent,
-								   struct wlr_output_state *state);
 static void output_enable_hdr(Monitor *m, struct wlr_output_state *os,
 							  bool enabled, bool silent);
 static bool mango_scene_output_commit(struct wlr_scene_output *scene_output,
 									  struct wlr_output_state *state);
 static bool mango_output_commit(Monitor *m);
-static bool check_tearing_frame_allow(Monitor *m);
 static void client_set_group_config(Client *c);
-static const char *xdg_activation_v1_export_token(void);
 
 static int32_t client_is_x11(Client *c);
 static struct wlr_surface *client_surface(Client *c);
@@ -368,13 +359,11 @@ Monitor *get_monitor_nearest_to(int32_t lx, int32_t ly);
 #include "dispatch/bind.h"
 #include "layout/layout.h"
 #include "common/util.h"
+#include "common/log.h"
 
 /* export an activation token for the process we're about to spawn */
 
-static void ipc_notify_device_event(struct wlr_input_device *device);
-
 #include "animation/common.h"
-#include "dispatch/bind_define.h"
 #include "input/touch.h"
 #include "input/switch.h"
 #include "input/tablet.h"
@@ -389,6 +378,13 @@ static void ipc_notify_device_event(struct wlr_input_device *device);
 #include "input/pointer.h"
 #include "manage/monitor.h"
 #include "manage/misc.h"
+#include "ext-protocol/ext-workspace.h"
+#include "ext-protocol/foreign-toplevel.h"
+#include "ext-protocol/hdr.h"
+#include "ext-protocol/tearing.h"
+#include "ext-protocol/text-input.h"
+#include "ext-protocol/xdg-activation.h"
+#include "ext-protocol/xdg-output.h"
 
 void handlesig(int32_t signo) {
 	if (signo == SIGCHLD)

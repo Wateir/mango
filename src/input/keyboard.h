@@ -5,9 +5,9 @@
 #include "../mango.h"
 #include "../config/parse_config.h"
 
-static void create_standalone_keyboard(InputDevice *input_dev,
-									   struct wlr_keyboard *keyboard,
-									   ConfigDeviceRule *rule);
+void create_standalone_keyboard(InputDevice *input_dev,
+								struct wlr_keyboard *keyboard,
+								ConfigDeviceRule *rule);
 
 bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
 

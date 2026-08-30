@@ -128,7 +128,7 @@ executable('mango',
 
 wayland_scanner_client_header = generator(
   wayland_scanner,
-  output: '@BASENAME@-protocol.h', 
+  output: '@BASENAME@-protocol.h',
   arguments: ['client-header', '@INPUT@', '@OUTPUT@']
 )
 

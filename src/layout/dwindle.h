@@ -3,8 +3,8 @@
 
 #include "../mango.h"
 
-static DwindleNode *dwindle_locked_h_node = NULL;
-static DwindleNode *dwindle_locked_v_node = NULL;
+DwindleNode *dwindle_locked_h_node = NULL;
+DwindleNode *dwindle_locked_v_node = NULL;
 
 static DwindleNode *dwindle_new_leaf(Client *c) {
 	DwindleNode *n = calloc(1, sizeof(DwindleNode));

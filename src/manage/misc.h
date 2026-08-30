@@ -34,7 +34,7 @@ void handle_session_destroy(struct wl_listener *listener, void *data);
 void handle_iamge_copy_capture_new_session(struct wl_listener *listener,
 											void *data);
 void requestdecorationmode(struct wl_listener *listener, void *data);
-static void requestdrmlease(struct wl_listener *listener, void *data);
+void requestdrmlease(struct wl_listener *listener, void *data);
 void setpsel(struct wl_listener *listener, void *data);
 void setsel(struct wl_listener *listener, void *data);
 void check_keep_idle_inhibit(Client *c);

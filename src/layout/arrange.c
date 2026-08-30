@@ -1240,7 +1240,7 @@ void pre_calculate_before_arrange(Monitor *m, bool want_animation,
 }
 
 // remap tags through map; unmapped tags stay as-is.
-static uint32_t tag_remap_mask(uint32_t tags, const uint32_t *map) {
+uint32_t tag_remap_mask(uint32_t tags, const uint32_t *map) {
 	uint32_t out = tags & ~tagmask;
 	uint32_t i;
 
@@ -1272,7 +1272,7 @@ static void tag_gather_reset_slot(Monitor *m, uint32_t tag) {
 }
 
 // move pertag state from src to dst, then reset src.
-static void tag_gather_move_pertag(Monitor *m, uint32_t dst, uint32_t src) {
+void tag_gather_move_pertag(Monitor *m, uint32_t dst, uint32_t src) {
 	m->pertag->nmasters[dst] = m->pertag->nmasters[src];
 	m->pertag->mfacts[dst] = m->pertag->mfacts[src];
 	m->pertag->no_hide[dst] = m->pertag->no_hide[src];

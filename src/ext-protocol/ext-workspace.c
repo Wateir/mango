@@ -5,6 +5,10 @@
 #include "../common/util.h"
 #include "ext-workspace.h"
 
+struct wlr_ext_workspace_manager_v1 *ext_manager;
+struct wl_list workspaces;
+struct wl_listener ext_manager_commit_listener = {.notify = handle_ext_commit};
+
 void goto_workspace(struct workspace *target) {
 	uint32_t tag;
 	tag = 1 << (target->tag - 1);
@@ -27,7 +31,7 @@ void toggle_workspace(struct workspace *target) {
 	}
 }
 
-static void handle_ext_commit(struct wl_listener *listener, void *data) {
+void handle_ext_commit(struct wl_listener *listener, void *data) {
 	struct wlr_ext_workspace_v1_commit_event *event = data;
 	struct wlr_ext_workspace_v1_request *request;
 
@@ -51,7 +55,7 @@ static void handle_ext_commit(struct wl_listener *listener, void *data) {
 				break;
 			}
 
-		goto_workspace(workspace);
+			goto_workspace(workspace);
 			mango_error(true, WLR_INFO, "ext activating workspace %d",
 						workspace->tag);
 			break;

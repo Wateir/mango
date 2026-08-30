@@ -3,6 +3,9 @@
 #include "../common/util.h"
 #include "../common/log.h"
 
+struct wlr_tearing_control_manager_v1 *tearing_control;
+struct wl_listener tearing_new_object;
+
 static void handle_controller_set_hint(struct wl_listener *listener,
 									   void *data) {
 	struct tearing_controller *controller =
@@ -89,5 +92,3 @@ bool check_tearing_frame_allow(Monitor *m) {
 	/* honor tearing as requested by action */
 	return c->force_tearing == STATE_ENABLED;
 }
-
-

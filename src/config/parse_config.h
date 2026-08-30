@@ -23,9 +23,9 @@
 /* Variables */
 // 默认跳转标签字符序列（静态数组，未配置 jump_labels 时使用）
 static const char default_jump_labels[] = "HJKLASDFGQWERTYUIOPZXCVBNM";
-static char **file_paths = NULL;
-static int file_paths_count = 0;
-static int current_file_index = -1;
+char **file_paths = NULL;
+int file_paths_count = 0;
+int current_file_index = -1;
 
 /* Enums */
 enum { NUM_TYPE_MINUS, NUM_TYPE_PLUS, NUM_TYPE_DEFAULT };
@@ -514,13 +514,13 @@ typedef struct {
 	int line_number;
 } BindingConflictMeta;
 
-static ConfigDeviceRule *find_device_rule(struct wlr_input_device *device);
+ConfigDeviceRule *find_device_rule(struct wlr_input_device *device);
 bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
-static void standalone_keyboard_apply_config(KeyboardGroup *group,
+void standalone_keyboard_apply_config(KeyboardGroup *group,
 											 ConfigDeviceRule *rule);
-static void create_standalone_keyboard(InputDevice *input_dev,
-									   struct wlr_keyboard *keyboard,
-									   ConfigDeviceRule *rule);
+void create_standalone_keyboard(InputDevice *input_dev,
+								struct wlr_keyboard *keyboard,
+								ConfigDeviceRule *rule);
 void destroy_standalone_keyboard(struct wl_listener *listener, void *data);
 
 bool parse_config_file(Config *config, const char *file_path, bool must_exist);

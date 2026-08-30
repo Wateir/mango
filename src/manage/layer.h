@@ -17,7 +17,7 @@ static bool popup_unconstrain(Popup *popup);
 static void destroypopup(struct wl_listener *listener, void *data);
 static void commitpopup(struct wl_listener *listener, void *data);
 static void repositionpopup(struct wl_listener *listener, void *data);
-static void createpopup(struct wl_listener *listener, void *data);
+void createpopup(struct wl_listener *listener, void *data);
 void createlayersurface(struct wl_listener *listener, void *data);
 void destroylayernodenotify(struct wl_listener *listener, void *data);
 void unmaplayersurfacenotify(struct wl_listener *listener, void *data);

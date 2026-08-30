@@ -3,6 +3,10 @@
 #include "src/common/util.h"
 #include <assert.h>
 
+struct wlr_input_method_manager_v2 *input_method_manager;
+struct wlr_text_input_manager_v3 *text_input_manager;
+struct mango_input_method_relay *mango_input_method_relay;
+
 Monitor *output_from_wlr_output(struct wlr_output *wlr_output) {
 	Monitor *m = NULL;
 	wl_list_for_each(m, &mons, link) {
@@ -12,10 +16,9 @@ Monitor *output_from_wlr_output(struct wlr_output *wlr_output) {
 	}
 	return NULL;
 }
-bool output_is_usable(Monitor *m) {
-	return m && m->wlr_output->enabled;
-}
-static bool is_keyboard_emulated_by_input_method(struct wlr_keyboard *keyboard,
+bool output_is_usable(Monitor *m) { return m && m->wlr_output->enabled; }
+static bool
+is_keyboard_emulated_by_input_method(struct wlr_keyboard *keyboard,
 									 struct wlr_input_method_v2 *input_method) {
 	struct wlr_virtual_keyboard_v1 *virtual_keyboard;
 	if (!keyboard || !input_method) {
@@ -28,7 +31,8 @@ static bool is_keyboard_emulated_by_input_method(struct wlr_keyboard *keyboard,
 		   wl_resource_get_client(virtual_keyboard->resource) ==
 			   wl_resource_get_client(input_method->resource);
 }
-static struct wlr_input_method_keyboard_grab_v2 * get_keyboard_grab(KeyboardGroup *keyboard) {
+static struct wlr_input_method_keyboard_grab_v2 *
+get_keyboard_grab(KeyboardGroup *keyboard) {
 	struct wlr_input_method_v2 *input_method =
 		mango_input_method_relay->input_method;
 	if (!input_method || !input_method->keyboard_grab) {
@@ -510,4 +514,3 @@ void mango_im_relay_set_focus(struct mango_input_method_relay *relay,
 	update_text_inputs_focused_surface(relay);
 	update_active_text_input(relay);
 }
-

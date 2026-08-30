@@ -4,6 +4,7 @@
 #include "../mango.h"
 #include "../common/log.h"
 #include "../common/util.h"
+#include "../data/static_keymap.h"
 #include "../input/pointer.h"
 #include "../layout/arrange.h"
 #include <ctype.h>
@@ -523,4 +524,3 @@ void unlocksession(struct wl_listener *listener, void *data) {
 	SessionLock *lock = wl_container_of(listener, lock, unlock);
 	destroylock(lock, 1);
 }
-

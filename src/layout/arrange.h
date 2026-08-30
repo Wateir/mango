@@ -39,5 +39,8 @@ void pre_calculate_before_arrange(Monitor *m, bool want_animation,
 // Compact occupied tags on this monitor to 1..k (e.g. 1,3,9 -> 1,2,3).
 void tag_gather_apply(Monitor *m);
 
+uint32_t tag_remap_mask(uint32_t tags, const uint32_t *map);
+void tag_gather_move_pertag(Monitor *m, uint32_t dst, uint32_t src);
+
 void arrange(Monitor *m, bool want_animation, bool from_view);
 #endif

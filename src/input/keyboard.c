@@ -16,7 +16,7 @@ static void ipc_key_watch_notify(struct wl_listener *listener, void *data) {
 }
 
 /* 设备匹配：优先精确匹配 name / vendor:product:name 标识符，其次匹配类型 */
-static ConfigDeviceRule *find_device_rule(struct wlr_input_device *device) {
+ConfigDeviceRule *find_device_rule(struct wlr_input_device *device) {
 	if (!device || !config.device_rules || config.device_rules_count <= 0)
 		return NULL;
 
@@ -203,9 +203,9 @@ static void standalone_keyboard_apply_config(KeyboardGroup *group,
 	wlr_keyboard_notify_modifiers(group->keyboard, 0, 0, locked_mods, 0);
 }
 
-static void create_standalone_keyboard(InputDevice *input_dev,
-									   struct wlr_keyboard *keyboard,
-									   ConfigDeviceRule *rule) {
+void create_standalone_keyboard(InputDevice *input_dev,
+								struct wlr_keyboard *keyboard,
+								ConfigDeviceRule *rule) {
 	KeyboardGroup *group = ecalloc(1, sizeof(*group));
 	group->wlr_group = NULL;
 	group->keyboard = keyboard;
