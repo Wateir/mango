@@ -20,6 +20,8 @@
 #define CLAMP_FLOAT(x, min, max)                                               \
 	((x) < (min) ? (min) : ((x) > (max) ? (max) : (x)))
 
+const char default_jump_labels[] = "HJKLASDFGQWERTYUIOPZXCVBNM";
+
 /* Enums */
 enum { NUM_TYPE_MINUS, NUM_TYPE_PLUS, NUM_TYPE_DEFAULT };
 
