@@ -7,6 +7,7 @@
 #include "animation/client.h"
 #include "animation/common.h"
 #include "animation/layer.h"
+#include "animation/tag.h"
 
 
 /* function declarations */
