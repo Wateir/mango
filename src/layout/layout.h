@@ -1,21 +1,13 @@
+#ifndef __LAYOUT_LAYOUT_H__
+#define __LAYOUT_LAYOUT_H__ 1
+
+#include "horizontal.h"
+#include "vertical.h"
+#include "scroll.h"
+#include "dwindle.h"
+#include "overview.h"
 #include "../mango.h"
 
-static void tile(Monitor *m);
-static void center_tile(Monitor *m);
-static void right_tile(Monitor *m);
-static void overview(Monitor *m);
-static void grid(Monitor *m);
-static void scroller(Monitor *m);
-static void deck(Monitor *mon);
-static void monocle(Monitor *m);
-static void vertical_tile(Monitor *m);
-static void vertical_overview(Monitor *m);
-static void vertical_grid(Monitor *m);
-static void vertical_scroller(Monitor *m);
-static void vertical_deck(Monitor *mon);
-static void dwindle(Monitor *m);
-static void fair(Monitor *m);
-static void vertical_fair(Monitor *m);
 
 /* layout(s) */
 Layout overviewlayout = {"󰃇", overview, "overview"};
@@ -56,3 +48,5 @@ Layout layouts[] = {
 	{"F", fair, "fair", FAIR},
 	{"VF", vertical_fair, "vertical_fair", VERTICAL_FAIR},
 };
+
+#endif
