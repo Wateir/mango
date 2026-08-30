@@ -11,6 +11,8 @@
 
 typedef void (*FuncType)(const Arg *);
 
+enum { KEY_TYPE_CODE, KEY_TYPE_SYM };
+
 typedef struct {
 	uint32_t keycode1;
 	uint32_t keycode2;

@@ -26,8 +26,6 @@
 
 enum { NUM_TYPE_MINUS, NUM_TYPE_PLUS, NUM_TYPE_DEFAULT };
 
-enum { KEY_TYPE_CODE, KEY_TYPE_SYM };
-
 enum render_bit_depth {
 	MANGO_RENDER_BIT_DEPTH_DEFAULT = 0,
 	MANGO_RENDER_BIT_DEPTH_8,
@@ -41,13 +39,11 @@ static void standalone_keyboard_apply_config(KeyboardGroup *group,
 static void create_standalone_keyboard(InputDevice *input_dev,
 									   struct wlr_keyboard *keyboard,
 									   ConfigDeviceRule *rule);
-void destroy_standalone_keyboard(struct wl_listener *listener,
-										void *data);
+void destroy_standalone_keyboard(struct wl_listener *listener, void *data);
 static void create_standalone_keyboard(InputDevice *input_dev,
 									   struct wlr_keyboard *keyboard,
 									   ConfigDeviceRule *rule);
-void destroy_standalone_keyboard(struct wl_listener *listener,
-										void *data);
+void destroy_standalone_keyboard(struct wl_listener *listener, void *data);
 
 // 修改后的宏定义
 #define CHVT(n)                                                                \
