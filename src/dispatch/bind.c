@@ -555,7 +555,7 @@ void moveresize(const Arg *arg) {
 	}
 
 	if (grabc && grabc->drag_to_tile && config.drag_tile_to_tile &&
-		xytonode config.drag_tile_small) {
+		config.drag_tile_small) {
 		grabc->geom.x = cursor->x - 150;
 		grabc->geom.y = cursor->y - 150;
 		grabc->geom.width = 300;
