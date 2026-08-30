@@ -22,6 +22,8 @@ enum render_bit_depth {
 /* Functions */
 typedef void (*FuncType)(const Arg *);
 
+enum { NUM_TYPE_MINUS, NUM_TYPE_PLUS, NUM_TYPE_DEFAULT };
+
 enum { KEY_TYPE_CODE, KEY_TYPE_SYM };
 
 typedef struct {

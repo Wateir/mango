@@ -24,14 +24,16 @@
 #define CLAMP_FLOAT(x, min, max)                                               \
 	((x) < (min) ? (min) : ((x) > (max) ? (max) : (x)))
 
+enum render_bit_depth {
+	MANGO_RENDER_BIT_DEPTH_DEFAULT = 0,
+	MANGO_RENDER_BIT_DEPTH_8,
+	MANGO_RENDER_BIT_DEPTH_10,
+};
+
 static ConfigDeviceRule *find_device_rule(struct wlr_input_device *device);
 bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
 static void standalone_keyboard_apply_config(KeyboardGroup *group,
 											 ConfigDeviceRule *rule);
-static void create_standalone_keyboard(InputDevice *input_dev,
-									   struct wlr_keyboard *keyboard,
-									   ConfigDeviceRule *rule);
-void destroy_standalone_keyboard(struct wl_listener *listener, void *data);
 static void create_standalone_keyboard(InputDevice *input_dev,
 									   struct wlr_keyboard *keyboard,
 									   ConfigDeviceRule *rule);

@@ -1,4 +1,23 @@
 #include "bind.h"
+#include "../common/util.h"
+#include "../manage/client.h"
+#include "../common/log.h"
+#include "../manage/monitor.h"
+#include "../input/pointer.h"
+#include "../layout/arrange.h"
+#include "../layout/layout.h"
+#include "../manage/misc.h"
+#include "../common/util.h"
+#include "../animation/client.h"
+#include "../config/parse_config.h"
+#include "../ipc/ipc.h"
+#include "../layout/scroll.h"
+#include "../ext-protocol/xdg-activation.h"
+#include "../ext-protocol/foreign-toplevel.h"
+#include "../layout/overview.h"
+#include "../ext-protocol/ext-workspace.h"
+#include "../overview/overview.h"
+#include "../layout/dwindle.h"
 
 void bind_to_view(const Arg *arg) {
 	if (!selmon)
@@ -536,7 +555,7 @@ void moveresize(const Arg *arg) {
 	}
 
 	if (grabc && grabc->drag_to_tile && config.drag_tile_to_tile &&
-		config.drag_tile_small) {
+		xytonode config.drag_tile_small) {
 		grabc->geom.x = cursor->x - 150;
 		grabc->geom.y = cursor->y - 150;
 		grabc->geom.width = 300;
