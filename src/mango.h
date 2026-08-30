@@ -731,10 +731,18 @@ struct Pertag {
 
 // Functions declaration of mango.c
 
+void createnotify(struct wl_listener *listener, void *data);
+
+void request_fresh_all_monitors(void);
+
 void handlesig(int32_t signo);
+
 void cleanuplisteners();
+
 void cleanup();
+
 void quitsignal(int32_t signo);
+
 void setup();
 
 void update_scroller_state(Monitor *m);

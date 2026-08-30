@@ -9,10 +9,16 @@
 #include "../input/pointer.h"
 #include "../input/device.h"
 #include "../input/keyboard.h"
+<<<<<<< HEAD
 #include "../manage/client.h"
 #include "../manage/layer.h"
 #include "../manage/misc.h"
 #include "../manage/monitor.h"
+=======
+#include "../manage/monitor.h"
+#include "../manage/misc.h"
+#include "../manage/layer.h"
+>>>>>>> 9a5a20c (fix: Add missing include)
 
 /* Global variables */
 static const char broken[] = "broken";

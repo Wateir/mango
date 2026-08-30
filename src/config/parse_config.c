@@ -15,11 +15,11 @@
 #include "../layout/arrange.h"
 #include "../layout/layout.h"
 #include "../animation/common.h"
+#include "../manage/client.h"
 
 #ifndef SYSCONFDIR
 #define SYSCONFDIR "/etc"
 #endif
-
 
 // 修改后的宏定义
 #define CHVT(n)                                                                \

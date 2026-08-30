@@ -46,7 +46,6 @@ static void requestmonstate(struct wl_listener *listener, void *data);
 static void createlayersurface(struct wl_listener *listener, void *data);
 static void createlocksurface(struct wl_listener *listener, void *data);
 static void createmon(struct wl_listener *listener, void *data);
-static void createnotify(struct wl_listener *listener, void *data);
 static void createpointer(struct wlr_pointer *pointer);
 static void configure_pointer(struct wlr_input_device *wlr_device,
 							  struct libinput_device *device);
@@ -226,7 +225,10 @@ static void refresh_monitors_workspaces_status(Monitor *m);
 static void init_client_properties(Client *c);
 static float *get_border_color(Client *c);
 static void clear_fullscreen_and_maximized_state(Monitor *m);
+<<<<<<< HEAD
 void request_fresh_all_monitors(void);
+=======
+>>>>>>> 9a5a20c (fix: Add missing include)
 static Client *find_client_by_direction(Client *tc, const Arg *arg,
 										bool findfloating);
 static void exit_scroller_stack(Client *c);
