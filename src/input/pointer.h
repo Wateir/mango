@@ -1,7 +1,6 @@
 #ifndef __INPUT_POINTER_H__
 #define __INPUT_POINTER_H__
 
-#include "../common/util.h"
 #include "../mango.h"
 #include <stdint.h>
 

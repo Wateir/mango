@@ -10,15 +10,15 @@
 #include "../mango.h"
 #include "../ipc/ipc.h"
 
-static void touch_up(struct wl_listener *listener, void *data);
-static void touch_cancel(struct wl_listener *listener, void *data);
-static void touch_frame(struct wl_listener *listener, void *data);
+void touch_up(struct wl_listener *listener, void *data);
+void touch_cancel(struct wl_listener *listener, void *data);
+void touch_frame(struct wl_listener *listener, void *data);
 static struct wlr_surface *touch_get_coords(struct wlr_touch *touch, double x,
 											double y, double *x_offset,
 											double *y_offset, Client **pc);
 static void touch_apply_xwayland_scale(struct wlr_surface *surface, double *sx,
 									   double *sy);
-static void touch_finish_all(void);
+void touch_finish_all(void);
 
 struct touch_point {
 	int32_t touch_id;
