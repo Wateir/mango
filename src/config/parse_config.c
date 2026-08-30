@@ -15,11 +15,6 @@
 #endif
 
 
-enum render_bit_depth {
-	MANGO_RENDER_BIT_DEPTH_DEFAULT = 0,
-	MANGO_RENDER_BIT_DEPTH_8,
-	MANGO_RENDER_BIT_DEPTH_10,
-};
 
 static ConfigDeviceRule *find_device_rule(struct wlr_input_device *device);
 bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
