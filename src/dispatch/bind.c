@@ -1,3 +1,5 @@
+#include "bind.h"
+
 void bind_to_view(const Arg *arg) {
 	if (!selmon)
 		return;

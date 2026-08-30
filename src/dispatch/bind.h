@@ -1,3 +1,8 @@
+#ifndef __BIND_H__
+#define __BIND_H__ 1
+
+#include "../mango.h"
+
 void minimized(const Arg *arg);
 void restore_minimized(const Arg *arg);
 void toggle_scratchpad(const Arg *arg);
@@ -88,3 +93,5 @@ void dwindle_split_horizontal(const Arg *arg);
 void dwindle_split_vertical(const Arg *arg);
 void dwindle_toggle_current_split(const Arg *arg);
 void focusid(const Arg *arg);
+
+#endif
