@@ -5,6 +5,7 @@
 #include "wlr/util/box.h"
 /* Mango includes */
 #include "animation/client.h"
+#include "animation/common.h"
 
 
 /* function declarations */
@@ -117,7 +118,6 @@ static void rendermon(struct wl_listener *listener, void *data);
 static void requestdecorationmode(struct wl_listener *listener, void *data);
 static void requestdrmlease(struct wl_listener *listener, void *data);
 static void requeststartdrag(struct wl_listener *listener, void *data);
-static void resize(Client *c, struct wlr_box geo, int32_t interact);
 static void setcursor(struct wl_listener *listener, void *data);
 static void setfloating(Client *c, int32_t floating);
 static void setfakefullscreen(Client *c, int32_t fakefullscreen);
@@ -182,7 +182,6 @@ get_nearest_output_mode(struct wlr_output *output, int32_t width,
 
 static void layer_commit(LayerSurface *l);
 static void client_set_opacity(Client *c, double opacity);
-static void init_baked_points(void);
 static void scene_buffer_apply_opacity(struct wlr_scene_buffer *buffer,
 									   int32_t sx, int32_t sy, void *data);
 
@@ -209,14 +208,10 @@ static void init_fadeout_layers(LayerSurface *l);
 static void layer_actual_size(LayerSurface *l, int32_t *width, int32_t *height);
 static void get_layer_target_geometry(LayerSurface *l,
 									  struct wlr_box *target_box);
-static double find_animation_curve_at(double t, int32_t type);
 
 static void apply_opacity_to_rect_nodes(Client *c, struct wlr_scene_node *node,
 										double animation_passed);
 static double all_output_frame_duration_ms();
-static struct wlr_scene_tree *
-wlr_scene_tree_snapshot(struct wlr_scene_node *node,
-						struct wlr_scene_tree *parent);
 static bool is_scroller_layout(Monitor *m);
 static bool is_monocle_layout(Monitor *m);
 static bool is_centertile_layout(Monitor *m);
