@@ -8,7 +8,18 @@
 #include <xkbcommon/xkbcommon.h>
 
 #include "../draw/text-node.h"
+/* Enums */
+enum { NUM_TYPE_MINUS, NUM_TYPE_PLUS, NUM_TYPE_DEFAULT };
 
+enum { KEY_TYPE_CODE, KEY_TYPE_SYM };
+
+enum render_bit_depth {
+	MANGO_RENDER_BIT_DEPTH_DEFAULT = 0,
+	MANGO_RENDER_BIT_DEPTH_8,
+	MANGO_RENDER_BIT_DEPTH_10,
+};
+
+/* Functions */
 typedef void (*FuncType)(const Arg *);
 
 typedef struct {

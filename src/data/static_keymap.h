@@ -1,3 +1,6 @@
+#ifndef __DATA_STATIC_KEYMAP_H__
+#define __DATA_STATIC_KEYMAP_H__ 1
+
 typedef struct {
 	const char *full_name;
 	const char *abbr; // 全部使用小写
@@ -77,3 +80,5 @@ static const LayoutMapping layout_mappings[] = {
 	{"Malayalam", "ml"},
 	{NULL, NULL} // 结束标记
 };
+
+#endif

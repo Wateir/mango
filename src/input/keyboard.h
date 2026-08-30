@@ -115,7 +115,7 @@ static ConfigDeviceRule *find_device_rule(struct wlr_input_device *device) {
 	return NULL;
 }
 
-static bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule) {
+bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule) {
 	return rule &&
 		   (rule->repeat_rate != -1 || rule->repeat_delay != -1 ||
 			rule->kb_rules[0] || rule->kb_model[0] || rule->kb_layout[0] ||

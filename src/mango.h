@@ -99,6 +99,7 @@
 #include <xcb/xcb_icccm.h>
 #endif
 #include "draw/text-node.h"
+#include "data/static_keymap.h"
 
 /* macros */
 #define MANGO_MAX(A, B) ((A) > (B) ? (A) : (B))
