@@ -267,7 +267,7 @@ static void scroller_node_remove(struct TagScrollerState *st,
 								 struct ScrollerStackNode *target);
 static struct ScrollerStackNode *
 scroller_node_create(struct TagScrollerState *st, Client *c);
-static void update_scroller_state(Monitor *m);
+void update_scroller_state(Monitor *m);
 Client *scroll_get_stack_tail_client(Client *c);
 static DwindleNode *dwindle_find_leaf(DwindleNode *node, Client *c);
 static void overview_backup_surface(Client *c);

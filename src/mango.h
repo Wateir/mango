@@ -742,6 +742,8 @@ void cleanup();
 void quitsignal(int32_t signo);
 void setup();
 
+void update_scroller_state(Monitor *m);
+
 void set_activation_env();
 
 void run (char * startup_cmd, int readiness_fd);
