@@ -7,12 +7,12 @@
 #include "../overview/overview.h"
 #include "../layout/dwindle.h"
 
-inline bool client_is_ignore_output_clip(Client *c) {
+bool client_is_ignore_output_clip(Client *c) {
 	return c == grabc || (!ISSCROLLTILED(c) && !c->animation.tagining &&
 						  !c->animation.tagouting);
 }
 
-inline struct ivec2 compute_edge_offsets(Client *c) {
+struct ivec2 compute_edge_offsets(Client *c) {
 	struct ivec2 offsets = {0};
 	if (client_is_ignore_output_clip(c))
 		return offsets;
@@ -1267,7 +1267,7 @@ void init_fadeout_client(Client *c) {
 
 	request_fresh_all_monitors();
 }
-static void client_apply_finish_geometry(Client *c) {
+void client_apply_finish_geometry(Client *c) {
 	if (!c || !c->scene)
 		return;
 

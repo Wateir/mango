@@ -264,7 +264,7 @@ void client_send_close(Client *c) {
 #endif
 	wlr_xdg_toplevel_send_close(c->surface.xdg->toplevel);
 }
-void client_set_border_color(Client *c, const float color[static 4]) {
+void client_set_border_color(Client *c, const float color[4]) {
 	wlr_scene_rect_set_color(c->border, color);
 }
 

@@ -3,7 +3,7 @@
 #include "../manage/client.h"
 #include <stdlib.h>
 
-static void handle_xdg_activation_token_destroy(struct wl_listener *listener,
+void handle_xdg_activation_token_destroy(struct wl_listener *listener,
 												void *data) {
 	struct mango_xdg_activation_token *token =
 		wl_container_of(listener, token, destroy);
@@ -11,7 +11,7 @@ static void handle_xdg_activation_token_destroy(struct wl_listener *listener,
 	free(token);
 }
 
-static void handle_xdg_activation_new_token(struct wl_listener *listener,
+void handle_xdg_activation_new_token(struct wl_listener *listener,
 											void *data) {
 	struct wlr_xdg_activation_token_v1 *wlr_token = data;
 
@@ -28,7 +28,7 @@ static void handle_xdg_activation_new_token(struct wl_listener *listener,
 }
 
 /* Tokens from spawn are trusted; client tokens need a focused surface. */
-static bool xdg_activation_token_can_activate(
+bool xdg_activation_token_can_activate(
 	struct wlr_xdg_activation_token_v1 *wlr_token) {
 	if (!wlr_token)
 		return false;
@@ -40,7 +40,7 @@ static bool xdg_activation_token_can_activate(
 	return token && token->had_focused_surface;
 }
 
-static void handle_xdg_activation_request_activate(struct wl_listener *listener,
+void handle_xdg_activation_request_activate(struct wl_listener *listener,
 												   void *data) {
 	struct wlr_xdg_activation_v1_request_activate_event *event = data;
 	Client *c = NULL;
@@ -68,7 +68,7 @@ static void handle_xdg_activation_request_activate(struct wl_listener *listener,
 		printstatus(IPC_WATCH_ARRANGGE);
 	}
 }
-static void handle_xdg_activation_destroy(struct wl_listener *listener,
+void handle_xdg_activation_destroy(struct wl_listener *listener,
 										  void *data) {
 	wl_list_remove(&activation_request_activate_listener.link);
 	wl_list_remove(&activation_new_token_listener.link);

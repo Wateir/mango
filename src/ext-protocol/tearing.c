@@ -6,7 +6,7 @@
 struct wlr_tearing_control_manager_v1 *tearing_control;
 struct wl_listener tearing_new_object;
 
-static void handle_controller_set_hint(struct wl_listener *listener,
+void handle_controller_set_hint(struct wl_listener *listener,
 									   void *data) {
 	struct tearing_controller *controller =
 		wl_container_of(listener, controller, set_hint);
@@ -25,7 +25,7 @@ static void handle_controller_set_hint(struct wl_listener *listener,
 		c->tearing_hint = controller->tearing_control->current;
 	}
 }
-static void handle_controller_destroy(struct wl_listener *listener,
+void handle_controller_destroy(struct wl_listener *listener,
 									  void *data) {
 	struct tearing_controller *controller =
 		wl_container_of(listener, controller, destroy);

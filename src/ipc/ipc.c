@@ -13,10 +13,10 @@
 #include "../layout/layout.h"
 #include "../ext-protocol/ext-workspace.h"
 
-static struct wl_list watch_clients;
-static int device_watch_count;
+struct wl_list watch_clients;
+int device_watch_count;
 
-static const char *ipc_device_type_str(struct wlr_input_device *dev) {
+const char *ipc_device_type_str(struct wlr_input_device *dev) {
 	if (!dev)
 		return "unknown";
 
@@ -53,12 +53,12 @@ struct ipc_client_state {
 	size_t buf_cap;
 };
 
-static void ipc_remove_watch_client(struct ipc_watch_client *wc);
-static void ipc_notify_json_to_fd(int fd, cJSON *json);
+void ipc_remove_watch_client(struct ipc_watch_client *wc);
+void ipc_notify_json_to_fd(int fd, cJSON *json);
 
 /* ---------- 工具函数 ---------- */
 
-static Monitor *monitor_by_name(const char *name) {
+Monitor *monitor_by_name(const char *name) {
 	Monitor *m;
 	wl_list_for_each(m, &mons, link) {
 		if (strcmp(m->wlr_output->name, name) == 0)
@@ -67,7 +67,7 @@ static Monitor *monitor_by_name(const char *name) {
 	return NULL;
 }
 
-static Client *client_by_id(uint32_t id) {
+Client *client_by_id(uint32_t id) {
 	Client *c;
 	wl_list_for_each(c, &clients, link) {
 		if (c->id == id)
@@ -76,7 +76,7 @@ static Client *client_by_id(uint32_t id) {
 	return NULL;
 }
 
-static const char *ipc_get_layout_str(void) {
+const char *ipc_get_layout_str(void) {
 	struct wlr_keyboard *keyboard =
 		last_active_keyboard ? last_active_keyboard
 							 : (kb_group ? kb_group->keyboard : NULL);
@@ -84,13 +84,13 @@ static const char *ipc_get_layout_str(void) {
 		return "";
 	xkb_layout_index_t current = xkb_state_serialize_layout(
 		keyboard->xkb_state, XKB_STATE_LAYOUT_EFFECTIVE);
-	static char layout[32];
+	char layout[32];
 	const char *name = xkb_keymap_layout_get_name(keyboard->keymap, current);
 	snprintf(layout, sizeof(layout), "%s", name ? name : "");
 	return layout;
 }
 
-static cJSON *tags_mask_to_array(uint32_t tagmask) {
+cJSON *tags_mask_to_array(uint32_t tagmask) {
 	cJSON *arr = cJSON_CreateArray();
 	for (int i = 0; i < config.tag_num; i++)
 		if (tagmask & (1 << i))
@@ -98,7 +98,7 @@ static cJSON *tags_mask_to_array(uint32_t tagmask) {
 	return arr;
 }
 
-static cJSON *build_tags_json(Monitor *m) {
+cJSON *build_tags_json(Monitor *m) {
 	cJSON *tags_array = cJSON_CreateArray();
 	Client *c = NULL;
 
@@ -132,7 +132,7 @@ static cJSON *build_tags_json(Monitor *m) {
 	return tags_array;
 }
 
-static cJSON *monitor_active_client(Monitor *m) {
+cJSON *monitor_active_client(Monitor *m) {
 	cJSON *obj = cJSON_CreateObject();
 	if (!m->sel) {
 		cJSON_AddNullToObject(obj, "id");
@@ -147,7 +147,7 @@ static cJSON *monitor_active_client(Monitor *m) {
 	return obj;
 }
 
-static cJSON *monitor_active_tags(Monitor *m) {
+cJSON *monitor_active_tags(Monitor *m) {
 	cJSON *arr = cJSON_CreateArray();
 	uint32_t tagset;
 	if (m->isoverview) {
@@ -161,7 +161,7 @@ static cJSON *monitor_active_tags(Monitor *m) {
 	return arr;
 }
 
-static cJSON *build_client_json(Client *c) {
+cJSON *build_client_json(Client *c) {
 	cJSON *obj = cJSON_CreateObject();
 
 	cJSON_AddNumberToObject(obj, "id", c->id);
@@ -199,7 +199,7 @@ static cJSON *build_client_json(Client *c) {
 	return obj;
 }
 
-static cJSON *build_monitor_json(Monitor *m) {
+cJSON *build_monitor_json(Monitor *m) {
 	cJSON *resp = cJSON_CreateObject();
 	cJSON_AddStringToObject(resp, "name", m->wlr_output->name);
 	cJSON_AddBoolToObject(resp, "active", m == selmon);
@@ -227,14 +227,14 @@ static cJSON *build_monitor_json(Monitor *m) {
 	return resp;
 }
 
-static cJSON *build_all_tags_entry(Monitor *m) {
+cJSON *build_all_tags_entry(Monitor *m) {
 	cJSON *entry = cJSON_CreateObject();
 	cJSON_AddStringToObject(entry, "monitor", m->wlr_output->name);
 	cJSON_AddItemToObject(entry, "tags", build_tags_json(m));
 	return entry;
 }
 
-static cJSON *build_all_tags_response(void) {
+cJSON *build_all_tags_response(void) {
 	cJSON *arr = cJSON_CreateArray();
 	Monitor *m;
 	wl_list_for_each(m, &mons, link)
@@ -244,7 +244,7 @@ static cJSON *build_all_tags_response(void) {
 	return resp;
 }
 
-static cJSON *build_monitor_tags_response(Monitor *m) {
+cJSON *build_monitor_tags_response(Monitor *m) {
 	cJSON *resp = cJSON_CreateObject();
 	cJSON_AddStringToObject(resp, "monitor", m->wlr_output->name);
 	cJSON_AddItemToObject(resp, "tags", build_tags_json(m));
@@ -252,7 +252,7 @@ static cJSON *build_monitor_tags_response(Monitor *m) {
 	return resp;
 }
 
-static cJSON *build_layouts_response(void) {
+cJSON *build_layouts_response(void) {
 	cJSON *arr = cJSON_CreateArray();
 	for (size_t i = 0; i < LENGTH(layouts); i++) {
 		cJSON *entry = cJSON_CreateObject();
@@ -265,13 +265,13 @@ static cJSON *build_layouts_response(void) {
 	return resp;
 }
 
-static void send_static_json(int fd, const char *json_str) {
+void send_static_json(int fd, const char *json_str) {
 	size_t len = strlen(json_str);
 	send(fd, json_str, len, 0);
 }
 
 /* ---------- 一次性命令处理 ---------- */
-static void handle_command(int client_fd, const char *cmd_raw) {
+void handle_command(int client_fd, const char *cmd_raw) {
 	cJSON *resp = NULL;
 	char *json_str = NULL;
 	char cmd[1024];
@@ -583,7 +583,7 @@ static void handle_command(int client_fd, const char *cmd_raw) {
 }
 
 /* ---------- Watch 模式支持 ---------- */
-static void ipc_notify_json_to_fd(int fd, cJSON *json) {
+void ipc_notify_json_to_fd(int fd, cJSON *json) {
 	char *str = cJSON_PrintUnformatted(json);
 	if (!str)
 		return;
@@ -624,7 +624,7 @@ void ipc_notify_device_event(struct wlr_input_device *dev) {
 	cJSON_Delete(json);
 }
 
-static void ipc_remove_watch_client(struct ipc_watch_client *wc) {
+void ipc_remove_watch_client(struct ipc_watch_client *wc) {
 	if (wc->type == IPC_WATCH_DEVICE)
 		device_watch_count--;
 	wl_list_remove(&wc->link);
@@ -633,7 +633,7 @@ static void ipc_remove_watch_client(struct ipc_watch_client *wc) {
 	free(wc);
 }
 
-static int ipc_watch_data_handler(int fd, uint32_t mask, void *data) {
+int ipc_watch_data_handler(int fd, uint32_t mask, void *data) {
 	struct ipc_watch_client *wc = data;
 	if (mask & (WL_EVENT_HANGUP | WL_EVENT_ERROR)) {
 		ipc_remove_watch_client(wc);
@@ -649,7 +649,7 @@ static int ipc_watch_data_handler(int fd, uint32_t mask, void *data) {
 	return 0;
 }
 
-static bool handle_watch_command(int fd, const char *cmd,
+bool handle_watch_command(int fd, const char *cmd,
 								 struct ipc_client_state *client) {
 	enum ipc_watch_type type = IPC_WATCH_NONE;
 	const char *arg = NULL;
@@ -813,7 +813,7 @@ static bool handle_watch_command(int fd, const char *cmd,
 }
 
 /* ---------- Socket 事件处理 ---------- */
-static int ipc_handle_client_data(int fd, uint32_t mask, void *data) {
+int ipc_handle_client_data(int fd, uint32_t mask, void *data) {
 	struct ipc_client_state *client = data;
 	if (mask & (WL_EVENT_HANGUP | WL_EVENT_ERROR))
 		goto cleanup;
@@ -865,7 +865,7 @@ cleanup:
 	return 0;
 }
 
-static int ipc_handle_connection(int fd, uint32_t mask, void *data) {
+int ipc_handle_connection(int fd, uint32_t mask, void *data) {
 	struct wl_event_loop *loop = data;
 	int client_fd = accept(fd, NULL, NULL);
 	if (client_fd < 0)
@@ -1235,9 +1235,9 @@ void handle_print_status(struct wl_listener *listener, void *data) {
 }
 
 /* ---------- 初始化与清理 ---------- */
-static int ipc_sock_fd = -1;
-static struct wl_event_source *ipc_event_source = NULL;
-static char ipc_socket_path[256];
+int ipc_sock_fd = -1;
+struct wl_event_source *ipc_event_source = NULL;
+char ipc_socket_path[256];
 
 void ipc_init(struct wl_event_loop *event_loop) {
 	wl_list_init(&watch_clients);

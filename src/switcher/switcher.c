@@ -3,9 +3,9 @@
 #include "../common/util.h"
 #include "../manage/monitor.h"
 
-static bool switcher_is_active(void) { return sw.tree != NULL; }
+bool switcher_is_active(void) { return sw.tree != NULL; }
 
-static bool switcher_candidate(Client *c) {
+bool switcher_candidate(Client *c) {
 	if (!c->mon || c->iskilling || c->isminimized || c->isunglobal ||
 		c->is_logic_hide || !client_surface(c) || !client_surface(c)->mapped ||
 		client_is_unmanaged(c) || client_is_x11_popup(c))
@@ -18,7 +18,7 @@ static bool switcher_candidate(Client *c) {
 	return (int32_t)c->tags > 0;
 }
 
-static void switcher_content_size(Client *c, float *w, float *h) {
+void switcher_content_size(Client *c, float *w, float *h) {
 #ifdef XWAYLAND
 	if (client_is_x11(c)) {
 		struct wlr_surface *s = client_surface(c);
@@ -33,7 +33,7 @@ static void switcher_content_size(Client *c, float *w, float *h) {
 
 // map the surface tree into the fixed tile box, re-run after each commit
 // because the content size or clip may change
-static void switcher_tile_layout(struct switcher_tile *tile) {
+void switcher_tile_layout(struct switcher_tile *tile) {
 	struct wlr_box clip;
 	float src_w, src_h;
 	client_get_clip(tile->c, &clip);
@@ -75,7 +75,7 @@ static void switcher_tile_layout(struct switcher_tile *tile) {
 	}
 }
 
-static void switcher_surface_finish(struct switcher_surface *entry) {
+void switcher_surface_finish(struct switcher_surface *entry) {
 	wl_list_remove(&entry->commit.link);
 	wl_list_remove(&entry->destroy.link);
 	wl_list_remove(&entry->output_sample.link);
@@ -84,7 +84,7 @@ static void switcher_surface_finish(struct switcher_surface *entry) {
 	free(entry);
 }
 
-static void switcher_surface_update_buffer(struct switcher_surface *entry) {
+void switcher_surface_update_buffer(struct switcher_surface *entry) {
 	struct wlr_surface *surface = entry->surface;
 	struct wlr_scene_buffer *buffer = entry->buffer;
 
@@ -146,19 +146,19 @@ static void switcher_surface_update_buffer(struct switcher_surface *entry) {
 											 &options);
 }
 
-static void switcher_surface_commit(struct wl_listener *listener, void *data) {
+void switcher_surface_commit(struct wl_listener *listener, void *data) {
 	struct switcher_surface *entry = wl_container_of(listener, entry, commit);
 	switcher_surface_update_buffer(entry);
 	switcher_tile_layout(entry->tile);
 }
 
-static void switcher_surface_destroy(struct wl_listener *listener, void *data) {
+void switcher_surface_destroy(struct wl_listener *listener, void *data) {
 	struct switcher_surface *entry = wl_container_of(listener, entry, destroy);
 	struct wlr_scene_buffer *buffer = entry->buffer;
 	switcher_surface_finish(entry);
 	wlr_scene_node_destroy(&buffer->node);
 }
-static void switcher_surface_output_sample(struct wl_listener *listener,
+void switcher_surface_output_sample(struct wl_listener *listener,
 										   void *data) {
 	struct switcher_surface *entry =
 		wl_container_of(listener, entry, output_sample);
@@ -180,7 +180,7 @@ static void switcher_surface_output_sample(struct wl_listener *listener,
 			output->event_loop);
 }
 // hidden clients are paced by the preview buffer
-static void switcher_surface_frame_done(struct wl_listener *listener,
+void switcher_surface_frame_done(struct wl_listener *listener,
 										void *data) {
 	struct switcher_surface *entry =
 		wl_container_of(listener, entry, frame_done);
@@ -189,7 +189,7 @@ static void switcher_surface_frame_done(struct wl_listener *listener,
 		wlr_surface_send_frame_done(entry->surface, &event->when);
 }
 
-static void switcher_tile_add_surface(struct wlr_surface *surface, int sx,
+void switcher_tile_add_surface(struct wlr_surface *surface, int sx,
 									  int sy, void *data) {
 	struct switcher_tile *tile = data;
 
@@ -218,7 +218,7 @@ static void switcher_tile_add_surface(struct wlr_surface *surface, int sx,
 	wl_list_insert(&tile->surfaces, &entry->link);
 }
 
-static void switcher_tile_create(struct switcher_tile *tile, Client *c) {
+void switcher_tile_create(struct switcher_tile *tile, Client *c) {
 	tile->c = c;
 	wl_list_init(&tile->surfaces);
 	float src_w, src_h;
@@ -236,7 +236,7 @@ static void switcher_tile_create(struct switcher_tile *tile, Client *c) {
 	switcher_tile_layout(tile);
 }
 
-static void switcher_layout(void) {
+void switcher_layout(void) {
 	int frame_h = sw.tile_h + 2 * SW_PAD;
 	int maxrow_w =
 		MANGO_MAX(1, (int)(sw.mon->m.width * SW_PANEL_FRAC) - 2 * SW_MARGIN);
@@ -287,14 +287,14 @@ static void switcher_layout(void) {
 	free(rowsw);
 }
 
-static void switcher_apply_highlight(void) {
+void switcher_apply_highlight(void) {
 	for (int i = 0; i < sw.count; i++)
 		wlr_scene_rect_set_color(sw.tiles[i]->frame, i == sw.index
 														 ? config.focuscolor
 														 : config.bordercolor);
 }
 
-static void switcher_close(void) {
+void switcher_close(void) {
 	if (!switcher_is_active())
 		return;
 	for (int i = 0; i < sw.count; i++) {
@@ -311,7 +311,7 @@ static void switcher_close(void) {
 }
 
 // remove a single tile while the switcher stays open, then relayout
-static void switcher_remove_client(Client *c) {
+void switcher_remove_client(Client *c) {
 	if (!switcher_is_active())
 		return;
 	int i;
@@ -344,7 +344,7 @@ static void switcher_remove_client(Client *c) {
 	switcher_apply_highlight();
 }
 
-static void switcher_commit_client(Client *tc) {
+void switcher_commit_client(Client *tc) {
 	switcher_close();
 	if (!tc || !tc->mon || tc->iskilling || tc->isminimized || tc->isunglobal ||
 		tc->is_logic_hide || !client_surface(tc) ||
@@ -357,13 +357,13 @@ static void switcher_commit_client(Client *tc) {
 	focusclient(tc, 1);
 }
 
-static void switcher_commit(void) {
+void switcher_commit(void) {
 	if (!switcher_is_active())
 		return;
 	switcher_commit_client(sw.tiles[sw.index]->c);
 }
 
-static Client *switcher_client_at(double lx, double ly) {
+Client *switcher_client_at(double lx, double ly) {
 	if (!switcher_is_active())
 		return NULL;
 	for (int i = 0; i < sw.count; i++) {
@@ -380,7 +380,7 @@ static Client *switcher_client_at(double lx, double ly) {
 	return NULL;
 }
 
-static void switcher_open(int scope) {
+void switcher_open(int scope) {
 	Client *c;
 	Monitor *m;
 	int n = 0;
@@ -441,7 +441,7 @@ static void switcher_open(int scope) {
 		client_send_frame_done(sw.tiles[i]->c, &now);
 }
 
-static void switcher_cycle(int dir) {
+void switcher_cycle(int dir) {
 	sw.index = (sw.index + dir + sw.count) % sw.count;
 	switcher_apply_highlight();
 }

@@ -10,7 +10,7 @@
 #include "ctype.h"
 #include "../ext-protocol/text-input.h"
 
-static void ipc_key_watch_notify(struct wl_listener *listener, void *data) {
+void ipc_key_watch_notify(struct wl_listener *listener, void *data) {
 	InputDevice *id = wl_container_of(listener, id, key_watch);
 	ipc_notify_device_event(id->wlr_device);
 }
@@ -136,7 +136,7 @@ bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule) {
 
 /* 应用独立键盘的 keymap 与重复率，未设置项回退全局默认 */
 /* 按 devicerule 编译 keymap：字段完全自包含，不继承全局 xkb_rules_* */
-static struct xkb_keymap *compile_rule_keymap(ConfigDeviceRule *rule) {
+struct xkb_keymap *compile_rule_keymap(ConfigDeviceRule *rule) {
 	struct xkb_context *context = xkb_context_new(XKB_CONTEXT_NO_FLAGS);
 	if (!context)
 		return NULL;
@@ -161,7 +161,7 @@ static struct xkb_keymap *compile_rule_keymap(ConfigDeviceRule *rule) {
 	return keymap;
 }
 
-static void standalone_keyboard_apply_config(KeyboardGroup *group,
+void standalone_keyboard_apply_config(KeyboardGroup *group,
 											 ConfigDeviceRule *rule) {
 	if (!group || !group->keyboard)
 		return;
@@ -733,7 +733,7 @@ cleanup_context:
 	xkb_context_unref(context);
 }
 
-static void
+void
 handle_keyboard_shortcuts_inhibitor_destroy(struct wl_listener *listener,
 											void *data) {
 	KeyboardShortcutsInhibitor *inhibitor =

@@ -26,11 +26,11 @@ extern struct wl_listener ext_manager_commit_listener;
 
 void goto_workspace(struct workspace *target);
 void toggle_workspace(struct workspace *target);
-static const char *get_name_from_tag(uint32_t tag);
+const char *get_name_from_tag(uint32_t tag);
 void destroy_workspace(struct workspace *workspace);
 void cleanup_workspaces_by_monitor(Monitor *m);
-static void remove_workspace_by_tag(uint32_t tag, Monitor *m);
-static void add_workspace_by_tag(int32_t tag, Monitor *m);
+void remove_workspace_by_tag(uint32_t tag, Monitor *m);
+void add_workspace_by_tag(int32_t tag, Monitor *m);
 void mango_ext_workspace_printstatus(Monitor *m);
 void refresh_monitors_workspaces_status(Monitor *m);
 void sync_workspaces_to_tag_num(Monitor *m);

@@ -2,7 +2,7 @@
 #include "../common/log.h"
 #include "src/common/util.h"
 
-static bool output_set_render_format(Monitor *m, uint32_t candidates[],
+bool output_set_render_format(Monitor *m, uint32_t candidates[],
 									 size_t count,
 									 struct wlr_output_state *state) {
 	for (size_t i = 0; i < count; i++) {
@@ -18,14 +18,14 @@ static bool output_set_render_format(Monitor *m, uint32_t candidates[],
 	return false;
 }
 
-static bool output_format_in_candidates(uint32_t format, uint32_t candidates[],
+bool output_format_in_candidates(uint32_t format, uint32_t candidates[],
 										size_t count) {
 	for (size_t i = 0; i < count; i++)
 		if (candidates[i] == format)
 			return true;
 	return false;
 }
-static enum render_bit_depth bit_depth_from_format(uint32_t render_format) {
+enum render_bit_depth bit_depth_from_format(uint32_t render_format) {
 	if (output_format_in_candidates(render_format, output_formats_10bit,
 									ARRAY_SIZE(output_formats_10bit)))
 		return MANGO_RENDER_BIT_DEPTH_10;
@@ -34,7 +34,7 @@ static enum render_bit_depth bit_depth_from_format(uint32_t render_format) {
 		return MANGO_RENDER_BIT_DEPTH_8;
 	return MANGO_RENDER_BIT_DEPTH_DEFAULT;
 }
-static bool output_supports_hdr(const Monitor *m, const char **reason) {
+bool output_supports_hdr(const Monitor *m, const char **reason) {
 	const struct wlr_output *output = m->wlr_output;
 	const char *r = NULL;
 
@@ -148,7 +148,7 @@ void output_state_setup_hdr(Monitor *m, bool silent,
 	output_enable_hdr(m, state, hdr_succeeded, silent);
 }
 /* togglehdr[,on|off|toggle][,<monitor name>|all] -- apply to one output */
-static bool togglehdr_output(Monitor *target, bool want) {
+bool togglehdr_output(Monitor *target, bool want) {
 	if (!target || !target->wlr_output->enabled || !target->scene_output)
 		return false;
 

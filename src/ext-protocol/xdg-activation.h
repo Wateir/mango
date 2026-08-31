@@ -14,23 +14,23 @@ struct mango_xdg_activation_token {
 	bool internal;			  /* we created it (spawn), so it's trusted */
 };
 
-static struct wlr_xdg_activation_v1 *activation;
+struct wlr_xdg_activation_v1 *activation;
 
-static struct wl_listener activation_request_activate_listener;
-static struct wl_listener activation_new_token_listener;
-static struct wl_listener activation_destroy_listener;
+struct wl_listener activation_request_activate_listener;
+struct wl_listener activation_new_token_listener;
+struct wl_listener activation_destroy_listener;
 
 /* Declarations */
-static void handle_xdg_activation_token_destroy(struct wl_listener *listener,
+void handle_xdg_activation_token_destroy(struct wl_listener *listener,
 												void *data);
-static void handle_xdg_activation_new_token(struct wl_listener *listener,
+void handle_xdg_activation_new_token(struct wl_listener *listener,
 											void *data);
 /* Tokens from spawn are trusted; client tokens need a focused surface. */
-static bool xdg_activation_token_can_activate(
+bool xdg_activation_token_can_activate(
 		struct wlr_xdg_activation_token_v1 *wlr_token);
-static void handle_xdg_activation_request_activate(struct wl_listener *listener,
+void handle_xdg_activation_request_activate(struct wl_listener *listener,
 													void *data);
-static void handle_xdg_activation_destroy(struct wl_listener *listener,
+void handle_xdg_activation_destroy(struct wl_listener *listener,
 											void *data);
 void xdg_activation_init();
 /* Make a token for spawn to export as XDG_ACTIVATION_TOKEN. */

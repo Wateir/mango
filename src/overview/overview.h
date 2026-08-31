@@ -12,13 +12,13 @@
 uint32_t want_restore_fullscreen(Client *target_client);
 // surface 提交后重算布局（scene_surface 提交时会重置
 // dest/source，需要重新套用）
-static void overview_card_surface_commit(struct wl_listener *listener,
+void overview_card_surface_commit(struct wl_listener *listener,
 										 void *data);
 // surface 销毁时移除并释放节点
-static void overview_card_surface_destroy(struct wl_listener *listener,
+void overview_card_surface_destroy(struct wl_listener *listener,
 										  void *data);
 // 为每个 surface（含 subsurface）建一个卡片 scene_surface 节点
-static void overview_card_surface_add(struct wlr_surface *surface, int sx,
+void overview_card_surface_add(struct wlr_surface *surface, int sx,
 									  int sy, void *data);
 // 按当前几何更新卡片位置与缩放；内容起点用 client_get_clip 的 geometry 偏移
 void overview_layout_card(Client *c);
@@ -27,7 +27,7 @@ void overview_layout_card(Client *c);
 void overview_destroy_card(Client *c);
 
 // 给卡片所有 buffer 节点统一应用圆角
-static void overview_card_set_corner_radii(Client *c,
+void overview_card_set_corner_radii(Client *c,
 							struct fx_corner_radii corners);
 // 进入 overview：保存并禁用真实 scene_surface 树，建独立卡片树显示内容
 void overview_backup_surface(Client *c);

@@ -178,7 +178,7 @@ void destroytablettool(struct wl_listener *listener, void *data) {
 	free(tool);
 }
 
-static void tablettoolsetcursor(struct wl_listener *listener, void *data) {
+void tablettoolsetcursor(struct wl_listener *listener, void *data) {
 	struct TabletTool *tool = wl_container_of(listener, tool, set_cursor);
 	struct wlr_tablet_v2_event_cursor *event = data;
 

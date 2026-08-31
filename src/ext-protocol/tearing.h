@@ -15,9 +15,9 @@ extern struct wlr_tearing_control_manager_v1 *tearing_control;
 extern struct wl_listener tearing_new_object;
 
 /* Declarations */
-static void handle_controller_set_hint(struct wl_listener *listener,
+void handle_controller_set_hint(struct wl_listener *listener,
 										void *data);
-static void handle_controller_destroy(struct wl_listener *listener,
+void handle_controller_destroy(struct wl_listener *listener,
 										void *data);
 
 void handle_tearing_new_object(struct wl_listener *listener, void *data);

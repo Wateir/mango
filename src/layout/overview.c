@@ -6,7 +6,7 @@
 #include <stdbool.h>
 
 
-static int compare_layout_items(const void *a, const void *b) {
+int compare_layout_items(const void *a, const void *b) {
 	float area_a = ((const OvLayoutItem *)a)->area;
 	float area_b = ((const OvLayoutItem *)b)->area;
 	if (area_a < area_b)
@@ -16,7 +16,7 @@ static int compare_layout_items(const void *a, const void *b) {
 	return 0;
 }
 
-static bool try_place(OvPlacedRect *placed, int placed_cnt, float w, float h,
+bool try_place(OvPlacedRect *placed, int placed_cnt, float w, float h,
 					  float gap, float avail_w, float avail_h,
 					  OvPlacedRect *out, OvPoint *cands, OvPoint *feas) {
 	int cand_cnt = 0;
@@ -254,7 +254,7 @@ void overview_scale(Monitor *m) {
 	free(feas);
 }
 // overview 布局：聚焦窗口居中（约一半屏宽），其余窗口分列两侧
-static void overview_layout_column(Monitor *m, Client **items, int cnt, float x,
+void overview_layout_column(Monitor *m, Client **items, int cnt, float x,
 								   float top, float col_w, float col_h,
 								   float gap) {
 	if (cnt <= 0)

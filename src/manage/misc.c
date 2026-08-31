@@ -100,7 +100,7 @@ Client *xytoclient(double x, double y) {
 	}
 	return NULL;
 }
-static bool layer_ignores_focus(LayerSurface *l) {
+bool layer_ignores_focus(LayerSurface *l) {
 	if (!l || !l->layer_surface)
 		return true;
 	struct wlr_surface *s = l->layer_surface->surface;
@@ -371,7 +371,7 @@ void locksession(struct wl_listener *listener, void *data) {
 
 	wlr_session_lock_v1_send_locked(session_lock);
 }
-static void
+void
 handle_new_foreign_toplevel_capture_request(struct wl_listener *listener,
 											void *data) {
 	struct wlr_ext_foreign_toplevel_image_capture_source_manager_v1_request
@@ -461,7 +461,7 @@ void requestdecorationmode(struct wl_listener *listener, void *data) {
 	}
 }
 
-static void requestdrmlease(struct wl_listener *listener, void *data) {
+void requestdrmlease(struct wl_listener *listener, void *data) {
 	struct wlr_drm_lease_request_v1 *req = data;
 	struct wlr_drm_lease_v1 *lease = wlr_drm_lease_request_v1_grant(req);
 

@@ -1252,7 +1252,7 @@ uint32_t tag_remap_mask(uint32_t tags, const uint32_t *map) {
 }
 
 // reset a pertag slot to its tagrule state.
-static void tag_gather_reset_slot(Monitor *m, uint32_t tag) {
+void tag_gather_reset_slot(Monitor *m, uint32_t tag) {
 	int32_t i;
 
 	tag_slot_set_defaults(m, tag);

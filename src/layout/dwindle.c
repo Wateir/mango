@@ -2,7 +2,7 @@
 #include "src/common/util.h"
 
 // 统计同方向上的节点总和 (N_old)
-static int count_block_items(DwindleNode *node, bool split_h) {
+int count_block_items(DwindleNode *node, bool split_h) {
 	if (!node)
 		return 0;
 	if (!node->is_split || node->split_h != split_h)
@@ -12,7 +12,7 @@ static int count_block_items(DwindleNode *node, bool split_h) {
 }
 
 // 向上查找方向块路径，并计算每个祖先节点的绝对占比
-static int get_block_path_and_ratios(DwindleNode *target, bool split_h,
+int get_block_path_and_ratios(DwindleNode *target, bool split_h,
 									 DwindleNode ***path, float **p) {
 	/* 第一遍统计同方向块深度，据此动态分配 */
 	int depth = 1;
@@ -47,7 +47,7 @@ static int get_block_path_and_ratios(DwindleNode *target, bool split_h,
 	return path_len;
 }
 
-static DwindleNode *dwindle_find_leaf(DwindleNode *node, Client *c) {
+DwindleNode *dwindle_find_leaf(DwindleNode *node, Client *c) {
 	if (!node)
 		return NULL;
 	if (!node->is_split)
@@ -56,7 +56,7 @@ static DwindleNode *dwindle_find_leaf(DwindleNode *node, Client *c) {
 	return r ? r : dwindle_find_leaf(node->second, c);
 }
 
-static DwindleNode *dwindle_first_leaf(DwindleNode *node) {
+DwindleNode *dwindle_first_leaf(DwindleNode *node) {
 	if (!node)
 		return NULL;
 	while (node->is_split)
@@ -64,7 +64,7 @@ static DwindleNode *dwindle_first_leaf(DwindleNode *node) {
 	return node;
 }
 
-static void dwindle_free_tree(DwindleNode *node) {
+void dwindle_free_tree(DwindleNode *node) {
 	if (!node)
 		return;
 	dwindle_free_tree(node->first);
@@ -158,7 +158,7 @@ void dwindle_insert(DwindleNode **root, Client *new_c, Client *focused,
 	}
 }
 
-static void dwindle_remove(DwindleNode **root, Client *c) {
+void dwindle_remove(DwindleNode **root, Client *c) {
 	DwindleNode *leaf = dwindle_find_leaf(*root, c);
 	if (!leaf)
 		return;
@@ -273,7 +273,7 @@ static void dwindle_remove(DwindleNode **root, Client *c) {
 	free(parent);
 }
 
-static void dwindle_assign(DwindleNode *node, int32_t ax, int32_t ay,
+void dwindle_assign(DwindleNode *node, int32_t ax, int32_t ay,
 						   int32_t aw, int32_t ah, int32_t gap_h,
 						   int32_t gap_v) {
 	if (!node)
@@ -310,7 +310,7 @@ static void dwindle_assign(DwindleNode *node, int32_t ax, int32_t ay,
 	}
 }
 
-static void dwindle_move_client(DwindleNode **root, Client *c, Client *target,
+void dwindle_move_client(DwindleNode **root, Client *c, Client *target,
 								float ratio, int32_t dir) {
 	if (!c || !target || c == target)
 		return;
@@ -322,7 +322,7 @@ static void dwindle_move_client(DwindleNode **root, Client *c, Client *target,
 	dwindle_insert(root, c, target, ratio, as_first, split_h, true);
 }
 
-static void dwindle_swap_clients(Client *c1, Client *c2) {
+void dwindle_swap_clients(Client *c1, Client *c2) {
 	if (!c1 || !c2 || !c1->mon || !c2->mon || c1 == c2)
 		return;
 
@@ -349,7 +349,7 @@ static void dwindle_swap_clients(Client *c1, Client *c2) {
 	finish_exchange_arrange_and_focus(c1, c2, m1, m2);
 }
 
-static void dwindle_resize_client(Monitor *m, Client *c) {
+void dwindle_resize_client(Monitor *m, Client *c) {
 	uint32_t tag = m->pertag->curtag;
 	DwindleNode *leaf = dwindle_find_leaf(m->pertag->dwindle_root[tag], c);
 	if (!leaf)
@@ -426,7 +426,7 @@ static void dwindle_resize_client(Monitor *m, Client *c) {
 				   m->w.height - 2 * gap_ov, gap_ih, gap_iv);
 }
 
-static void dwindle_resize_client_step(Monitor *m, Client *c, int32_t dx,
+void dwindle_resize_client_step(Monitor *m, Client *c, int32_t dx,
 									   int32_t dy) {
 	uint32_t tag = m->pertag->curtag;
 	DwindleNode *leaf = dwindle_find_leaf(m->pertag->dwindle_root[tag], c);
@@ -475,7 +475,7 @@ static void dwindle_resize_client_step(Monitor *m, Client *c, int32_t dx,
 				   m->w.height - 2 * gap_ov, gap_ih, gap_iv);
 }
 
-static void dwindle_remove_client(Client *c) {
+void dwindle_remove_client(Client *c) {
 	Monitor *m;
 	wl_list_for_each(m, &mons, link) {
 		for (uint32_t t = 0; t < (uint32_t)config.tag_num + 1; t++)
@@ -485,7 +485,7 @@ static void dwindle_remove_client(Client *c) {
 
 /* Insert a new client respecting dwindle_vsplit, dwindle_hsplit, and
  * dwindle_smart_split config options. */
-static void dwindle_insert_with_config(DwindleNode **root, Client *new_c,
+void dwindle_insert_with_config(DwindleNode **root, Client *new_c,
 									   Client *focused, float ratio) {
 	if (!new_c || !focused)
 		return;

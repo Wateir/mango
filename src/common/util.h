@@ -16,7 +16,7 @@
 #include "../config/parse_config.h"
 
 /* Global variables */
-static const char broken[] = "broken";
+const char broken[] = "broken";
 pid_t child_pid = -1;
 int32_t locked;
 uint32_t locked_mods = 0;
@@ -59,7 +59,7 @@ struct wlr_scene_rect *root_bg;
 struct wlr_session_lock_manager_v1 *session_lock_mgr;
 struct wlr_scene_rect *locked_bg;
 struct wlr_session_lock_v1 *cur_lock;
-static const int32_t layermap[] = {LyrBg, LyrBottom, LyrTop, LyrOverlay};
+const int32_t layermap[] = {LyrBg, LyrBottom, LyrTop, LyrOverlay};
 struct wlr_scene_tree *drag_icon;
 struct wlr_cursor_shape_manager_v1 *cursor_shape_mgr;
 struct wlr_pointer_constraints_v1 *pointer_constraints;

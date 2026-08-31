@@ -23,19 +23,19 @@ uint32_t output_formats_10bit[] = {
 
 /* Declarations */
 
-static bool output_set_render_format(Monitor *m, uint32_t candidates[],
+bool output_set_render_format(Monitor *m, uint32_t candidates[],
 									  size_t count,
 									  struct wlr_output_state *state);
-static bool output_format_in_candidates(uint32_t format, uint32_t candidates[],
+bool output_format_in_candidates(uint32_t format, uint32_t candidates[],
 										size_t count);
-static enum render_bit_depth bit_depth_from_format(uint32_t render_format);
-static bool output_supports_hdr(const Monitor *m, const char **reason);
+enum render_bit_depth bit_depth_from_format(uint32_t render_format);
+bool output_supports_hdr(const Monitor *m, const char **reason);
 void output_enable_hdr(Monitor *m, struct wlr_output_state *os, bool enabled,
 						bool silent);
 void output_state_setup_hdr(Monitor *m, bool silent,
 							struct wlr_output_state *state);
 /* togglehdr[,on|off|toggle][,<monitor name>|all] -- apply to one output */
-static bool togglehdr_output(Monitor *target, bool want);
+bool togglehdr_output(Monitor *target, bool want);
 void togglehdr(const Arg *arg);
 
 

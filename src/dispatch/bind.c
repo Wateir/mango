@@ -150,8 +150,8 @@ void exchange_stack_client(const Arg *arg) {
 	return;
 }
 
-static bool view_shift_tag(const Arg *arg, int dir);
-static bool view_shift_tag_have_client(const Arg *arg, int dir);
+bool view_shift_tag(const Arg *arg, int dir);
+bool view_shift_tag_have_client(const Arg *arg, int dir);
 
 void focusdir(const Arg *arg) {
 
@@ -1684,7 +1684,7 @@ void toggleview(const Arg *arg) {
 	return;
 }
 
-static bool view_shift_tag(const Arg *arg, int dir) {
+bool view_shift_tag(const Arg *arg, int dir) {
 	if (!selmon)
 		return false;
 
@@ -1720,7 +1720,7 @@ static bool view_shift_tag(const Arg *arg, int dir) {
 	return true;
 }
 
-static bool view_shift_tag_have_client(const Arg *arg, int dir) {
+bool view_shift_tag_have_client(const Arg *arg, int dir) {
 	if (!selmon)
 		return false;
 

@@ -88,7 +88,7 @@ void handle_ext_commit(struct wl_listener *listener, void *data) {
 		}
 	}
 }
-static void remove_workspace_by_tag(uint32_t tag, Monitor *m) {
+void remove_workspace_by_tag(uint32_t tag, Monitor *m) {
 	struct workspace *workspace, *tmp;
 	wl_list_for_each_safe(workspace, tmp, &workspaces, link) {
 		if (workspace->tag == tag && workspace->m == m) {
@@ -97,7 +97,7 @@ static void remove_workspace_by_tag(uint32_t tag, Monitor *m) {
 		}
 	}
 }
-static const char *get_name_from_tag(uint32_t tag) {
+const char *get_name_from_tag(uint32_t tag) {
 	if (tag == 0)
 		return "overview";
 	if (tag <= (uint32_t)config.tag_num)
@@ -120,7 +120,7 @@ void cleanup_workspaces_by_monitor(Monitor *m) {
 	}
 }
 
-static void add_workspace_by_tag(int32_t tag, Monitor *m) {
+void add_workspace_by_tag(int32_t tag, Monitor *m) {
 	const char *name = get_name_from_tag(tag);
 
 	struct workspace *workspace = ecalloc(1, sizeof(*workspace));

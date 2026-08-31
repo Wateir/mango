@@ -333,7 +333,7 @@ bool monitor_matches_rule(Monitor *m, const ConfigMonitorRule *rule) {
 		return false;
 	return true;
 }
-static struct wlr_color_transform *
+struct wlr_color_transform *
 monitor_load_icc_transform(const char *path) {
 	int fd = open(path, O_RDONLY | O_NOCTTY | O_CLOEXEC);
 	if (fd == -1) {
@@ -378,7 +378,7 @@ monitor_load_icc_transform(const char *path) {
 }
 
 /* 加载/更新输出的 ICC 变换 */
-static void monitor_set_icc(Monitor *m, const char *path) {
+void monitor_set_icc(Monitor *m, const char *path) {
 	if (!path || !path[0]) {
 		wlr_color_transform_unref(m->icc_transform);
 		m->icc_transform = NULL;
@@ -1073,7 +1073,7 @@ void monitor_stop_skip_frame_timer(Monitor *m) {
 	m->resizing_count_current = 0;
 }
 
-static int monitor_skip_frame_timeout_callback(void *data) {
+int monitor_skip_frame_timeout_callback(void *data) {
 	Monitor *m = data;
 	Client *c, *tmp;
 

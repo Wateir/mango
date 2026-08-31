@@ -116,7 +116,7 @@ void arrangelayers(Monitor *m) {
 		arrangelayer(m, &m->layers[i], &usable_area, 0);
 }
 
-static void iter_layer_scene_buffers(struct wlr_scene_buffer *buffer,
+void iter_layer_scene_buffers(struct wlr_scene_buffer *buffer,
 									 int32_t sx, int32_t sy, void *user_data) {
 	struct wlr_scene_surface *scene_surface =
 		wlr_scene_surface_try_from_buffer(buffer);
@@ -326,7 +326,7 @@ void commitlayersurfacenotify(struct wl_listener *listener, void *data) {
 		reset_exclusive_layers_focus(l->mon);
 	}
 }
-static bool popup_unconstrain(Popup *popup) {
+bool popup_unconstrain(Popup *popup) {
 	struct wlr_xdg_popup *wlr_popup = popup->wlr_popup;
 	Client *c = NULL;
 	LayerSurface *l = NULL;
@@ -372,14 +372,14 @@ static bool popup_unconstrain(Popup *popup) {
 	return false;
 }
 
-static void destroypopup(struct wl_listener *listener, void *data) {
+void destroypopup(struct wl_listener *listener, void *data) {
 	Popup *popup = wl_container_of(listener, popup, destroy);
 	wl_list_remove(&popup->destroy.link);
 	wl_list_remove(&popup->reposition.link);
 	free(popup);
 }
 
-static void commitpopup(struct wl_listener *listener, void *data) {
+void commitpopup(struct wl_listener *listener, void *data) {
 	Popup *popup = wl_container_of(listener, popup, commit);
 
 	struct wlr_surface *surface = data;
@@ -414,7 +414,7 @@ cleanup_popup_commit:
 	}
 }
 
-static void repositionpopup(struct wl_listener *listener, void *data) {
+void repositionpopup(struct wl_listener *listener, void *data) {
 	Popup *popup = wl_container_of(listener, popup, reposition);
 	(void)popup_unconstrain(popup);
 }

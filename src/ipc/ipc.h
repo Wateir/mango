@@ -24,8 +24,8 @@ struct ipc_watch_client {
 	} target;
 };
 
-static void ipc_remove_watch_client(struct ipc_watch_client *wc);
-static void ipc_notify_json_to_fd(int fd, cJSON *json);
+void ipc_remove_watch_client(struct ipc_watch_client *wc);
+void ipc_notify_json_to_fd(int fd, cJSON *json);
 
 void ipc_notify_monitor(Monitor *m);
 

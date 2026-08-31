@@ -8,7 +8,7 @@ pid_t getparentprocess(pid_t p);
 int32_t isdescprocess(pid_t p, pid_t c);
 void get_layout_abbr(char *abbr, const char *full_name);
 Client *xytoclient(double x, double y);
-static bool layer_ignores_focus(LayerSurface *l);
+bool layer_ignores_focus(LayerSurface *l);
 void xytonode(double x, double y, struct wlr_surface **psurface, Client **pc,
 			  LayerSurface **pl, MangoGroupBar **gb, double *nx, double *ny);
 /*
@@ -25,7 +25,7 @@ void destroylock(SessionLock *lock, int32_t unlock);
 void destroylocksurface(struct wl_listener *listener, void *data);
 void destroysessionlock(struct wl_listener *listener, void *data);
 void locksession(struct wl_listener *listener, void *data);
-static void
+void
 handle_new_foreign_toplevel_capture_request(struct wl_listener *listener,
 											void *data);
 // 会话销毁时的回调

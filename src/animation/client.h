@@ -3,8 +3,8 @@
 
 #include "../mango.h"
 
-inline bool client_is_ignore_output_clip(Client *c);
-inline struct ivec2 compute_edge_offsets(Client *c);
+bool client_is_ignore_output_clip(Client *c);
+struct ivec2 compute_edge_offsets(Client *c);
 
 void client_actual_size(Client *client, int32_t *width, int32_t *height);
 void set_rect_size(struct wlr_scene_rect *rect, int32_t width, int32_t height);
@@ -40,7 +40,7 @@ void init_fadeout_client(Client *c);
 
 
 /* 无动画时应用窗口最终状态：位置、裁剪/可见性以及几何状态同步 */
-static void client_apply_finish_geometry(Client *c);
+void client_apply_finish_geometry(Client *c);
 void client_commit(Client *c);
 void client_set_pending_state(Client *c);
 

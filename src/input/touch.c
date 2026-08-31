@@ -13,10 +13,10 @@
 void touch_up(struct wl_listener *listener, void *data);
 void touch_cancel(struct wl_listener *listener, void *data);
 void touch_frame(struct wl_listener *listener, void *data);
-static struct wlr_surface *touch_get_coords(struct wlr_touch *touch, double x,
+struct wlr_surface *touch_get_coords(struct wlr_touch *touch, double x,
 											double y, double *x_offset,
 											double *y_offset, Client **pc);
-static void touch_apply_xwayland_scale(struct wlr_surface *surface, double *sx,
+void touch_apply_xwayland_scale(struct wlr_surface *surface, double *sx,
 									   double *sy);
 void touch_finish_all(void);
 
@@ -32,8 +32,8 @@ struct touch_point {
 
 struct wl_list touch_points;
 // 指针模拟状态：仅第一个不支持触摸的触点模拟指针，pointer_touch_id 隔离多指
-static bool simulating_pointer_from_touch = false;
-static int32_t pointer_touch_id = -1;
+bool simulating_pointer_from_touch = false;
+int32_t pointer_touch_id = -1;
 struct wl_listener cursor_touch_down = {.notify = touch_down};
 struct wl_listener cursor_touch_up = {.notify = touch_up};
 struct wl_listener cursor_touch_cancel = {.notify = touch_cancel};
@@ -42,7 +42,7 @@ struct wl_listener cursor_touch_frame = {.notify = touch_frame};
 
 // 将触摸设备映射到 touch_map_to_mon 指定的显示器。
 // 支持热插拔输出和配置重载，每次触摸按下时重新应用。
-static void touch_apply_monitor_mapping(struct wlr_touch *touch) {
+void touch_apply_monitor_mapping(struct wlr_touch *touch) {
 	if (!config.touch_map_to_mon)
 		return;
 
@@ -80,7 +80,7 @@ void touch_point_surface_destroy(struct wl_listener *listener, void *data) {
 
 // 将 [0,1] 归一化坐标转为布局坐标，查找触点下方的 surface，
 // 并计算布局->surface 偏移以便后续以相对坐标上报
-static struct wlr_surface *touch_get_coords(struct wlr_touch *touch, double x,
+struct wlr_surface *touch_get_coords(struct wlr_touch *touch, double x,
 											double y, double *x_offset,
 											double *y_offset, Client **pc) {
 	double lx, ly, sx, sy;
@@ -126,7 +126,7 @@ void touch_emulate_button(uint32_t button, enum wl_pointer_button_state state,
 
 // X11 窗口 surface 局部坐标映射：xwayland_ignore_scale 下 X11 窗口以物理
 // 尺寸渲染，surface 局部坐标需乘 xwayland_scale 才能命中正确位置
-static void touch_apply_xwayland_scale(struct wlr_surface *surface, double *sx,
+void touch_apply_xwayland_scale(struct wlr_surface *surface, double *sx,
 									   double *sy) {
 #ifdef XWAYLAND
 	Client *c = NULL;

@@ -38,47 +38,47 @@ struct MangoXDGOutput {
 	bool xwl_sent;
 };
 
-static struct wl_global *xdg_output_global;
-static struct wl_list xdg_outputs;
+struct wl_global *xdg_output_global;
+struct wl_list xdg_outputs;
 
-static const struct zxdg_output_v1_interface xdg_output_impl;
-static const struct zxdg_output_manager_v1_interface xdg_output_manager_impl;
+const struct zxdg_output_v1_interface xdg_output_impl;
+const struct zxdg_output_manager_v1_interface xdg_output_manager_impl;
 
 /* Declarations */
 /* XWayland 的 X server 也是一个 wayland 客户端。每次发送时动态判断，
  * 避免在资源创建时缓存导致 xwayland 重启/初始化时序问题 */
-static bool xdg_output_resource_is_xwayland(struct wl_resource *resource);
+bool xdg_output_resource_is_xwayland(struct wl_resource *resource);
 /* 从当前输出状态计算逻辑值与物理(含旋转)值 */
-static void xdg_output_get_values(struct MangoXDGOutput *output, int32_t *lx,
+void xdg_output_get_values(struct MangoXDGOutput *output, int32_t *lx,
 									int32_t *ly, int32_t *lw, int32_t *lh,
 									int32_t *px, int32_t *py, int32_t *pw,
 									int32_t *ph);
-static void xdg_output_send_details(struct MangoXDGOutput *output,
+void xdg_output_send_details(struct MangoXDGOutput *output,
 									struct wl_resource *resource);
 /* 普通客户端视角的逻辑值是否与上次发送时不同 */
-static bool xdg_output_logical_changed(struct MangoXDGOutput *output);
+bool xdg_output_logical_changed(struct MangoXDGOutput *output);
 /* XWayland 视角的物理值是否与上次发送时不同。
  * 独立比较物理值基线并就地更新（X server 通常不绑定 zxdg_output_v1，
  * 不能依赖 xwl_sent 判断），仅在物理值真正变化时才补发 done。 */
-static bool xdg_output_xwayland_changed(struct MangoXDGOutput *output);
+bool xdg_output_xwayland_changed(struct MangoXDGOutput *output);
 /* 更新该输出的 xdg-output 详情,XWayland 资源无条件重发（mango 的
  * XWayland 坐标模型依赖每次布局/配置变化后都收到 position/size，即使
  * 数值未变）；普通客户端仅在逻辑值变化时重发，与 wlroots 标准实现一致。 */
-static void xdg_output_update(struct MangoXDGOutput *output);
-static void xdg_output_resource_handle_destroy(struct wl_resource *resource);
+void xdg_output_update(struct MangoXDGOutput *output);
+void xdg_output_resource_handle_destroy(struct wl_resource *resource);
 void xdg_output_handle_destroy(struct wl_client *client,
 										struct wl_resource *resource);
 void xdg_output_manager_handle_destroy(struct wl_client *client,
 											  struct wl_resource *resource);
-static void xdg_output_handle_description(struct wl_listener *listener,
+void xdg_output_handle_description(struct wl_listener *listener,
 										  void *data);
-static struct MangoXDGOutput *xdg_output_find(struct wlr_output *wlr_output);
-static struct MangoXDGOutput *xdg_output_create(struct wlr_output *wlr_output);
-static void xdg_output_destroy(struct MangoXDGOutput *output);
+struct MangoXDGOutput *xdg_output_find(struct wlr_output *wlr_output);
+struct MangoXDGOutput *xdg_output_create(struct wlr_output *wlr_output);
+void xdg_output_destroy(struct MangoXDGOutput *output);
 void xdg_output_manager_handle_get_xdg_output(
 	struct wl_client *client, struct wl_resource *manager_resource, uint32_t id,
 	struct wl_resource *output_resource);
-static void xdg_output_manager_bind(struct wl_client *client, void *data,
+void xdg_output_manager_bind(struct wl_client *client, void *data,
 									uint32_t version, uint32_t id);
 /* 更新所有输出的 xdg-output 详情，并在值真正变化时调度 wl_output.done。
  * done 是客户端应用 wl_output/xdg-output 变更的事务边界：wlroots 只在
@@ -86,17 +86,17 @@ static void xdg_output_manager_bind(struct wl_client *client, void *data,
  * 注意 done 会广播给该输出上的所有 wl_output 客户端，因此只在值变化时才发；
  * 若只有 XWayland 视角的值变了（逻辑布局没变），则只给 XWayland 的 wl_output
  * 资源补 done， 避免无谓打扰普通客户端。 */
-static void xdg_output_update_all(void);
+void xdg_output_update_all(void);
 /* 输出被移除时，让对应的 xdg-output 资源变为惰性，而不是销毁它。
  * 该函数在 cleanupmon()（wlr_output destroy 监听器）中调用，保证幂等。 */
-static void xdg_output_cleanup_output(struct wlr_output *wlr_output);
+void xdg_output_cleanup_output(struct wlr_output *wlr_output);
 void xdg_output_init(void);
 
-static const struct zxdg_output_v1_interface xdg_output_impl = {
+const struct zxdg_output_v1_interface xdg_output_impl = {
 	.destroy = xdg_output_handle_destroy,
 };
 
-static const struct zxdg_output_manager_v1_interface xdg_output_manager_impl = {
+const struct zxdg_output_manager_v1_interface xdg_output_manager_impl = {
 	.destroy = xdg_output_manager_handle_destroy,
 	.get_xdg_output = xdg_output_manager_handle_get_xdg_output,
 };
