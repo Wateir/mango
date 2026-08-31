@@ -179,7 +179,7 @@ void parse_bind_flags(const char *str, KeyBinding *kb) {
 	}
 }
 
-static void set_binding_keymode(Config *config, char mode[28],
+void set_binding_keymode(Config *config, char mode[28],
 								bool *iscommonmode, bool *isdefaultmode) {
 	strcpy(mode, config->keymode);
 	if (strcmp(mode, "common") == 0) {
@@ -286,7 +286,7 @@ int64_t parse_color(const char *hex_str) {
 }
 
 // 辅助函数：检查字符串是否以指定的前缀开头（忽略大小写）
-static bool starts_with_ignore_case(const char *str, const char *prefix) {
+bool starts_with_ignore_case(const char *str, const char *prefix) {
 	while (*prefix) {
 		if (tolower(*str) != tolower(*prefix)) {
 			return false;
@@ -297,7 +297,7 @@ static bool starts_with_ignore_case(const char *str, const char *prefix) {
 	return true;
 }
 
-static char *combine_args_until_empty(char *values[], int count) {
+char *combine_args_until_empty(char *values[], int count) {
 	// find the first empty string
 	int first_empty = count;
 	for (int i = 0; i < count; i++) {
@@ -445,7 +445,7 @@ uint32_t parse_mod(const char *mod_str) {
 }
 
 // 定义辅助函数：在 keymap 中查找 keysym 对应的多个 keycode
-static int32_t find_keycodes_for_keysym(struct xkb_keymap *keymap,
+int32_t find_keycodes_for_keysym(struct xkb_keymap *keymap,
 										xkb_keysym_t sym,
 										MultiKeycode *multi_kc) {
 	xkb_keycode_t min_keycode = xkb_keymap_min_keycode(keymap);
@@ -3155,8 +3155,8 @@ bool parse_config_file(Config *config, const char *file_path, bool must_exist) {
 	return parse_correct;
 }
 
-static const char *mod_to_string(uint32_t mod) {
-	static char buf[128];
+const char *mod_to_string(uint32_t mod) {
+	char buf[128];
 	buf[0] = '\0';
 	if (mod & WLR_MODIFIER_LOGO)
 		strcat(buf, "Super+");
@@ -3176,7 +3176,7 @@ static const char *mod_to_string(uint32_t mod) {
 	return buf;
 }
 
-static int compare_keybind_by_key_only(const void *a, const void *b) {
+int compare_keybind_by_key_only(const void *a, const void *b) {
 	const KeyBinding *ka = (const KeyBinding *)a;
 	const KeyBinding *kb = (const KeyBinding *)b;
 
@@ -3199,7 +3199,7 @@ static int compare_keybind_by_key_only(const void *a, const void *b) {
 	return 0;
 }
 
-static bool same_key(const KeyBinding *a, const KeyBinding *b) {
+bool same_key(const KeyBinding *a, const KeyBinding *b) {
 	return compare_keybind_by_key_only(a, b) == 0;
 }
 
@@ -3269,32 +3269,32 @@ bool check_key_binding_conflicts(Config *config) {
 	return conflict_found;
 }
 
-static bool same_mousebind_key(const void *a, const void *b) {
+bool same_mousebind_key(const void *a, const void *b) {
 	const MouseBinding *ma = (const MouseBinding *)a;
 	const MouseBinding *mb = (const MouseBinding *)b;
 	return ma->mod == mb->mod && ma->button == mb->button;
 }
 
-static bool same_axisbind_key(const void *a, const void *b) {
+bool same_axisbind_key(const void *a, const void *b) {
 	const AxisBinding *aa = (const AxisBinding *)a;
 	const AxisBinding *ab = (const AxisBinding *)b;
 	return aa->mod == ab->mod && aa->dir == ab->dir;
 }
 
-static bool same_switchbind_key(const void *a, const void *b) {
+bool same_switchbind_key(const void *a, const void *b) {
 	const SwitchBinding *sa = (const SwitchBinding *)a;
 	const SwitchBinding *sb = (const SwitchBinding *)b;
 	return sa->fold == sb->fold;
 }
 
-static bool same_gesturebind_key(const void *a, const void *b) {
+bool same_gesturebind_key(const void *a, const void *b) {
 	const GestureBinding *ga = (const GestureBinding *)a;
 	const GestureBinding *gb = (const GestureBinding *)b;
 	return ga->mod == gb->mod && ga->motion == gb->motion &&
 		   ga->fingers_count == gb->fingers_count;
 }
 
-static bool
+bool
 check_simple_binding_conflicts(void *arr, size_t count, size_t elem_size,
 							   bool (*same_key)(const void *, const void *),
 							   BindingMetaFunc get_meta, const char *kind) {
@@ -3337,7 +3337,7 @@ check_simple_binding_conflicts(void *arr, size_t count, size_t elem_size,
 	return conflict_found;
 }
 
-static void get_mousebind_meta(const void *elem, BindingConflictMeta *meta) {
+void get_mousebind_meta(const void *elem, BindingConflictMeta *meta) {
 	const MouseBinding *b = (const MouseBinding *)elem;
 	meta->mode = b->mode;
 	meta->iscommonmode = b->iscommonmode;
@@ -3345,7 +3345,7 @@ static void get_mousebind_meta(const void *elem, BindingConflictMeta *meta) {
 	meta->line_number = b->line_number;
 }
 
-static void get_axisbind_meta(const void *elem, BindingConflictMeta *meta) {
+void get_axisbind_meta(const void *elem, BindingConflictMeta *meta) {
 	const AxisBinding *b = (const AxisBinding *)elem;
 	meta->mode = b->mode;
 	meta->iscommonmode = b->iscommonmode;
@@ -3353,7 +3353,7 @@ static void get_axisbind_meta(const void *elem, BindingConflictMeta *meta) {
 	meta->line_number = b->line_number;
 }
 
-static void get_switchbind_meta(const void *elem, BindingConflictMeta *meta) {
+void get_switchbind_meta(const void *elem, BindingConflictMeta *meta) {
 	const SwitchBinding *b = (const SwitchBinding *)elem;
 	meta->mode = b->mode;
 	meta->iscommonmode = b->iscommonmode;
@@ -3361,7 +3361,7 @@ static void get_switchbind_meta(const void *elem, BindingConflictMeta *meta) {
 	meta->line_number = b->line_number;
 }
 
-static void get_gesturebind_meta(const void *elem, BindingConflictMeta *meta) {
+void get_gesturebind_meta(const void *elem, BindingConflictMeta *meta) {
 	const GestureBinding *b = (const GestureBinding *)elem;
 	meta->mode = b->mode;
 	meta->iscommonmode = b->iscommonmode;
