@@ -3159,27 +3159,6 @@ bool parse_config_file(Config *config, const char *file_path, bool must_exist) {
 	return parse_correct;
 }
 
-const char *mod_to_string(uint32_t mod) {
-	char buf[128];
-	buf[0] = '\0';
-	if (mod & WLR_MODIFIER_LOGO)
-		strcat(buf, "Super+");
-	if (mod & WLR_MODIFIER_CTRL)
-		strcat(buf, "Ctrl+");
-	if (mod & WLR_MODIFIER_ALT)
-		strcat(buf, "Alt+");
-	if (mod & WLR_MODIFIER_SHIFT)
-		strcat(buf, "Shift+");
-	if (mod & WLR_MODIFIER_MOD3)
-		strcat(buf, "Hyper+");
-	size_t len = strlen(buf);
-	if (len > 0)
-		buf[len - 1] = '\0';
-	else
-		strcpy(buf, "None");
-	return buf;
-}
-
 int compare_keybind_by_key_only(const void *a, const void *b) {
 	const KeyBinding *ka = (const KeyBinding *)a;
 	const KeyBinding *kb = (const KeyBinding *)b;
