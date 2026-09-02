@@ -1653,4 +1653,3 @@ bool client_draw_frame(Client *c) {
 
 	return need_next_tick || need_fade_focus;
 }
-

@@ -3,9 +3,8 @@
 #include "src/common/globals.h"
 #include "../manage/monitor.h"
 
-bool output_set_render_format(Monitor *m, uint32_t candidates[],
-									 size_t count,
-									 struct wlr_output_state *state) {
+bool output_set_render_format(Monitor *m, uint32_t candidates[], size_t count,
+							  struct wlr_output_state *state) {
 	for (size_t i = 0; i < count; i++) {
 		struct wlr_output_state test_state = *state;
 		wlr_output_state_set_render_format(&test_state, candidates[i]);
@@ -20,7 +19,7 @@ bool output_set_render_format(Monitor *m, uint32_t candidates[],
 }
 
 bool output_format_in_candidates(uint32_t format, uint32_t candidates[],
-										size_t count) {
+								 size_t count) {
 	for (size_t i = 0; i < count; i++)
 		if (candidates[i] == format)
 			return true;
@@ -254,7 +253,6 @@ void togglehdr(const Arg *arg) {
 
 	togglehdr_output(target, arg->i < 0 ? !target->hdr_enable : (arg->i != 0));
 }
-
 
 uint32_t output_formats_8bit[] = {
 	DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888, DRM_FORMAT_RGBX8888,

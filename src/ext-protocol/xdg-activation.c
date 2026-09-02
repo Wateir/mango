@@ -6,15 +6,14 @@
 #include "../ipc/ipc.h"
 
 void handle_xdg_activation_token_destroy(struct wl_listener *listener,
-												void *data) {
+										 void *data) {
 	struct mango_xdg_activation_token *token =
 		wl_container_of(listener, token, destroy);
 	wl_list_remove(&token->destroy.link);
 	free(token);
 }
 
-void handle_xdg_activation_new_token(struct wl_listener *listener,
-											void *data) {
+void handle_xdg_activation_new_token(struct wl_listener *listener, void *data) {
 	struct wlr_xdg_activation_token_v1 *wlr_token = data;
 
 	struct mango_xdg_activation_token *token = ecalloc(1, sizeof(*token));
@@ -43,7 +42,7 @@ bool xdg_activation_token_can_activate(
 }
 
 void handle_xdg_activation_request_activate(struct wl_listener *listener,
-												   void *data) {
+											void *data) {
 	struct wlr_xdg_activation_v1_request_activate_event *event = data;
 	Client *c = NULL;
 	toplevel_from_wlr_surface(event->surface, &c, NULL);
@@ -70,8 +69,7 @@ void handle_xdg_activation_request_activate(struct wl_listener *listener,
 		printstatus(IPC_WATCH_ARRANGGE);
 	}
 }
-void handle_xdg_activation_destroy(struct wl_listener *listener,
-										  void *data) {
+void handle_xdg_activation_destroy(struct wl_listener *listener, void *data) {
 	wl_list_remove(&activation_request_activate_listener.link);
 	wl_list_remove(&activation_new_token_listener.link);
 	wl_list_remove(&activation_destroy_listener.link);
@@ -119,7 +117,6 @@ const char *xdg_activation_v1_export_token(void) {
 
 	return wlr_xdg_activation_token_v1_get_name(wlr_token);
 }
-
 
 struct wlr_xdg_activation_v1 *activation;
 struct wl_listener activation_request_activate_listener;

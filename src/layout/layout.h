@@ -8,7 +8,6 @@
 #include "overview.h"
 #include "../mango.h"
 
-
 /* layout(s) */
 extern Layout overviewlayout;
 

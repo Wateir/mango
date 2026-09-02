@@ -15,7 +15,7 @@ int count_block_items(DwindleNode *node, bool split_h) {
 
 // 向上查找方向块路径，并计算每个祖先节点的绝对占比
 int get_block_path_and_ratios(DwindleNode *target, bool split_h,
-									 DwindleNode ***path, float **p) {
+							  DwindleNode ***path, float **p) {
 	/* 第一遍统计同方向块深度，据此动态分配 */
 	int depth = 1;
 	DwindleNode *curr = target->parent;
@@ -75,8 +75,7 @@ void dwindle_free_tree(DwindleNode *node) {
 }
 
 void dwindle_insert(DwindleNode **root, Client *new_c, Client *focused,
-						   float ratio, bool as_first, bool split_h,
-						   bool lock) {
+					float ratio, bool as_first, bool split_h, bool lock) {
 	DwindleNode *new_leaf = dwindle_new_leaf(new_c);
 
 	if (!*root) {
@@ -275,9 +274,8 @@ void dwindle_remove(DwindleNode **root, Client *c) {
 	free(parent);
 }
 
-void dwindle_assign(DwindleNode *node, int32_t ax, int32_t ay,
-						   int32_t aw, int32_t ah, int32_t gap_h,
-						   int32_t gap_v) {
+void dwindle_assign(DwindleNode *node, int32_t ax, int32_t ay, int32_t aw,
+					int32_t ah, int32_t gap_h, int32_t gap_v) {
 	if (!node)
 		return;
 
@@ -313,7 +311,7 @@ void dwindle_assign(DwindleNode *node, int32_t ax, int32_t ay,
 }
 
 void dwindle_move_client(DwindleNode **root, Client *c, Client *target,
-								float ratio, int32_t dir) {
+						 float ratio, int32_t dir) {
 	if (!c || !target || c == target)
 		return;
 	if (!dwindle_find_leaf(*root, c) || !dwindle_find_leaf(*root, target))
@@ -428,8 +426,7 @@ void dwindle_resize_client(Monitor *m, Client *c) {
 				   m->w.height - 2 * gap_ov, gap_ih, gap_iv);
 }
 
-void dwindle_resize_client_step(Monitor *m, Client *c, int32_t dx,
-									   int32_t dy) {
+void dwindle_resize_client_step(Monitor *m, Client *c, int32_t dx, int32_t dy) {
 	uint32_t tag = m->pertag->curtag;
 	DwindleNode *leaf = dwindle_find_leaf(m->pertag->dwindle_root[tag], c);
 	if (!leaf)
@@ -488,7 +485,7 @@ void dwindle_remove_client(Client *c) {
 /* Insert a new client respecting dwindle_vsplit, dwindle_hsplit, and
  * dwindle_smart_split config options. */
 void dwindle_insert_with_config(DwindleNode **root, Client *new_c,
-									   Client *focused, float ratio) {
+								Client *focused, float ratio) {
 	if (!new_c || !focused)
 		return;
 

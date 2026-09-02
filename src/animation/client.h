@@ -18,18 +18,23 @@ int32_t is_special_animation_rule(Client *client);
 void set_overview_enter_animation(Client *c);
 void set_client_open_animation(Client *c, struct wlr_box geo);
 
-void snap_scene_buffer_apply_effect(struct wlr_scene_buffer *buffer, int32_t sx, int32_t sy, void * data);
-void scene_buffer_apply_effect(struct wlr_scene_buffer *buffer, int32_t sx, int32_t sy, void * data);
+void snap_scene_buffer_apply_effect(struct wlr_scene_buffer *buffer, int32_t sx,
+									int32_t sy, void *data);
+void scene_buffer_apply_effect(struct wlr_scene_buffer *buffer, int32_t sx,
+							   int32_t sy, void *data);
 void buffer_set_effect(Client *c, BufferData data);
 
 void client_draw_shadow(Client *c, struct ivec2 offsets);
 void client_draw_groupbar(Client *c, struct ivec2 offsets);
-void global_draw_group_bar(Client *c, int32_t x, int32_t y, int32_t width, int32_t height);
+void global_draw_group_bar(Client *c, int32_t x, int32_t y, int32_t width,
+						   int32_t height);
 void client_draw_shield(Client *c, struct ivec2 clip_box);
 void client_draw_blur(Client *c, struct ivec2 clip_box);
-void client_draw_split_border(Client *c, bool hit_no_border, struct ivec2 offsets);
+void client_draw_split_border(Client *c, bool hit_no_border,
+							  struct ivec2 offsets);
 void client_draw_border(Client *c, struct ivec2 offsets);
-struct ivec2 clip_to_hide(Client *c, struct wlr_box *clip_box, struct ivec2 offsets);
+struct ivec2 clip_to_hide(Client *c, struct wlr_box *clip_box,
+						  struct ivec2 offsets);
 void client_set_drop_area(Client *c);
 
 /* ---------- central rendering entry point ---------- */
@@ -37,7 +42,6 @@ void client_apply_clip(Client *c, float factor);
 void fadeout_client_animation_next_tick(Client *c);
 void client_animation_next_tick(Client *c);
 void init_fadeout_client(Client *c);
-
 
 /* 无动画时应用窗口最终状态：位置、裁剪/可见性以及几何状态同步 */
 void client_apply_finish_geometry(Client *c);

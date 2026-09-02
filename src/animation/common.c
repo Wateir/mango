@@ -112,9 +112,8 @@ double find_animation_curve_at(double t, int32_t type) {
 	}
 	return baked_points[up].y;
 }
-bool scene_node_snapshot(struct wlr_scene_node *node, int32_t lx,
-								int32_t ly,
-								struct wlr_scene_tree *snapshot_tree) {
+bool scene_node_snapshot(struct wlr_scene_node *node, int32_t lx, int32_t ly,
+						 struct wlr_scene_tree *snapshot_tree) {
 	if (!node->enabled && node->type != WLR_SCENE_NODE_TREE) {
 		return true;
 	}

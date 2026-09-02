@@ -11,8 +11,7 @@ void createtabletpad(struct wlr_input_device *device);
 void destroytabletpad(struct wl_listener *listener, void *data);
 void tabletpadtabletdestroy(struct wl_listener *listener, void *data);
 void tabletpadattach(struct wl_listener *listener, void *data);
-void destroytabletsurfacenotify(struct wl_listener *listener,
-									   void *data);
+void destroytabletsurfacenotify(struct wl_listener *listener, void *data);
 void destroytablettool(struct wl_listener *listener, void *data);
 void tablettoolsetcursor(struct wl_listener *listener, void *data);
 
@@ -51,16 +50,13 @@ struct TabletPad {
 };
 extern struct wl_list tablet_pads;
 
-void attach_tablet_pad(struct TabletPad *tablet_pad,
-							  struct Tablet *tablet);
-void tablettoolmotion(struct TabletTool *tool, bool change_x,
-							 bool change_y, double x, double y, double dx,
-							 double dy);
+void attach_tablet_pad(struct TabletPad *tablet_pad, struct Tablet *tablet);
+void tablettoolmotion(struct TabletTool *tool, bool change_x, bool change_y,
+					  double x, double y, double dx, double dy);
 
 extern struct wl_listener tablet_tool_axis;
 extern struct wl_listener tablet_tool_button;
 extern struct wl_listener tablet_tool_proximity;
 extern struct wl_listener tablet_tool_tip;
-
 
 #endif

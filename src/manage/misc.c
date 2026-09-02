@@ -372,9 +372,8 @@ void locksession(struct wl_listener *listener, void *data) {
 
 	wlr_session_lock_v1_send_locked(session_lock);
 }
-void
-handle_new_foreign_toplevel_capture_request(struct wl_listener *listener,
-											void *data) {
+void handle_new_foreign_toplevel_capture_request(struct wl_listener *listener,
+												 void *data) {
 	struct wlr_ext_foreign_toplevel_image_capture_source_manager_v1_request
 		*request = data;
 	Client *c = request->toplevel_handle->data;

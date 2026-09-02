@@ -9,19 +9,19 @@
 /* function declarations */
 void applybounds(
 	Client *c,
-	struct wlr_box *bbox); // 设置边界规则,能让一些窗口拥有比较适合的大小
+	struct wlr_box *bbox);	// 设置边界规则,能让一些窗口拥有比较适合的大小
 void applyrules(Client *c); // 窗口规则应用,应用config.h中定义的窗口规则
 void apply_window_snap(Client *c);
 void arrange(Monitor *m, bool want_animation,
-					bool from_view); // 布局函数,让窗口俺平铺规则移动和重置大小
-void arrangelayer(Monitor *m, struct wl_list *list,
-						 struct wlr_box *usable_area, int32_t exclusive);
+			 bool from_view); // 布局函数,让窗口俺平铺规则移动和重置大小
+void arrangelayer(Monitor *m, struct wl_list *list, struct wlr_box *usable_area,
+				  int32_t exclusive);
 void arrangelayers(Monitor *m);
 void handle_print_status(struct wl_listener *listener, void *data);
 void axisnotify(struct wl_listener *listener,
-					   void *data); // 滚轮事件处理
+				void *data); // 滚轮事件处理
 void buttonpress(struct wl_listener *listener,
-						void *data); // 鼠标按键事件处理
+				 void *data); // 鼠标按键事件处理
 bool handle_buttonpress(struct wlr_pointer_button_event *event);
 int32_t ongesture(struct wlr_pointer_swipe_end_event *event);
 void swipe_begin(struct wl_listener *listener, void *data);
@@ -48,7 +48,7 @@ void createlocksurface(struct wl_listener *listener, void *data);
 void createmon(struct wl_listener *listener, void *data);
 void createpointer(struct wlr_pointer *pointer);
 void configure_pointer(struct wlr_input_device *wlr_device,
-							  struct libinput_device *device);
+					   struct libinput_device *device);
 void destroyinputdevice(struct wl_listener *listener, void *data);
 void createswitch(struct wlr_switch *switch_device);
 void switch_toggle(struct wl_listener *listener, void *data);
@@ -80,22 +80,21 @@ void gpureset(struct wl_listener *listener, void *data);
 int32_t keyrepeat(void *data);
 
 void inputdevice(struct wl_listener *listener, void *data);
-int32_t keybinding(uint32_t state, bool locked, uint32_t mods,
-						  xkb_keysym_t sym, uint32_t keycode);
+int32_t keybinding(uint32_t state, bool locked, uint32_t mods, xkb_keysym_t sym,
+				   uint32_t keycode);
 void keypress(struct wl_listener *listener, void *data);
 void keypressmod(struct wl_listener *listener, void *data);
 bool keypressglobal(struct wlr_surface *last_surface,
-						   struct wlr_keyboard *keyboard,
-						   struct wlr_keyboard_key_event *event, uint32_t mods,
-						   xkb_keysym_t keysym, uint32_t keycode);
+					struct wlr_keyboard *keyboard,
+					struct wlr_keyboard_key_event *event, uint32_t mods,
+					xkb_keysym_t keysym, uint32_t keycode);
 void locksession(struct wl_listener *listener, void *data);
 void mapnotify(struct wl_listener *listener, void *data);
 void maximizenotify(struct wl_listener *listener, void *data);
 void minimizenotify(struct wl_listener *listener, void *data);
 void motionabsolute(struct wl_listener *listener, void *data);
-void motionnotify(uint32_t time, struct wlr_input_device *device,
-						 double sx, double sy, double sx_unaccel,
-						 double sy_unaccel);
+void motionnotify(uint32_t time, struct wlr_input_device *device, double sx,
+				  double sy, double sx_unaccel, double sy_unaccel);
 void motionrelative(struct wl_listener *listener, void *data);
 
 void reset_foreign_tolevel(Client *c, Monitor *oldmon, Monitor *newmon);
@@ -103,10 +102,10 @@ void add_foreign_topleve(Client *c);
 void exchange_two_client(Client *c1, Client *c2);
 void outputmgrapply(struct wl_listener *listener, void *data);
 void outputmgrapplyortest(struct wlr_output_configuration_v1 *config,
-								 int32_t test);
+						  int32_t test);
 void outputmgrtest(struct wl_listener *listener, void *data);
-void pointerfocus(Client *c, struct wlr_surface *surface, double sx,
-						 double sy, uint32_t time);
+void pointerfocus(Client *c, struct wlr_surface *surface, double sx, double sy,
+				  uint32_t time);
 void printstatus(enum ipc_watch_type type);
 void powermgrsetmode(struct wl_listener *listener, void *data);
 void rendermon(struct wl_listener *listener, void *data);
@@ -117,8 +116,7 @@ void setcursor(struct wl_listener *listener, void *data);
 void setfloating(Client *c, int32_t floating);
 void setfakefullscreen(Client *c, int32_t fakefullscreen);
 void setfullscreen(Client *c, int32_t fullscreen, bool rearrange);
-void setmaximizescreen(Client *c, int32_t maximizescreen,
-							  bool rearrange);
+void setmaximizescreen(Client *c, int32_t maximizescreen, bool rearrange);
 void reset_maximizescreen_size(Client *c);
 void setgaps(int32_t oh, int32_t ov, int32_t ih, int32_t iv);
 
@@ -135,25 +133,23 @@ void updatetitle(struct wl_listener *listener, void *data);
 void urgent(struct wl_listener *listener, void *data);
 void view(const Arg *arg, bool want_animation);
 
-void
-handle_keyboard_shortcuts_inhibit_new_inhibitor(struct wl_listener *listener,
-												void *data);
+void handle_keyboard_shortcuts_inhibit_new_inhibitor(
+	struct wl_listener *listener, void *data);
 void virtualkeyboard(struct wl_listener *listener, void *data);
 void virtualpointer(struct wl_listener *listener, void *data);
 void warp_cursor(const Client *c);
 Monitor *xytomon(double x, double y);
 Monitor *get_monitor_nearest_to(int32_t x, int32_t y);
 void handle_iamge_copy_capture_new_session(struct wl_listener *listener,
-												  void *data);
-void xytonode(double x, double y, struct wlr_surface **psurface,
-					 Client **pc, LayerSurface **pl, MangoGroupBar **tb,
-					 double *nx, double *ny);
+										   void *data);
+void xytonode(double x, double y, struct wlr_surface **psurface, Client **pc,
+			  LayerSurface **pl, MangoGroupBar **tb, double *nx, double *ny);
 void clear_fullscreen_flag(Client *c);
 pid_t getparentprocess(pid_t p);
 int32_t isdescprocess(pid_t p, pid_t c);
 Client *termforwin(Client *w);
 void client_replace(Client *c, Client *w, bool is_group_change_member,
-						   bool is_swallow);
+					bool is_swallow);
 
 void warp_cursor_to_selmon(Monitor *m);
 uint32_t want_restore_fullscreen(Client *target_client);
@@ -166,28 +162,26 @@ void show_hide_client(Client *c);
 void tag_client(const Arg *arg, Client *target_client);
 
 struct wlr_box setclient_coordinate_center(Client *c, Monitor *m,
-												  struct wlr_box geom,
-												  int32_t offsetx,
-												  int32_t offsety);
+										   struct wlr_box geom, int32_t offsetx,
+										   int32_t offsety);
 uint32_t get_tags_first_tag(uint32_t tags);
 
-struct wlr_output_mode *
-get_nearest_output_mode(struct wlr_output *output, int32_t width,
-						int32_t height, float refresh);
+struct wlr_output_mode *get_nearest_output_mode(struct wlr_output *output,
+												int32_t width, int32_t height,
+												float refresh);
 
 void client_set_opacity(Client *c, double opacity);
-void scene_buffer_apply_opacity(struct wlr_scene_buffer *buffer,
-									   int32_t sx, int32_t sy, void *data);
+void scene_buffer_apply_opacity(struct wlr_scene_buffer *buffer, int32_t sx,
+								int32_t sy, void *data);
 
 Client *direction_select(const Arg *arg);
 void view_in_mon(const Arg *arg, bool want_animation, Monitor *m,
-						bool changefocus);
+				 bool changefocus);
 
 void client_send_frame_done(Client *c, const struct timespec *now);
 void overview_layout_card(Client *c);
 void overview_destroy_card(Client *c);
-void overview_card_set_corner_radii(Client *c,
-										   struct fx_corner_radii corners);
+void overview_card_set_corner_radii(Client *c, struct fx_corner_radii corners);
 Client *center_tiled_select(Monitor *m);
 void handlecursoractivity(void);
 int32_t hidecursor(void *data);
@@ -199,7 +193,7 @@ uint32_t get_tags_first_tag_num(uint32_t source_tags);
 void set_layer_open_animaiton(LayerSurface *l, struct wlr_box geo);
 
 void apply_opacity_to_rect_nodes(Client *c, struct wlr_scene_node *node,
-										double animation_passed);
+								 double animation_passed);
 double all_output_frame_duration_ms();
 bool is_scroller_layout(Monitor *m);
 bool is_monocle_layout(Monitor *m);
@@ -207,8 +201,7 @@ bool is_centertile_layout(Monitor *m);
 void create_output(struct wlr_backend *backend, void *data);
 void get_layout_abbr(char *abbr, const char *full_name);
 void apply_named_scratchpad(Client *target_client);
-Client *get_client_by_id_or_title(const char *arg_id,
-										 const char *arg_title);
+Client *get_client_by_id_or_title(const char *arg_id, const char *arg_title);
 bool switch_scratchpad_client_state(Client *c);
 bool check_trackpad_disabled(struct wlr_pointer *pointer);
 uint32_t get_tag_status(uint32_t tag, Monitor *m);
@@ -218,49 +211,45 @@ Client *get_next_stack_client(Client *c, bool reverse);
 void set_float_malposition(Client *tc);
 void set_size_per(Monitor *m, Client *c);
 void resize_tile_client(Client *grabc, bool isdrag, int32_t offsetx,
-							   int32_t offsety, uint32_t time);
+						int32_t offsety, uint32_t time);
 void refresh_monitors_workspaces_status(Monitor *m);
 void init_client_properties(Client *c);
 float *get_border_color(Client *c);
 void clear_fullscreen_and_maximized_state(Monitor *m);
 void request_fresh_all_monitors(void);
-Client *find_client_by_direction(Client *tc, const Arg *arg,
-										bool findfloating);
+Client *find_client_by_direction(Client *tc, const Arg *arg, bool findfloating);
 void exit_scroller_stack(Client *c);
 Client *scroll_get_stack_head_client(Client *c);
 bool client_only_in_one_tag(Client *c);
-Client *get_focused_stack_client(Client *sc,
-										Client *custom_focus_client);
+Client *get_focused_stack_client(Client *sc, Client *custom_focus_client);
 bool client_is_in_same_stack(Client *sc, Client *tc, Client *fc);
 void monitor_stop_skip_frame_timer(Monitor *m);
 int monitor_skip_frame_timeout_callback(void *data);
 Monitor *get_monitor_nearest_to(int32_t lx, int32_t ly);
 bool match_monitor_spec(char *spec, Monitor *m);
-void last_cursor_surface_destroy(struct wl_listener *listener,
-										void *data);
+void last_cursor_surface_destroy(struct wl_listener *listener, void *data);
 int32_t keep_idle_inhibit(void *data);
 void check_keep_idle_inhibit(Client *c);
 void pre_calculate_before_arrange(Monitor *m, bool want_animation,
-										 bool from_view, bool only_calculate);
+								  bool from_view, bool only_calculate);
 void client_pending_fullscreen_state(Client *c, int32_t isfullscreen);
 void client_pending_maximized_state(Client *c, int32_t ismaximized);
 void client_pending_minimized_state(Client *c, int32_t isminimized);
 void scroller_insert_stack(Client *c, Client *target_client,
-								  bool insert_before);
+						   bool insert_before);
 void dwindle_move_client(DwindleNode **root, Client *c, Client *target,
-								float ratio, int32_t dir);
-void dwindle_resize_client_step(Monitor *m, Client *c, int32_t dx,
-									   int32_t dy);
+						 float ratio, int32_t dir);
+void dwindle_resize_client_step(Monitor *m, Client *c, int32_t dx, int32_t dy);
 void dwindle_resize_client(Monitor *m, Client *c);
 
 struct TagScrollerState *ensure_scroller_state(Monitor *m, uint32_t tag);
 struct ScrollerStackNode *find_scroller_node(struct TagScrollerState *st,
-													Client *c);
+											 Client *c);
 void sync_scroller_state_to_clients(Monitor *m, uint32_t tag);
 void scroller_node_remove(struct TagScrollerState *st,
-								 struct ScrollerStackNode *target);
-struct ScrollerStackNode *
-scroller_node_create(struct TagScrollerState *st, Client *c);
+						  struct ScrollerStackNode *target);
+struct ScrollerStackNode *scroller_node_create(struct TagScrollerState *st,
+											   Client *c);
 void update_scroller_state(Monitor *m);
 Client *scroll_get_stack_tail_client(Client *c);
 DwindleNode *dwindle_find_leaf(DwindleNode *node, Client *c);
@@ -273,17 +262,17 @@ void begin_jump_mode(Monitor *m);
 void client_reparent_group(Client *c);
 void client_change_mon(Client *c, Monitor *m);
 void check_vrr_enable(Client *c);
-void output_enable_hdr(Monitor *m, struct wlr_output_state *os,
-							  bool enabled, bool silent);
+void output_enable_hdr(Monitor *m, struct wlr_output_state *os, bool enabled,
+					   bool silent);
 bool mango_scene_output_commit(struct wlr_scene_output *scene_output,
-									  struct wlr_output_state *state);
+							   struct wlr_output_state *state);
 bool mango_output_commit(Monitor *m);
 void client_set_group_config(Client *c);
 
 int32_t client_is_x11(Client *c);
 struct wlr_surface *client_surface(Client *c);
 int32_t toplevel_from_wlr_surface(struct wlr_surface *s, Client **pc,
-										 LayerSurface **pl);
+								  LayerSurface **pl);
 void client_activate_surface(struct wlr_surface *s, int32_t activated);
 const char *client_get_appid(Client *c);
 int32_t client_get_pid(Client *c);
@@ -317,8 +306,8 @@ bool client_request_maximize(Client *c, void *data);
 void client_set_size_bound(Client *c);
 void client_swap_layout_properties(Client *c1, Client *c2);
 void client_swap_monitors_and_tags(Client *c1, Client *c2);
-void finish_exchange_arrange_and_focus(Client *c1, Client *c2,
-											  Monitor *m1, Monitor *m2);
+void finish_exchange_arrange_and_focus(Client *c1, Client *c2, Monitor *m1,
+									   Monitor *m2);
 void client_tile_resize(Client *c, struct wlr_box geo, int32_t interact);
 uint32_t generate_client_id(void);
 void client_active(Client *c);
@@ -340,7 +329,7 @@ bool layer_ignores_focus(LayerSurface *l);
 
 /* 重排后补充的前置声明 */
 void iter_xdg_scene_buffers(struct wlr_scene_buffer *buffer, int32_t sx,
-								   int32_t sy, void *user_data);
+							int32_t sy, void *user_data);
 void unminimize(Client *c);
 Client *termforwin(Client *w);
 Client *get_client_by_id_or_title(const char *arg_id, const char *arg_title);

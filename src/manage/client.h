@@ -9,15 +9,14 @@ bool client_init_unmanaged(Client *c);
 void client_apply_xwayland(Client *c);
 void apply_rule_properties(Client *c, const ConfigWinRule *r);
 bool is_window_rule_matches(const ConfigWinRule *r, const char *appid,
-								   const char *title);
+							const char *title);
 void client_swap_layout_properties(Client *c1, Client *c2);
 void client_swap_monitors_and_tags(Client *c1, Client *c2);
-void finish_exchange_arrange_and_focus(Client *c1, Client *c2,
-											  Monitor *m1, Monitor *m2);
+void finish_exchange_arrange_and_focus(Client *c1, Client *c2, Monitor *m1,
+									   Monitor *m2);
 #ifdef XWAYLAND
-bool
-xwayland_scene_buffer_point_accepts_input(struct wlr_scene_buffer *buffer,
-										  double *sx, double *sy);
+bool xwayland_scene_buffer_point_accepts_input(struct wlr_scene_buffer *buffer,
+											   double *sx, double *sy);
 void xwayland_apply_scale(Client *c);
 void xwayland_logical_to_x11(struct wlr_box *box, float scale);
 void xwayland_x11_to_logical(struct wlr_box *box, float scale);
@@ -28,7 +27,7 @@ Monitor *xwayland_monitor(Client *c);
 int32_t client_is_x11(Client *c);
 struct wlr_surface *client_surface(Client *c);
 int32_t toplevel_from_wlr_surface(struct wlr_surface *s, Client **pc,
-										  LayerSurface **pl);
+								  LayerSurface **pl);
 
 /* The others */
 void client_activate_surface(struct wlr_surface *s, int32_t activated);
@@ -42,8 +41,7 @@ const char *client_get_title(Client *c);
 int32_t client_is_float_type(Client *c);
 int32_t client_is_rendered_on_mon(Client *c, Monitor *m);
 int32_t client_is_unmanaged(Client *c);
-void client_notify_enter(struct wlr_surface *s,
-								struct wlr_keyboard *kb);
+void client_notify_enter(struct wlr_surface *s, struct wlr_keyboard *kb);
 void client_send_close(Client *c);
 void client_set_border_color(Client *c, const float color[4]);
 void client_set_fullscreen(Client *c, int32_t fullscreen);
@@ -82,13 +80,12 @@ Client *get_client_by_id_or_title(const char *arg_id, const char *arg_title);
 
 struct wlr_box // 计算客户端居中坐标
 setclient_coordinate_center(Client *c, Monitor *tm, struct wlr_box geom,
-											int32_t offsetx, int32_t offsety);
+							int32_t offsetx, int32_t offsety);
 /* Helper: Check if rule matches client */
 bool is_window_rule_matches(const ConfigWinRule *r, const char *appid,
-									const char *title);
+							const char *title);
 Client *center_tiled_select(Monitor *m);
-Client *find_client_by_direction(Client *tc, const Arg *arg,
-								  bool findfloating);
+Client *find_client_by_direction(Client *tc, const Arg *arg, bool findfloating);
 Client *direction_select(const Arg *arg);
 /* We probably should change the name of this, it sounds like
  * will focus the topmost client of this mon, when actually will
@@ -115,45 +112,37 @@ void client_update_geometry(Client *c);
 void client_init_xwayland(Client *c);
 bool client_init_unmanaged(Client *c);
 void client_apply_xwayland(Client *c);
-bool
-xwayland_scene_buffer_point_accepts_input(struct wlr_scene_buffer *buffer,
-										   double *sx, double *sy);
-void
-createnotify(struct wl_listener *listener, void *data);
+bool xwayland_scene_buffer_point_accepts_input(struct wlr_scene_buffer *buffer,
+											   double *sx, double *sy);
+void createnotify(struct wl_listener *listener, void *data);
 void init_client_properties(Client *c);
-void
-mapnotify(struct wl_listener *listener, void *data);
+void mapnotify(struct wl_listener *listener, void *data);
 void commitnotify(struct wl_listener *listener, void *data);
 void unmapnotify(struct wl_listener *listener, void *data);
-void
-destroynotify(struct wl_listener *listener, void *data);
-void
-fullscreennotify(struct wl_listener *listener, void *data);
+void destroynotify(struct wl_listener *listener, void *data);
+void fullscreennotify(struct wl_listener *listener, void *data);
 void maximizenotify(struct wl_listener *listener, void *data);
 void minimizenotify(struct wl_listener *listener, void *data);
 void updatetitle(struct wl_listener *listener, void *data);
-void
-urgent(struct wl_listener *listener, void *data);
+void urgent(struct wl_listener *listener, void *data);
 void pending_kill_client(Client *c);
 void iter_xdg_scene_buffers(struct wlr_scene_buffer *buffer, int32_t sx,
-									int32_t sy, void *user_data);
+							int32_t sy, void *user_data);
 void scene_buffer_apply_opacity(struct wlr_scene_buffer *buffer, int32_t sx,
 								int32_t sy, void *data);
 void client_set_opacity(Client *c, double opacity);
 void focusclient(Client *c, int32_t lift);
 void client_active(Client *c);
 void view_in_mon(const Arg *arg, bool want_animation, Monitor *m,
-				  bool changefocus);
+				 bool changefocus);
 void view(const Arg *arg, bool want_animation);
 void tag_client(const Arg *arg, Client *target_client);
 void show_hide_client(Client *c);
 void setmon(Client *c, Monitor *m, uint32_t newtags, bool focus);
 void client_change_mon(Client *c, Monitor *m);
 void view_insert_shift_tags(Monitor *m, uint32_t target);
-void
-setfloating(Client *c, int32_t floating);
-void setfullscreen(Client *c, int32_t fullscreen,
-					bool rearrange);
+void setfloating(Client *c, int32_t floating);
+void setfullscreen(Client *c, int32_t fullscreen, bool rearrange);
 void setfakefullscreen(Client *c, int32_t fakefullscreen);
 void setmaximizescreen(Client *c, int32_t maximizescreen, bool rearrange);
 void reset_maximizescreen_size(Client *c);
@@ -178,8 +167,8 @@ void client_update_oldmonname_record(Client *c, Monitor *m);
 void applybounds(Client *c, struct wlr_box *bbox);
 void client_swap_layout_properties(Client *c1, Client *c2);
 void client_swap_monitors_and_tags(Client *c1, Client *c2);
-void finish_exchange_arrange_and_focus(Client *c1, Client *c2,
-											   Monitor *m1, Monitor *m2);
+void finish_exchange_arrange_and_focus(Client *c1, Client *c2, Monitor *m1,
+									   Monitor *m2);
 void client_tile_resize(Client *c, struct wlr_box geo, int32_t interact);
 uint32_t generate_client_id(void);
 void client_pending_force_kill(Client *c);
@@ -195,7 +184,7 @@ void client_set_group_config(Client *c);
 void client_group_detach(Client *c);
 void client_group_replace(Client *old, Client *new);
 void mango_surface_frame_done(struct wlr_surface *surface, int sx, int sy,
-							   void *data);
+							  void *data);
 // 给被隐藏窗口的所有 surface（含 subsurface）喂 frame callback，
 // 让客户端在 overview 预览中继续渲染（解除帧回调节流导致的停画）。
 // 不能用 wlr_scene_node_for_each_buffer 遍历原 scene_surface 树：

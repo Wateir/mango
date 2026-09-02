@@ -421,7 +421,6 @@ void tablettooltip(struct wl_listener *listener, void *data) {
 	wlr_tablet_tool_v2_start_implicit_grab(tool->tool_v2);
 }
 
-
 struct wlr_tablet_manager_v2 *tablet_mgr;
 struct wl_list tablets;
 struct wl_list tablet_pads;

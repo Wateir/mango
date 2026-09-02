@@ -13,9 +13,8 @@ bool xdg_output_resource_is_xwayland(struct wl_resource *resource) {
 }
 /* 从当前输出状态计算逻辑值与物理(含旋转)值 */
 void xdg_output_get_values(struct MangoXDGOutput *output, int32_t *lx,
-								  int32_t *ly, int32_t *lw, int32_t *lh,
-								  int32_t *px, int32_t *py, int32_t *pw,
-								  int32_t *ph) {
+						   int32_t *ly, int32_t *lw, int32_t *lh, int32_t *px,
+						   int32_t *py, int32_t *pw, int32_t *ph) {
 	int32_t x = 0, y = 0;
 	Monitor *m = output->wlr_output->data;
 	if (m) {
@@ -54,7 +53,7 @@ void xdg_output_get_values(struct MangoXDGOutput *output, int32_t *lx,
 	*ph = th;
 }
 void xdg_output_send_details(struct MangoXDGOutput *output,
-									struct wl_resource *resource) {
+							 struct wl_resource *resource) {
 	int32_t lx, ly, lw, lh, px, py, pw, ph;
 	xdg_output_get_values(output, &lx, &ly, &lw, &lh, &px, &py, &pw, &ph);
 
@@ -147,18 +146,17 @@ void xdg_output_resource_handle_destroy(struct wl_resource *resource) {
 	free(res);
 }
 void xdg_output_handle_destroy(struct wl_client *client,
-									  struct wl_resource *resource) {
+							   struct wl_resource *resource) {
 	wl_resource_destroy(resource);
 }
 
 void xdg_output_manager_handle_destroy(struct wl_client *client,
-											  struct wl_resource *resource) {
+									   struct wl_resource *resource) {
 	wl_resource_destroy(resource);
 }
 
 /* 输出描述变化（version>=3 的客户端需要重发） */
-void xdg_output_handle_description(struct wl_listener *listener,
-										  void *data) {
+void xdg_output_handle_description(struct wl_listener *listener, void *data) {
 	struct MangoXDGOutput *output =
 		wl_container_of(listener, output, description);
 	struct wlr_output *wlr_output = output->wlr_output;
@@ -263,7 +261,7 @@ void xdg_output_manager_handle_get_xdg_output(
 		wl_output_send_done(output_resource);
 }
 void xdg_output_manager_bind(struct wl_client *client, void *data,
-									uint32_t version, uint32_t id) {
+							 uint32_t version, uint32_t id) {
 	struct wl_resource *resource = wl_resource_create(
 		client, &zxdg_output_manager_v1_interface, version, id);
 	if (!resource) {
@@ -316,7 +314,6 @@ void xdg_output_init(void) {
 	if (!xdg_output_global)
 		wlr_log(WLR_ERROR, "failed to create zxdg_output_manager_v1 global");
 }
-
 
 struct wl_global *xdg_output_global;
 struct wl_list xdg_outputs;

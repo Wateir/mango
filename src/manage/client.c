@@ -30,7 +30,7 @@ struct wlr_surface *client_surface(Client *c) {
 	return c->surface.xdg->surface;
 }
 int32_t toplevel_from_wlr_surface(struct wlr_surface *s, Client **pc,
-										 LayerSurface **pl) {
+								  LayerSurface **pl) {
 	struct wlr_xdg_surface *xdg_surface, *tmp_xdg_surface;
 	struct wlr_surface *root_surface;
 	struct wlr_layer_surface_v1 *layer_surface;
@@ -251,8 +251,7 @@ int32_t client_is_unmanaged(Client *c) {
 #endif
 	return 0;
 }
-void client_notify_enter(struct wlr_surface *s,
-								struct wlr_keyboard *kb) {
+void client_notify_enter(struct wlr_surface *s, struct wlr_keyboard *kb) {
 	if (kb)
 		wlr_seat_keyboard_notify_enter(seat, s, kb->keycodes, kb->num_keycodes,
 									   &kb->modifiers);
@@ -784,7 +783,7 @@ setclient_coordinate_center(Client *c, Monitor *tm, struct wlr_box geom,
 
 /* Helper: Check if rule matches client */
 bool is_window_rule_matches(const ConfigWinRule *r, const char *appid,
-								   const char *title) {
+							const char *title) {
 	return (r->title && regex_match(r->title, title) && !r->id) ||
 		   (r->id && regex_match(r->id, appid) && !r->title) ||
 		   (r->id && regex_match(r->id, appid) && r->title &&
@@ -1580,9 +1579,8 @@ void client_apply_xwayland(Client *c) {
 #endif
 	}
 }
-bool
-xwayland_scene_buffer_point_accepts_input(struct wlr_scene_buffer *buffer,
-										  double *sx, double *sy) {
+bool xwayland_scene_buffer_point_accepts_input(struct wlr_scene_buffer *buffer,
+											   double *sx, double *sy) {
 	struct wlr_scene_surface *scene_surface =
 		wlr_scene_surface_try_from_buffer(buffer);
 	if (!scene_surface)
@@ -2262,7 +2260,7 @@ void pending_kill_client(Client *c) {
 }
 
 void iter_xdg_scene_buffers(struct wlr_scene_buffer *buffer, int32_t sx,
-								   int32_t sy, void *user_data) {
+							int32_t sy, void *user_data) {
 	Client *c = user_data;
 
 	struct wlr_scene_surface *scene_surface =
@@ -3328,8 +3326,8 @@ void client_swap_monitors_and_tags(Client *c1, Client *c2) {
 	c1->tags = tmp_tags;
 }
 
-void finish_exchange_arrange_and_focus(Client *c1, Client *c2,
-											  Monitor *m1, Monitor *m2) {
+void finish_exchange_arrange_and_focus(Client *c1, Client *c2, Monitor *m1,
+									   Monitor *m2) {
 	if (m1 != m2) {
 		arrange(c1->mon, false, false);
 		arrange(c2->mon, false, false);
@@ -3358,9 +3356,7 @@ void client_tile_resize(Client *c, struct wlr_box geo, int32_t interact) {
 		resize(c, geo, interact);
 	}
 }
-uint32_t generate_client_id(void) {
-	return ++next_client_id;
-}
+uint32_t generate_client_id(void) { return ++next_client_id; }
 
 void client_pending_force_kill(Client *c) {
 	if (!c)
@@ -3874,4 +3870,3 @@ void setgeometrynotify(struct wl_listener *listener, void *data) {
 }
 
 #endif
-

@@ -163,7 +163,7 @@ struct xkb_keymap *compile_rule_keymap(ConfigDeviceRule *rule) {
 }
 
 void standalone_keyboard_apply_config(KeyboardGroup *group,
-											 ConfigDeviceRule *rule) {
+									  ConfigDeviceRule *rule) {
 	if (!group || !group->keyboard)
 		return;
 
@@ -734,9 +734,8 @@ cleanup_context:
 	xkb_context_unref(context);
 }
 
-void
-handle_keyboard_shortcuts_inhibitor_destroy(struct wl_listener *listener,
-											void *data) {
+void handle_keyboard_shortcuts_inhibitor_destroy(struct wl_listener *listener,
+												 void *data) {
 	KeyboardShortcutsInhibitor *inhibitor =
 		wl_container_of(listener, inhibitor, destroy);
 

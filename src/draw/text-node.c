@@ -40,9 +40,8 @@ void text_buffer_destroy(struct wlr_buffer *wlr_buffer) {
 }
 
 bool text_buffer_begin_data_ptr_access(struct wlr_buffer *wlr_buffer,
-											  uint32_t flags, void **data,
-											  uint32_t *format,
-											  size_t *stride) {
+									   uint32_t flags, void **data,
+									   uint32_t *format, size_t *stride) {
 	(void)flags;
 	struct mango_text_buffer *buf = wl_container_of(wlr_buffer, buf, base);
 	*data = cairo_image_surface_get_data(buf->surface);
@@ -166,8 +165,8 @@ void mango_jump_label_node_set_padding(MangoJumpLabel *node, int32_t pad_x,
 	node->padding_y = pad_y >= 0 ? pad_y : 0;
 }
 
-void get_text_pixel_size(MangoJumpLabel *node, const char *text,
-								float scale, int32_t *out_w, int32_t *out_h) {
+void get_text_pixel_size(MangoJumpLabel *node, const char *text, float scale,
+						 int32_t *out_w, int32_t *out_h) {
 	if (node->measure_scale != scale) {
 		pango_cairo_context_set_resolution(node->measure_context, 96.0 * scale);
 		node->measure_scale = scale;
@@ -180,8 +179,8 @@ void get_text_pixel_size(MangoJumpLabel *node, const char *text,
 	pango_layout_get_pixel_size(node->measure_layout, out_w, out_h);
 }
 
-void draw_rounded_rect(cairo_t *cr, double x, double y, double w,
-							  double h, double r) {
+void draw_rounded_rect(cairo_t *cr, double x, double y, double w, double h,
+					   double r) {
 	// 宽高非正时不绘制任何东西
 	if (w <= 0.0 || h <= 0.0)
 		return;

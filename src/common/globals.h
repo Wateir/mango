@@ -160,9 +160,8 @@ float xwayland_preferred_scale(Client *c);
 void xwayland_apply_scale(Client *c);
 void xwayland_logical_to_x11(struct wlr_box *box, float scale);
 void xwayland_x11_to_logical(struct wlr_box *box, float scale);
-bool
-xwayland_scene_buffer_point_accepts_input(struct wlr_scene_buffer *buffer,
-										  double *sx, double *sy);
+bool xwayland_scene_buffer_point_accepts_input(struct wlr_scene_buffer *buffer,
+											   double *sx, double *sy);
 void fix_xwayland_coordinate(struct wlr_box *geom);
 int32_t synckeymap(void *data);
 void activatex11(struct wl_listener *listener, void *data);

@@ -119,8 +119,8 @@ void arrangelayers(Monitor *m) {
 		arrangelayer(m, &m->layers[i], &usable_area, 0);
 }
 
-void iter_layer_scene_buffers(struct wlr_scene_buffer *buffer,
-									 int32_t sx, int32_t sy, void *user_data) {
+void iter_layer_scene_buffers(struct wlr_scene_buffer *buffer, int32_t sx,
+							  int32_t sy, void *user_data) {
 	struct wlr_scene_surface *scene_surface =
 		wlr_scene_surface_try_from_buffer(buffer);
 	if (!scene_surface) {
@@ -512,4 +512,3 @@ void unmaplayersurfacenotify(struct wl_listener *listener, void *data) {
 	l->shadow = NULL;
 	l->being_unmapped = false;
 }
-

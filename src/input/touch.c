@@ -15,10 +15,10 @@ void touch_up(struct wl_listener *listener, void *data);
 void touch_cancel(struct wl_listener *listener, void *data);
 void touch_frame(struct wl_listener *listener, void *data);
 struct wlr_surface *touch_get_coords(struct wlr_touch *touch, double x,
-											double y, double *x_offset,
-											double *y_offset, Client **pc);
+									 double y, double *x_offset,
+									 double *y_offset, Client **pc);
 void touch_apply_xwayland_scale(struct wlr_surface *surface, double *sx,
-									   double *sy);
+								double *sy);
 void touch_finish_all(void);
 
 struct touch_point {
@@ -82,8 +82,8 @@ void touch_point_surface_destroy(struct wl_listener *listener, void *data) {
 // 将 [0,1] 归一化坐标转为布局坐标，查找触点下方的 surface，
 // 并计算布局->surface 偏移以便后续以相对坐标上报
 struct wlr_surface *touch_get_coords(struct wlr_touch *touch, double x,
-											double y, double *x_offset,
-											double *y_offset, Client **pc) {
+									 double y, double *x_offset,
+									 double *y_offset, Client **pc) {
 	double lx, ly, sx, sy;
 	struct wlr_surface *surface = NULL;
 	Client *c = NULL;
@@ -128,7 +128,7 @@ void touch_emulate_button(uint32_t button, enum wl_pointer_button_state state,
 // X11 窗口 surface 局部坐标映射：xwayland_ignore_scale 下 X11 窗口以物理
 // 尺寸渲染，surface 局部坐标需乘 xwayland_scale 才能命中正确位置
 void touch_apply_xwayland_scale(struct wlr_surface *surface, double *sx,
-									   double *sy) {
+								double *sy) {
 #ifdef XWAYLAND
 	Client *c = NULL;
 	toplevel_from_wlr_surface(surface, &c, NULL);

@@ -159,8 +159,7 @@ void switcher_surface_destroy(struct wl_listener *listener, void *data) {
 	switcher_surface_finish(entry);
 	wlr_scene_node_destroy(&buffer->node);
 }
-void switcher_surface_output_sample(struct wl_listener *listener,
-										   void *data) {
+void switcher_surface_output_sample(struct wl_listener *listener, void *data) {
 	struct switcher_surface *entry =
 		wl_container_of(listener, entry, output_sample);
 	const struct wlr_scene_output_sample_event *event = data;
@@ -181,8 +180,7 @@ void switcher_surface_output_sample(struct wl_listener *listener,
 			output->event_loop);
 }
 // hidden clients are paced by the preview buffer
-void switcher_surface_frame_done(struct wl_listener *listener,
-										void *data) {
+void switcher_surface_frame_done(struct wl_listener *listener, void *data) {
 	struct switcher_surface *entry =
 		wl_container_of(listener, entry, frame_done);
 	struct wlr_scene_frame_done_event *event = data;
@@ -190,8 +188,8 @@ void switcher_surface_frame_done(struct wl_listener *listener,
 		wlr_surface_send_frame_done(entry->surface, &event->when);
 }
 
-void switcher_tile_add_surface(struct wlr_surface *surface, int sx,
-									  int sy, void *data) {
+void switcher_tile_add_surface(struct wlr_surface *surface, int sx, int sy,
+							   void *data) {
 	struct switcher_tile *tile = data;
 
 	// only the real scene surface may update wl_surface output membership
@@ -463,7 +461,6 @@ void switcher(const Arg *arg) {
 		switcher_open(scope);
 	}
 }
-
 
 const float switcher_panel_color[4] = {0.09f, 0.09f, 0.11f, 0.92f};
 struct switcher_state sw;

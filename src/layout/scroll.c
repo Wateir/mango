@@ -5,8 +5,7 @@
 #include "../common/util.h"
 
 /* 获取或创建指定 monitor 某个 tag 的 scroller 状态 */
-struct TagScrollerState *ensure_scroller_state(Monitor *m,
-													  uint32_t tag) {
+struct TagScrollerState *ensure_scroller_state(Monitor *m, uint32_t tag) {
 	if (!m->pertag->scroller_state[tag]) {
 		struct TagScrollerState *st =
 			calloc(1, sizeof(struct TagScrollerState));
@@ -17,7 +16,7 @@ struct TagScrollerState *ensure_scroller_state(Monitor *m,
 
 /* 在 tag 状态中查找客户端对应的节点（无则返回 NULL） */
 struct ScrollerStackNode *find_scroller_node(struct TagScrollerState *st,
-													Client *c) {
+											 Client *c) {
 	if (!st)
 		return NULL;
 	for (struct ScrollerStackNode *n = st->all_first; n; n = n->all_next)
@@ -26,7 +25,7 @@ struct ScrollerStackNode *find_scroller_node(struct TagScrollerState *st,
 	return NULL;
 }
 void scroller_node_remove(struct TagScrollerState *st,
-								 struct ScrollerStackNode *target) {
+						  struct ScrollerStackNode *target) {
 	if (!st || !target)
 		return;
 
@@ -962,7 +961,7 @@ void update_scroller_state(Monitor *m) {
 }
 
 void scroller_swap_nodes_in_same_stack(struct ScrollerStackNode *n1,
-											  struct ScrollerStackNode *n2) {
+									   struct ScrollerStackNode *n2) {
 	float tmp_sc = n1->scroller_proportion;
 	float tmp_st = n1->stack_proportion;
 	n1->scroller_proportion = n2->scroller_proportion;
@@ -1010,7 +1009,7 @@ void scroller_swap_nodes_in_same_stack(struct ScrollerStackNode *n1,
 }
 
 void scroller_swap_different_stacks(struct ScrollerStackNode *head1,
-										   struct ScrollerStackNode *head2) {
+									struct ScrollerStackNode *head2) {
 	Client *head1_c = head1->client;
 	Client *head2_c = head2->client;
 	Client *tail1_c = scroll_get_stack_tail_client(head1_c);
@@ -1102,8 +1101,8 @@ void exchange_two_scroller_clients(Client *c1, Client *c2) {
 	return;
 }
 
-struct ScrollerStackNode *
-scroller_node_create(struct TagScrollerState *st, Client *c) {
+struct ScrollerStackNode *scroller_node_create(struct TagScrollerState *st,
+											   Client *c) {
 	struct ScrollerStackNode *n = calloc(1, sizeof(*n));
 	n->client = c;
 	n->scroller_proportion = c->scroller_proportion;

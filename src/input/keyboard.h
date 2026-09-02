@@ -23,7 +23,8 @@ int32_t keyrepeat(void *data);
 
 bool is_keyboard_shortcut_inhibitor(struct wlr_surface *surface);
 
-int32_t keybinding(uint32_t state, bool locked, uint32_t mods, xkb_keysym_t sym, uint32_t keycode);
+int32_t keybinding(uint32_t state, bool locked, uint32_t mods, xkb_keysym_t sym,
+				   uint32_t keycode);
 
 bool keypressglobal(struct wlr_surface *last_surface,
 					struct wlr_keyboard *keyboard,
@@ -36,7 +37,8 @@ void keypressmod(struct wl_listener *listener, void *data);
 
 void reset_keyboard_layout(void);
 
-void handle_keyboard_shortcuts_inhibit_new_inhibitor(struct wl_listener *listener, void *data);
+void handle_keyboard_shortcuts_inhibit_new_inhibitor(
+	struct wl_listener *listener, void *data);
 
 void virtualkeyboard(struct wl_listener *listener, void *data);
 

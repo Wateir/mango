@@ -59,13 +59,11 @@ void switcher_surface_finish(struct switcher_surface *entry);
 void switcher_surface_update_buffer(struct switcher_surface *entry);
 void switcher_surface_commit(struct wl_listener *listener, void *data);
 void switcher_surface_destroy(struct wl_listener *listener, void *data);
-void switcher_surface_output_sample(struct wl_listener *listener,
-											void *data);
+void switcher_surface_output_sample(struct wl_listener *listener, void *data);
 // hidden clients are paced by the preview buffer
-void switcher_surface_frame_done(struct wl_listener *listener,
-										void *data);
-void switcher_tile_add_surface(struct wlr_surface *surface, int sx,
-										int sy, void *data);
+void switcher_surface_frame_done(struct wl_listener *listener, void *data);
+void switcher_tile_add_surface(struct wlr_surface *surface, int sx, int sy,
+							   void *data);
 void switcher_tile_create(struct switcher_tile *tile, Client *c);
 void switcher_layout(void);
 void switcher_apply_highlight(void);
@@ -77,6 +75,5 @@ Client *switcher_client_at(double lx, double ly);
 void switcher_open(int scope);
 void switcher_cycle(int dir);
 void switcher(const Arg *arg);
-
 
 #endif

@@ -16,7 +16,7 @@ Monitor *xytomon(double x, double y);
 Monitor *get_monitor_nearest_to(int32_t lx, int32_t ly);
 bool match_monitor_spec(char *spec, Monitor *m);
 bool mango_scene_output_commit(struct wlr_scene_output *scene_output,
-								struct wlr_output_state *state);
+							   struct wlr_output_state *state);
 bool mango_output_commit(Monitor *m);
 struct wlr_output_mode *get_nearest_output_mode(struct wlr_output *output,
 												int32_t width, int32_t height,
@@ -24,14 +24,13 @@ struct wlr_output_mode *get_nearest_output_mode(struct wlr_output *output,
 void enable_adaptive_sync(Monitor *m, struct wlr_output_state *state);
 void disable_adaptive_sync(Monitor *m, struct wlr_output_state *state);
 bool monitor_matches_rule(Monitor *m, const ConfigMonitorRule *rule);
-struct wlr_color_transform *
-monitor_load_icc_transform(const char *path);
+struct wlr_color_transform *monitor_load_icc_transform(const char *path);
 
 /* 加载/更新输出的 ICC 变换 */
 void monitor_set_icc(Monitor *m, const char *path);
 /* 将规则中的显示参数应用到 wlr_output_state 中，返回是否设置了自定义模式 */
 bool apply_rule_to_state(Monitor *m, const ConfigMonitorRule *rule,
-						  struct wlr_output_state *state);
+						 struct wlr_output_state *state);
 void createmon(struct wl_listener *listener, void *data);
 void cleanupmon(struct wl_listener *listener, void *data);
 void closemon(Monitor *m);
@@ -39,8 +38,8 @@ void requestmonstate(struct wl_listener *listener, void *data);
 void create_output(struct wlr_backend *backend, void *data);
 void updatemons(struct wl_listener *listener, void *data);
 void outputmgrapply(struct wl_listener *listener, void *data);
-void
-outputmgrapplyortest(struct wlr_output_configuration_v1 *config, int32_t test);
+void outputmgrapplyortest(struct wlr_output_configuration_v1 *config,
+						  int32_t test);
 void outputmgrtest(struct wl_listener *listener, void *data);
 void powermgrsetmode(struct wl_listener *listener, void *data);
 void monitor_stop_skip_frame_timer(Monitor *m);

@@ -25,16 +25,14 @@ uint32_t want_restore_fullscreen(Client *target_client) {
 
 // surface 提交后重算布局（scene_surface 提交时会重置
 // dest/source，需要重新套用）
-void overview_card_surface_commit(struct wl_listener *listener,
-										 void *data) {
+void overview_card_surface_commit(struct wl_listener *listener, void *data) {
 	struct ov_card_surface *entry = wl_container_of(listener, entry, commit);
 	if (entry->c && entry->c->ov_card_tree)
 		overview_layout_card(entry->c);
 }
 
 // surface 销毁时移除并释放节点
-void overview_card_surface_destroy(struct wl_listener *listener,
-										  void *data) {
+void overview_card_surface_destroy(struct wl_listener *listener, void *data) {
 	struct ov_card_surface *entry = wl_container_of(listener, entry, destroy);
 	wl_list_remove(&entry->link);
 	wl_list_remove(&entry->commit.link);
@@ -43,8 +41,8 @@ void overview_card_surface_destroy(struct wl_listener *listener,
 }
 
 // 为每个 surface（含 subsurface）建一个卡片 scene_surface 节点
-void overview_card_surface_add(struct wlr_surface *surface, int sx,
-									  int sy, void *data) {
+void overview_card_surface_add(struct wlr_surface *surface, int sx, int sy,
+							   void *data) {
 	Client *c = data;
 	if (!c->ov_card_tree)
 		return;
@@ -164,8 +162,7 @@ void overview_destroy_card(Client *c) {
 	c->ov_card_tree = NULL;
 }
 // 给卡片所有 buffer 节点统一应用圆角
-void overview_card_set_corner_radii(Client *c,
-										   struct fx_corner_radii corners) {
+void overview_card_set_corner_radii(Client *c, struct fx_corner_radii corners) {
 	struct ov_card_surface *entry;
 	wl_list_for_each(entry, &c->ov_card_surfaces, link)
 		wlr_scene_buffer_set_corner_radii(entry->buffer, corners);

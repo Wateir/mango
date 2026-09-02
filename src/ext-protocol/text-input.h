@@ -73,48 +73,39 @@ void mango_im_relay_set_focus(struct mango_input_method_relay *relay,
 /*------------------协议内部代码------------------------------*/
 Monitor *output_from_wlr_output(struct wlr_output *wlr_output);
 bool output_is_usable(Monitor *m);
-bool
-is_keyboard_emulated_by_input_method(struct wlr_keyboard *keyboard,
-										struct wlr_input_method_v2 *input_method);
+bool is_keyboard_emulated_by_input_method(
+	struct wlr_keyboard *keyboard, struct wlr_input_method_v2 *input_method);
 struct wlr_input_method_keyboard_grab_v2 *
 get_keyboard_grab(KeyboardGroup *keyboard);
 bool mango_im_keyboard_grab_forward_modifiers(KeyboardGroup *keyboard);
-struct text_input * get_active_text_input(struct mango_input_method_relay *relay);
+struct text_input *
+get_active_text_input(struct mango_input_method_relay *relay);
 bool mango_im_keyboard_grab_forward_key(KeyboardGroup *keyboard,
 										struct wlr_keyboard_key_event *event);
 void update_active_text_input(struct mango_input_method_relay *relay);
 void update_text_inputs_focused_surface(struct mango_input_method_relay *relay);
 void update_popup_position(struct mango_input_method_popup *popup);
 void update_popups_position(struct mango_input_method_relay *relay);
-void handle_input_method_commit(struct wl_listener *listener,
-										void *data);
-void handle_keyboard_grab_destroy(struct wl_listener *listener,
-										  void *data);
+void handle_input_method_commit(struct wl_listener *listener, void *data);
+void handle_keyboard_grab_destroy(struct wl_listener *listener, void *data);
 void handle_input_method_grab_keyboard(struct wl_listener *listener,
-												void *data);
-void handle_input_method_destroy(struct wl_listener *listener,
-										 void *data);
-void handle_popup_surface_destroy(struct wl_listener *listener,
-										 void *data);
-void handle_popup_surface_commit(struct wl_listener *listener,
-										void *data);
+									   void *data);
+void handle_input_method_destroy(struct wl_listener *listener, void *data);
+void handle_popup_surface_destroy(struct wl_listener *listener, void *data);
+void handle_popup_surface_commit(struct wl_listener *listener, void *data);
 void handle_input_method_new_popup_surface(struct wl_listener *listener,
-													void *data);
+										   void *data);
 void handle_new_input_method(struct wl_listener *listener, void *data);
 void send_state_to_input_method(struct mango_input_method_relay *relay);
 void handle_text_input_enable(struct wl_listener *listener, void *data);
-void handle_text_input_disable(struct wl_listener *listener,
-										void *data);
+void handle_text_input_disable(struct wl_listener *listener, void *data);
 void handle_text_input_commit(struct wl_listener *listener, void *data);
-void handle_text_input_destroy(struct wl_listener *listener,
-										void *data);
+void handle_text_input_destroy(struct wl_listener *listener, void *data);
 void handle_new_text_input(struct wl_listener *listener, void *data);
-void handle_focused_surface_destroy(struct wl_listener *listener,
-											void *data);
+void handle_focused_surface_destroy(struct wl_listener *listener, void *data);
 struct mango_input_method_relay *mango_im_relay_create();
 void mango_im_relay_finish(struct mango_input_method_relay *relay);
 void mango_im_relay_set_focus(struct mango_input_method_relay *relay,
-								struct wlr_surface *surface);
-
+							  struct wlr_surface *surface);
 
 #endif

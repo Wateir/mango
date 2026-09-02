@@ -22,16 +22,14 @@ extern struct wl_listener activation_destroy_listener;
 
 /* Declarations */
 void handle_xdg_activation_token_destroy(struct wl_listener *listener,
-												void *data);
-void handle_xdg_activation_new_token(struct wl_listener *listener,
-											void *data);
+										 void *data);
+void handle_xdg_activation_new_token(struct wl_listener *listener, void *data);
 /* Tokens from spawn are trusted; client tokens need a focused surface. */
 bool xdg_activation_token_can_activate(
-		struct wlr_xdg_activation_token_v1 *wlr_token);
+	struct wlr_xdg_activation_token_v1 *wlr_token);
 void handle_xdg_activation_request_activate(struct wl_listener *listener,
-													void *data);
-void handle_xdg_activation_destroy(struct wl_listener *listener,
 											void *data);
+void handle_xdg_activation_destroy(struct wl_listener *listener, void *data);
 void xdg_activation_init();
 /* Make a token for spawn to export as XDG_ACTIVATION_TOKEN. */
 const char *xdg_activation_v1_export_token(void);

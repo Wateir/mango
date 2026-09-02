@@ -56,4 +56,3 @@ void createswitch(struct wlr_switch *switch_device) {
 		wl_list_insert(&inputdevices, &input_dev->link);
 	}
 }
-

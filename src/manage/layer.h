@@ -4,12 +4,12 @@
 #include "../mango.h"
 
 void arrangelayer(Monitor *m, struct wl_list *list, struct wlr_box *usable_area,
-					int32_t exclusive);
+				  int32_t exclusive);
 void focuslayer(LayerSurface *l);
 void reset_exclusive_layers_focus(Monitor *m);
 void arrangelayers(Monitor *m);
-void iter_layer_scene_buffers(struct wlr_scene_buffer *buffer,
-									  int32_t sx, int32_t sy, void *user_data);
+void iter_layer_scene_buffers(struct wlr_scene_buffer *buffer, int32_t sx,
+							  int32_t sy, void *user_data);
 void layer_flush_blur_background(LayerSurface *l);
 void maplayersurfacenotify(struct wl_listener *listener, void *data);
 void commitlayersurfacenotify(struct wl_listener *listener, void *data);

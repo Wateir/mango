@@ -335,8 +335,7 @@ bool monitor_matches_rule(Monitor *m, const ConfigMonitorRule *rule) {
 		return false;
 	return true;
 }
-struct wlr_color_transform *
-monitor_load_icc_transform(const char *path) {
+struct wlr_color_transform *monitor_load_icc_transform(const char *path) {
 	int fd = open(path, O_RDONLY | O_NOCTTY | O_CLOEXEC);
 	if (fd == -1) {
 		mango_error(true, WLR_ERROR, "Failed to open ICC profile %s", path);
@@ -1239,4 +1238,3 @@ void setgaps(int32_t oh, int32_t ov, int32_t ih, int32_t iv) {
 	selmon->gappiv = MANGO_MAX(iv, 0);
 	arrange(selmon, false, false);
 }
-

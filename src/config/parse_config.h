@@ -4,7 +4,8 @@
 #include "../mango.h"
 #include <stdbool.h>
 #include <stdint.h>
-//#include <scenefx-0.5/scenefx/types/fx/blur_data.h> // Why has it been added by @Wateir in the first place ?
+// #include <scenefx-0.5/scenefx/types/fx/blur_data.h> // Why has it been added
+// by @Wateir in the first place ?
 #include <xkbcommon/xkbcommon.h>
 
 #include "../draw/text-node.h"
@@ -207,7 +208,6 @@ typedef struct {
 	uint32_t button_map;
 	int32_t disable_while_typing;
 } ConfigDeviceRule;
-
 
 typedef struct {
 	uint32_t mod;
@@ -517,7 +517,7 @@ typedef struct {
 ConfigDeviceRule *find_device_rule(struct wlr_input_device *device);
 bool device_rule_has_keyboard_settings(ConfigDeviceRule *rule);
 void standalone_keyboard_apply_config(KeyboardGroup *group,
-											 ConfigDeviceRule *rule);
+									  ConfigDeviceRule *rule);
 void create_standalone_keyboard(InputDevice *input_dev,
 								struct wlr_keyboard *keyboard,
 								ConfigDeviceRule *rule);
@@ -643,7 +643,6 @@ void tag_slot_set_defaults(Monitor *m, uint32_t tag);
 
 bool tag_rule_matches_monitor(const ConfigTagRule *tr, Monitor *m);
 
-void tag_rule_apply_to_slot(Monitor *m, const ConfigTagRule *tr,
-    uint32_t tag);
+void tag_rule_apply_to_slot(Monitor *m, const ConfigTagRule *tr, uint32_t tag);
 
 #endif

@@ -6,5 +6,4 @@
 void switch_toggle(struct wl_listener *listener, void *data);
 void createswitch(struct wlr_switch *switch_device);
 
-
 #endif

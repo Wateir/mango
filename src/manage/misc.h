@@ -25,14 +25,13 @@ void destroylock(SessionLock *lock, int32_t unlock);
 void destroylocksurface(struct wl_listener *listener, void *data);
 void destroysessionlock(struct wl_listener *listener, void *data);
 void locksession(struct wl_listener *listener, void *data);
-void
-handle_new_foreign_toplevel_capture_request(struct wl_listener *listener,
-											void *data);
+void handle_new_foreign_toplevel_capture_request(struct wl_listener *listener,
+												 void *data);
 // 会话销毁时的回调
 void handle_session_destroy(struct wl_listener *listener, void *data);
 // 新会话创建时的回调
 void handle_iamge_copy_capture_new_session(struct wl_listener *listener,
-											void *data);
+										   void *data);
 void requestdecorationmode(struct wl_listener *listener, void *data);
 void requestdrmlease(struct wl_listener *listener, void *data);
 void setpsel(struct wl_listener *listener, void *data);
