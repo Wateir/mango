@@ -1,7 +1,8 @@
 #include "switcher.h"
 #include "../manage/client.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../manage/monitor.h"
+#include "../common/util.h"
 
 bool switcher_is_active(void) { return sw.tree != NULL; }
 
@@ -463,3 +464,6 @@ void switcher(const Arg *arg) {
 	}
 }
 
+
+const float switcher_panel_color[4] = {0.09f, 0.09f, 0.11f, 0.92f};
+struct switcher_state sw;

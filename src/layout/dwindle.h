@@ -3,14 +3,10 @@
 
 #include "../mango.h"
 
-DwindleNode *dwindle_locked_h_node = NULL;
-DwindleNode *dwindle_locked_v_node = NULL;
+extern DwindleNode *dwindle_locked_h_node;
+extern DwindleNode *dwindle_locked_v_node;
 
-DwindleNode *dwindle_new_leaf(Client *c) {
-	DwindleNode *n = calloc(1, sizeof(DwindleNode));
-	n->client = c;
-	return n;
-}
+DwindleNode *dwindle_new_leaf(Client *c);
 
 int count_block_items(DwindleNode *node, bool split_h);
 int get_block_path_and_ratios(DwindleNode *target, bool split_h,

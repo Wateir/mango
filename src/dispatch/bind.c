@@ -1,5 +1,5 @@
 #include "bind.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../manage/client.h"
 #include "../common/log.h"
 #include "../manage/monitor.h"
@@ -7,7 +7,7 @@
 #include "../layout/arrange.h"
 #include "../layout/layout.h"
 #include "../manage/misc.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../animation/client.h"
 #include "../config/parse_config.h"
 #include "../ipc/ipc.h"
@@ -18,6 +18,7 @@
 #include "../ext-protocol/ext-workspace.h"
 #include "../overview/overview.h"
 #include "../layout/dwindle.h"
+#include "../common/util.h"
 
 void bind_to_view(const Arg *arg) {
 	if (!selmon)

@@ -2,10 +2,13 @@
 #include "client.h"
 #include "../layout/arrange.h"
 #include "../ext-protocol/text-input.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../animation/layer.h"
 #include "../common/log.h"
 #include "../mango.h"
+#include "../common/util.h"
+#include "../ipc/ipc.h"
+#include "../input/pointer.h"
 
 void arrangelayer(Monitor *m, struct wl_list *list, struct wlr_box *usable_area,
 				  int32_t exclusive) {

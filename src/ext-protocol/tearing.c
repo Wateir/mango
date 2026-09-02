@@ -1,7 +1,9 @@
 #include "tearing.h"
 #include "../mango.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../common/log.h"
+#include "../manage/client.h"
+#include "../common/util.h"
 
 struct wlr_tearing_control_manager_v1 *tearing_control;
 struct wl_listener tearing_new_object;

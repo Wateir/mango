@@ -1,7 +1,7 @@
 #include "overview.h"
-#include "src/common/util.h"
+#include "src/common/globals.h"
 #include "../manage/client.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../config/parse_config.h"
 #include <stdbool.h>
 

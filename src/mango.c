@@ -358,7 +358,7 @@ Monitor *get_monitor_nearest_to(int32_t lx, int32_t ly);
 
 #include "dispatch/bind.h"
 #include "layout/layout.h"
-#include "common/util.h"
+#include "common/globals.h"
 #include "common/log.h"
 
 /* export an activation token for the process we're about to spawn */
@@ -385,6 +385,7 @@ Monitor *get_monitor_nearest_to(int32_t lx, int32_t ly);
 #include "ext-protocol/text-input.h"
 #include "ext-protocol/xdg-activation.h"
 #include "ext-protocol/xdg-output.h"
+#include "common/util.h"
 
 void handlesig(int32_t signo) {
 	if (signo == SIGCHLD)

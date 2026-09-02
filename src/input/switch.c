@@ -1,6 +1,7 @@
 #include "switch.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../ipc/ipc.h"
+#include "../input/device.h"
 
 void switch_toggle(struct wl_listener *listener, void *data) {
 	// 获取包含监听器的结构体

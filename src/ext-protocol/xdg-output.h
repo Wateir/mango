@@ -38,11 +38,10 @@ struct MangoXDGOutput {
 	bool xwl_sent;
 };
 
-struct wl_global *xdg_output_global;
-struct wl_list xdg_outputs;
-
-const struct zxdg_output_v1_interface xdg_output_impl;
-const struct zxdg_output_manager_v1_interface xdg_output_manager_impl;
+extern struct wl_global *xdg_output_global;
+extern struct wl_list xdg_outputs;
+extern const struct zxdg_output_v1_interface xdg_output_impl;
+extern const struct zxdg_output_manager_v1_interface xdg_output_manager_impl;
 
 /* Declarations */
 /* XWayland 的 X server 也是一个 wayland 客户端。每次发送时动态判断，
@@ -92,14 +91,7 @@ void xdg_output_update_all(void);
 void xdg_output_cleanup_output(struct wlr_output *wlr_output);
 void xdg_output_init(void);
 
-const struct zxdg_output_v1_interface xdg_output_impl = {
-	.destroy = xdg_output_handle_destroy,
-};
 
-const struct zxdg_output_manager_v1_interface xdg_output_manager_impl = {
-	.destroy = xdg_output_manager_handle_destroy,
-	.get_xdg_output = xdg_output_manager_handle_get_xdg_output,
-};
 
 
 

@@ -5,7 +5,7 @@
 #include "../input/pointer.h"
 #include "../input/touch.h"
 #include "../input/switch.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 
 void destroyinputdevice(struct wl_listener *listener, void *data) {
 	InputDevice *input_dev =

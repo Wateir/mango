@@ -1,12 +1,19 @@
 #include "pointer.h"
 #include "../animation/client.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../dispatch/bind.h"
 #include "../layout/arrange.h"
 #include "../layout/layout.h"
 #include "../layout/scroll.h"
 #include "../layout/dwindle.h"
 #include "../switcher/switcher.h"
+#include "../common/util.h"
+#include "../ipc/ipc.h"
+#include "../manage/client.h"
+#include "../manage/monitor.h"
+#include "../manage/layer.h"
+#include "../manage/misc.h"
+#include "../input/device.h"
 
 struct LastCursor last_cursor;
 

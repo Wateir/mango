@@ -1,8 +1,14 @@
 #include "tablet.h"
 #include "../common/log.h"
 #include "../mango.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include <stdlib.h>
+#include "../common/util.h"
+#include "../ipc/ipc.h"
+#include "../manage/client.h"
+#include "../manage/monitor.h"
+#include "../manage/misc.h"
+#include "../input/pointer.h"
 
 void createtablet(struct wlr_input_device *device) {
 	struct Tablet *tablet = calloc(1, sizeof(struct Tablet));
@@ -415,3 +421,11 @@ void tablettooltip(struct wl_listener *listener, void *data) {
 	wlr_tablet_tool_v2_start_implicit_grab(tool->tool_v2);
 }
 
+
+struct wlr_tablet_manager_v2 *tablet_mgr;
+struct wl_list tablets;
+struct wl_list tablet_pads;
+struct wl_listener tablet_tool_axis = {.notify = tablettoolaxis};
+struct wl_listener tablet_tool_button = {.notify = tablettoolbutton};
+struct wl_listener tablet_tool_proximity = {.notify = tablettoolproximity};
+struct wl_listener tablet_tool_tip = {.notify = tablettooltip};

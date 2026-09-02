@@ -1,7 +1,8 @@
 #include "scroll.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../manage/client.h"
 #include "../layout/arrange.h"
+#include "../common/util.h"
 
 /* 获取或创建指定 monitor 某个 tag 的 scroller 状态 */
 struct TagScrollerState *ensure_scroller_state(Monitor *m,
@@ -1099,4 +1100,19 @@ void exchange_two_scroller_clients(Client *c1, Client *c2) {
 	finish_exchange_arrange_and_focus(c1, c2, m1, m2);
 
 	return;
+}
+
+struct ScrollerStackNode *
+scroller_node_create(struct TagScrollerState *st, Client *c) {
+	struct ScrollerStackNode *n = calloc(1, sizeof(*n));
+	n->client = c;
+	n->scroller_proportion = c->scroller_proportion;
+	n->stack_proportion = c->stack_proportion;
+	n->scroller_proportion_single = c->scroller_proportion_single;
+	n->next_in_stack = NULL;
+	n->prev_in_stack = NULL;
+	n->all_next = st->all_first;
+	st->all_first = n;
+	st->count++;
+	return n;
 }

@@ -3,11 +3,12 @@
 #include "layer.h"
 #include "../mango.h"
 #include "../common/log.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../data/static_keymap.h"
 #include "../input/pointer.h"
 #include "../layout/arrange.h"
 #include <ctype.h>
+#include "../common/util.h"
 
 pid_t getparentprocess(pid_t p) {
 	uint32_t v = 0;
@@ -313,7 +314,7 @@ destroy:
 	wl_list_remove(&lock->destroy.link);
 
 	wlr_scene_node_destroy(&lock->scene->node);
-	cur_lock = NULL;
+	curLock = NULL;
 	free(lock);
 }
 
@@ -332,8 +333,8 @@ void destroylocksurface(struct wl_listener *listener, void *data) {
 		return;
 	}
 
-	if (locked && cur_lock && !wl_list_empty(&cur_lock->surfaces)) {
-		surface = wl_container_of(cur_lock->surfaces.next, surface, link);
+	if (locked && curLock && !wl_list_empty(&curLock->surfaces)) {
+		surface = wl_container_of(curLock->surfaces.next, surface, link);
 		client_notify_enter(surface->surface, wlr_seat_get_keyboard(seat));
 	} else if (!locked) {
 		reset_exclusive_layers_focus(selmon);
@@ -353,7 +354,7 @@ void locksession(struct wl_listener *listener, void *data) {
 	if (!config.allow_lock_transparent) {
 		wlr_scene_node_set_enabled(&locked_bg->node, true);
 	}
-	if (cur_lock) {
+	if (curLock) {
 		wlr_session_lock_v1_destroy(session_lock);
 		return;
 	}
@@ -361,7 +362,7 @@ void locksession(struct wl_listener *listener, void *data) {
 	focusclient(NULL, 0);
 
 	lock->scene = wlr_scene_tree_create(layers[LyrBlock]);
-	cur_lock = lock->lock = session_lock;
+	curLock = lock->lock = session_lock;
 	locked = 1;
 
 	LISTEN(&session_lock->events.new_surface, &lock->new_surface,

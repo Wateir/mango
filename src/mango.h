@@ -137,7 +137,7 @@
 #define LISTEN(E, L, H) wl_signal_add((E), ((L)->notify = (H), (L)))
 
 #define TAGMASK (tagmask)
-uint32_t tagmask = ((1u << 9) - 1); // 默认 9 个 tag
+extern uint32_t tagmask; // 默认 9 个 tag，定义在 common/globals.c
 
 #define ISFULLSCREEN(A)                                                        \
 	((A)->isfullscreen || (A)->ismaximizescreen ||                             \

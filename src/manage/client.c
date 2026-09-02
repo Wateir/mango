@@ -1,5 +1,5 @@
 #include "client.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../layout/layout.h"
 #include "../layout/scroll.h"
 #include "../layout/arrange.h"
@@ -10,6 +10,11 @@
 #include "src/animation/client.h"
 #include "src/ext-protocol/foreign-toplevel.h"
 #include "src/ext-protocol/text-input.h"
+#include "../common/util.h"
+#include "../manage/monitor.h"
+#include "../ipc/ipc.h"
+#include "../manage/misc.h"
+#include "../input/pointer.h"
 
 int32_t client_is_x11(Client *c) {
 #ifdef XWAYLAND

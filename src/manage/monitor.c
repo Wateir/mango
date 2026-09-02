@@ -5,7 +5,7 @@
 #include "../layout/arrange.h"
 #include "../layout/dwindle.h"
 #include "../layout/scroll.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../common/log.h"
 #include "../ext-protocol/text-input.h"
 #include "../ext-protocol/tearing.h"
@@ -18,6 +18,8 @@
 #include "../dispatch/bind.h"
 #include "../ext-protocol/foreign-toplevel.h"
 #include "src/animation/layer.h"
+#include "../common/util.h"
+#include "client.h"
 
 Monitor *dirtomon(enum wlr_direction dir) {
 	struct wlr_output *next;

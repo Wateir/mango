@@ -205,7 +205,7 @@ void mango_surface_frame_done(struct wlr_surface *surface, int sx, int sy,
 void client_send_frame_done(Client *c, const struct timespec *now);
 bool client_force_render(Client *c);
 
-uint32_t next_client_id = 0;
+extern uint32_t next_client_id;
 
 /* 获取当前 XWayland 客户端的 monitor（尚未绑定 monitor 时回退到 selmon） */
 #ifdef XWAYLAND

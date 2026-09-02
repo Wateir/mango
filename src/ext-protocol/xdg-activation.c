@@ -1,7 +1,9 @@
 #include "xdg-activation.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../manage/client.h"
 #include <stdlib.h>
+#include "../common/util.h"
+#include "../ipc/ipc.h"
 
 void handle_xdg_activation_token_destroy(struct wl_listener *listener,
 												void *data) {
@@ -118,3 +120,8 @@ const char *xdg_activation_v1_export_token(void) {
 	return wlr_xdg_activation_token_v1_get_name(wlr_token);
 }
 
+
+struct wlr_xdg_activation_v1 *activation;
+struct wl_listener activation_request_activate_listener;
+struct wl_listener activation_new_token_listener;
+struct wl_listener activation_destroy_listener;

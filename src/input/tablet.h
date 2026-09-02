@@ -20,7 +20,7 @@ void tablettoolproximity(struct wl_listener *listener, void *data);
 void tablettoolaxis(struct wl_listener *listener, void *data);
 void tablettoolbutton(struct wl_listener *listener, void *data);
 void tablettooltip(struct wl_listener *listener, void *data);
-struct wlr_tablet_manager_v2 *tablet_mgr;
+extern struct wlr_tablet_manager_v2 *tablet_mgr;
 
 struct Tablet {
 	struct wlr_tablet_v2_tablet *tablet_v2;
@@ -28,7 +28,7 @@ struct Tablet {
 	struct wlr_input_device *device;
 	struct wl_list link;
 };
-struct wl_list tablets;
+extern struct wl_list tablets;
 
 struct TabletTool {
 	struct wlr_tablet_v2_tablet_tool *tool_v2;
@@ -49,7 +49,7 @@ struct TabletPad {
 	struct wl_listener destroy;
 	struct wl_list link;
 };
-struct wl_list tablet_pads;
+extern struct wl_list tablet_pads;
 
 void attach_tablet_pad(struct TabletPad *tablet_pad,
 							  struct Tablet *tablet);
@@ -57,11 +57,10 @@ void tablettoolmotion(struct TabletTool *tool, bool change_x,
 							 bool change_y, double x, double y, double dx,
 							 double dy);
 
-struct wl_listener tablet_tool_axis = {.notify = tablettoolaxis};
-struct wl_listener tablet_tool_button = {.notify = tablettoolbutton};
-struct wl_listener tablet_tool_proximity = {.notify =
-													   tablettoolproximity};
-struct wl_listener tablet_tool_tip = {.notify = tablettooltip};
+extern struct wl_listener tablet_tool_axis;
+extern struct wl_listener tablet_tool_button;
+extern struct wl_listener tablet_tool_proximity;
+extern struct wl_listener tablet_tool_tip;
 
 
 #endif

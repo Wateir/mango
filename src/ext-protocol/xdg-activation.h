@@ -14,11 +14,11 @@ struct mango_xdg_activation_token {
 	bool internal;			  /* we created it (spawn), so it's trusted */
 };
 
-struct wlr_xdg_activation_v1 *activation;
+extern struct wlr_xdg_activation_v1 *activation;
 
-struct wl_listener activation_request_activate_listener;
-struct wl_listener activation_new_token_listener;
-struct wl_listener activation_destroy_listener;
+extern struct wl_listener activation_request_activate_listener;
+extern struct wl_listener activation_new_token_listener;
+extern struct wl_listener activation_destroy_listener;
 
 /* Declarations */
 void handle_xdg_activation_token_destroy(struct wl_listener *listener,

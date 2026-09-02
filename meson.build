@@ -143,12 +143,17 @@ executable('mmsg',
   'mmsg/mmsg.c',
   'src/common/log.c',
   'src/common/util.c',
+
+  wayland_sources,
+
   dependencies: [
     libwayland_client_dep,
     wlroots_dep,
     pcre2_dep,
   ],
+
   install: true,
+
   c_args: [
     '-g',
     '-Wno-unused-function',

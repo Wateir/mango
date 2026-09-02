@@ -1,5 +1,7 @@
 #include "dwindle.h"
-#include "src/common/util.h"
+#include "src/common/globals.h"
+#include "../manage/client.h"
+#include "../common/util.h"
 
 // 统计同方向上的节点总和 (N_old)
 int count_block_items(DwindleNode *node, bool split_h) {
@@ -669,4 +671,13 @@ void dwindle(Monitor *m) {
 void cleanup_monitor_dwindle(Monitor *m) {
 	for (uint32_t t = 0; t < (uint32_t)config.tag_num + 1; t++)
 		dwindle_free_tree(m->pertag->dwindle_root[t]);
+}
+
+DwindleNode *dwindle_locked_h_node = NULL;
+DwindleNode *dwindle_locked_v_node = NULL;
+
+DwindleNode *dwindle_new_leaf(Client *c) {
+	DwindleNode *n = calloc(1, sizeof(DwindleNode));
+	n->client = c;
+	return n;
 }

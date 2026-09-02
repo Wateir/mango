@@ -1,5 +1,5 @@
 #include "xdg-output.h"
-#include "src/common/util.h"
+#include "src/common/globals.h"
 
 /* XWayland 的 X server 也是一个 wayland 客户端。每次发送时动态判断，
  * 避免在资源创建时缓存导致 xwayland 重启/初始化时序问题 */
@@ -317,3 +317,15 @@ void xdg_output_init(void) {
 		wlr_log(WLR_ERROR, "failed to create zxdg_output_manager_v1 global");
 }
 
+
+struct wl_global *xdg_output_global;
+struct wl_list xdg_outputs;
+
+const struct zxdg_output_v1_interface xdg_output_impl = {
+	.destroy = xdg_output_handle_destroy,
+};
+
+const struct zxdg_output_manager_v1_interface xdg_output_manager_impl = {
+	.destroy = xdg_output_manager_handle_destroy,
+	.get_xdg_output = xdg_output_manager_handle_get_xdg_output,
+};

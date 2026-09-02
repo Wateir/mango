@@ -2,8 +2,10 @@
 #include "../dispatch/bind.h"
 #include "../manage/client.h"
 #include "../common/log.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "ext-workspace.h"
+#include "../common/util.h"
+#include "../manage/monitor.h"
 
 struct wlr_ext_workspace_manager_v1 *ext_manager;
 struct wl_list workspaces;

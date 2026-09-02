@@ -11,7 +11,7 @@
 #define SW_ASPECT_MIN (9.0f / 16.0f)
 #define SW_ASPECT_MAX (12.0f / 5.0f)
 
-const float switcher_panel_color[4] = {0.09f, 0.09f, 0.11f, 0.92f};
+extern const float switcher_panel_color[4];
 
 struct switcher_tile {
 	Client *c;
@@ -36,7 +36,7 @@ struct switcher_surface {
 	struct wl_list link;
 };
 
-struct {
+struct switcher_state {
 	Monitor *mon;
 	struct wlr_scene_tree *tree;
 	struct wlr_scene_rect *bg;
@@ -45,7 +45,8 @@ struct {
 	int index;
 	int tile_h;
 	int scope;
-} sw;
+};
+extern struct switcher_state sw;
 
 /* Function Definitions */
 bool switcher_is_active(void);

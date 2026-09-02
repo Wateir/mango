@@ -8,10 +8,12 @@
 #include <sys/un.h>
 #include <unistd.h>
 #include "ipc.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../common/log.h"
 #include "../layout/layout.h"
 #include "../ext-protocol/ext-workspace.h"
+#include "../manage/client.h"
+#include "../manage/monitor.h"
 
 struct wl_list watch_clients;
 int device_watch_count;
@@ -650,7 +652,7 @@ int ipc_watch_data_handler(int fd, uint32_t mask, void *data) {
 }
 
 bool handle_watch_command(int fd, const char *cmd,
-								 struct ipc_client_state *client) {
+						  struct ipc_client_state *client) {
 	enum ipc_watch_type type = IPC_WATCH_NONE;
 	const char *arg = NULL;
 	uint32_t client_id = 0;

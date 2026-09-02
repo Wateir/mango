@@ -1,7 +1,9 @@
 #include "text-input.h"
 #include "../mango.h"
-#include "src/common/util.h"
+#include "src/common/globals.h"
 #include <assert.h>
+#include "../manage/monitor.h"
+#include "../common/util.h"
 
 struct wlr_input_method_manager_v2 *input_method_manager;
 struct wlr_text_input_manager_v3 *text_input_manager;

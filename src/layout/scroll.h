@@ -42,19 +42,7 @@ void scroller_swap_different_stacks(struct ScrollerStackNode *head1,
 void exchange_two_scroller_clients(Client *c1, Client *c2);
 
 /* 创建一个新节点并插入到 tag 状态的 all 链表中 */
-struct ScrollerStackNode *
-scroller_node_create(struct TagScrollerState *st, Client *c) {
-	struct ScrollerStackNode *n = calloc(1, sizeof(*n));
-	n->client = c;
-	n->scroller_proportion = c->scroller_proportion;
-	n->stack_proportion = c->stack_proportion;
-	n->scroller_proportion_single = c->scroller_proportion_single;
-	n->next_in_stack = NULL;
-	n->prev_in_stack = NULL;
-	n->all_next = st->all_first;
-	st->all_first = n;
-	st->count++;
-	return n;
-}
+struct ScrollerStackNode *scroller_node_create(struct TagScrollerState *st,
+											   Client *c);
 
 #endif

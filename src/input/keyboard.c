@@ -1,7 +1,7 @@
 #include "keyboard.h"
 #include "../ipc/ipc.h"
 #include "device.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../common/log.h"
 #include "../manage/client.h"
 #include "../dispatch/bind.h"
@@ -9,6 +9,7 @@
 #include "pointer.h"
 #include "ctype.h"
 #include "../ext-protocol/text-input.h"
+#include "../common/util.h"
 
 void ipc_key_watch_notify(struct wl_listener *listener, void *data) {
 	InputDevice *id = wl_container_of(listener, id, key_watch);

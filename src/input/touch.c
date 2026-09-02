@@ -1,6 +1,6 @@
 #include <wlr/types/wlr_touch.h>
 #include "touch.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../common/log.h"
 #include "../manage/monitor.h"
 #include "../manage/misc.h"
@@ -9,6 +9,7 @@
 #include <wayland-client-core.h>
 #include "../mango.h"
 #include "../ipc/ipc.h"
+#include "../common/util.h"
 
 void touch_up(struct wl_listener *listener, void *data);
 void touch_cancel(struct wl_listener *listener, void *data);

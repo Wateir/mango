@@ -1,5 +1,5 @@
 #include "vertical.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../manage/client.h"
 
 void vertical_tile(Monitor *m) {

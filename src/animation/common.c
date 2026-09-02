@@ -1,5 +1,5 @@
 #include "common.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../mango.h"
 
 struct dvec2 calculate_animation_curve_at(double t, int32_t type) {

@@ -1,5 +1,5 @@
 #include "horizontal.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../manage/client.h"
 
 void tile(Monitor *m) {

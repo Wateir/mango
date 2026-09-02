@@ -1,6 +1,7 @@
 #include "hdr.h"
 #include "../common/log.h"
-#include "src/common/util.h"
+#include "src/common/globals.h"
+#include "../manage/monitor.h"
 
 bool output_set_render_format(Monitor *m, uint32_t candidates[],
 									 size_t count,
@@ -254,3 +255,16 @@ void togglehdr(const Arg *arg) {
 	togglehdr_output(target, arg->i < 0 ? !target->hdr_enable : (arg->i != 0));
 }
 
+
+uint32_t output_formats_8bit[] = {
+	DRM_FORMAT_XRGB8888, DRM_FORMAT_XBGR8888, DRM_FORMAT_RGBX8888,
+	DRM_FORMAT_BGRX8888, DRM_FORMAT_ARGB8888, DRM_FORMAT_ABGR8888,
+	DRM_FORMAT_RGBA8888, DRM_FORMAT_BGRA8888, DRM_FORMAT_RGB888,
+	DRM_FORMAT_BGR888,
+};
+
+uint32_t output_formats_10bit[] = {
+	DRM_FORMAT_XRGB2101010, DRM_FORMAT_XBGR2101010, DRM_FORMAT_RGBX1010102,
+	DRM_FORMAT_BGRX1010102, DRM_FORMAT_ARGB2101010, DRM_FORMAT_ABGR2101010,
+	DRM_FORMAT_RGBA1010102, DRM_FORMAT_BGRA1010102,
+};

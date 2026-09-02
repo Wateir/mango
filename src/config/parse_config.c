@@ -10,12 +10,17 @@
 #include "../mango.h"
 #include "../common/log.h"
 #include "../dispatch/bind.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../ext-protocol/hdr.h"
 #include "../layout/arrange.h"
 #include "../layout/layout.h"
 #include "../animation/common.h"
 #include "../manage/client.h"
+#include "../common/util.h"
+#include "../input/pointer.h"
+#include "../input/keyboard.h"
+#include "../manage/monitor.h"
+#include "../ipc/ipc.h"
 
 #ifndef SYSCONFDIR
 #define SYSCONFDIR "/etc"
@@ -179,8 +184,8 @@ void parse_bind_flags(const char *str, KeyBinding *kb) {
 	}
 }
 
-void set_binding_keymode(Config *config, char mode[28],
-								bool *iscommonmode, bool *isdefaultmode) {
+void set_binding_keymode(Config *config, char mode[28], bool *iscommonmode,
+						 bool *isdefaultmode) {
 	strcpy(mode, config->keymode);
 	if (strcmp(mode, "common") == 0) {
 		*iscommonmode = true;
@@ -445,9 +450,8 @@ uint32_t parse_mod(const char *mod_str) {
 }
 
 // 定义辅助函数：在 keymap 中查找 keysym 对应的多个 keycode
-int32_t find_keycodes_for_keysym(struct xkb_keymap *keymap,
-										xkb_keysym_t sym,
-										MultiKeycode *multi_kc) {
+int32_t find_keycodes_for_keysym(struct xkb_keymap *keymap, xkb_keysym_t sym,
+								 MultiKeycode *multi_kc) {
 	xkb_keycode_t min_keycode = xkb_keymap_min_keycode(keymap);
 	xkb_keycode_t max_keycode = xkb_keymap_max_keycode(keymap);
 
@@ -3294,10 +3298,11 @@ bool same_gesturebind_key(const void *a, const void *b) {
 		   ga->fingers_count == gb->fingers_count;
 }
 
-bool
-check_simple_binding_conflicts(void *arr, size_t count, size_t elem_size,
-							   bool (*same_key)(const void *, const void *),
-							   BindingMetaFunc get_meta, const char *kind) {
+bool check_simple_binding_conflicts(void *arr, size_t count, size_t elem_size,
+									bool (*same_key)(const void *,
+													 const void *),
+									BindingMetaFunc get_meta,
+									const char *kind) {
 	bool conflict_found = false;
 
 	for (size_t i = 0; i < count; i++) {

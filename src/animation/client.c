@@ -1,11 +1,15 @@
 #include "client.h"
 #include <stdint.h>
 #include "../mango.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../layout/layout.h"
 #include "../animation/common.h"
 #include "../overview/overview.h"
 #include "../layout/dwindle.h"
+#include "../common/util.h"
+#include "../manage/client.h"
+#include "../manage/misc.h"
+#include "../manage/monitor.h"
 
 bool client_is_ignore_output_clip(Client *c) {
 	return c == grabc || (!ISSCROLLTILED(c) && !c->animation.tagining &&

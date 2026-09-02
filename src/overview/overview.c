@@ -1,9 +1,10 @@
 #include "overview.h"
 #include "../layout/layout.h"
-#include "../common/util.h"
+#include "../common/globals.h"
 #include "../manage/client.h"
 #include "../manage/monitor.h"
 #include "../animation/client.h"
+#include "../common/util.h"
 
 // 目标窗口有其他窗口和它同个tag就返回0
 uint32_t want_restore_fullscreen(Client *target_client) {
