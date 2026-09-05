@@ -177,7 +177,7 @@ extern struct wl_listener new_xwayland_surface;
 extern struct wl_listener xwayland_ready;
 extern struct wlr_xwayland *xwayland;
 extern struct wl_event_source *sync_keymap;
-#endif
+#endif // XWAYLAND
 
 // config variable defined here
 extern Config config;

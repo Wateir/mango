@@ -172,7 +172,7 @@ struct wl_listener new_xwayland_surface = {.notify = createnotifyx11};
 struct wl_listener xwayland_ready = {.notify = xwaylandready};
 struct wlr_xwayland *xwayland;
 struct wl_event_source *sync_keymap;
-#endif
+#endif // XWAYLAND
 
 uint32_t tagmask = ((1u << 9) - 1); // 默认 9 个 tag
 
