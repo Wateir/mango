@@ -49,6 +49,7 @@ void toggleglobal(const Arg *arg);
 void incnmaster(const Arg *arg);
 void focusmon(const Arg *arg);
 void focusstack(const Arg *arg);
+void overcircle(const Arg *arg);
 void groupfocus(const Arg *arg);
 void chvt(const Arg *arg);
 void reload_config(const Arg *arg);
@@ -94,4 +95,7 @@ void dwindle_split_vertical(const Arg *arg);
 void dwindle_toggle_current_split(const Arg *arg);
 void focusid(const Arg *arg);
 
+void toggle_special_tag(const Arg *arg);
+void tag_special_tag(const Arg *arg);
+void tag_special_silent(const Arg *arg);
 #endif
