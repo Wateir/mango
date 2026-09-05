@@ -112,7 +112,7 @@ bool layer_ignores_focus(LayerSurface *l) {
 
 void xytonode(double x, double y, struct wlr_surface **psurface, Client **pc,
 			  LayerSurface **pl, MangoGroupBar **gb, double *nx, double *ny) {
-	struct wlr_scene_node *node = NULL, *pnode = NULL;
+		struct wlr_scene_node *node = NULL, *pnode = NULL;
 	struct wlr_surface *surface = NULL;
 	Client *c = NULL;
 	LayerSurface *l = NULL;
@@ -136,6 +136,16 @@ void xytonode(double x, double y, struct wlr_surface **psurface, Client **pc,
 		node = wlr_scene_node_at(&layers[layer]->node, x, y, nx, ny);
 		if (!node)
 			continue;
+
+		Monitor *cm = xytomon(x, y);
+		if (cm && cm->special_dim_rect && cm->special_dim_rect->node.enabled &&
+			node == &cm->special_dim_rect->node) {
+			c = NULL;
+			l = NULL;
+			surface = NULL;
+			mangogroupbar = NULL;
+			break;
+		}
 
 		if (node->type == WLR_SCENE_NODE_BUFFER) {
 			struct wlr_scene_surface *scene_surface =

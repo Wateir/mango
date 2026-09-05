@@ -108,8 +108,7 @@ axisnotify(struct wl_listener *listener, void *data) {
 	 * for example when you move the scroll wheel. */
 	struct wlr_pointer_axis_event *event = data;
 	ipc_notify_device_event(&event->pointer->base);
-	struct wlr_keyboard *keyboard, *hard_keyboard;
-	uint32_t mods, hard_mods;
+	uint32_t mods;
 	AxisBinding *a;
 	int32_t ji;
 	uint32_t adir;
@@ -122,13 +121,7 @@ axisnotify(struct wl_listener *listener, void *data) {
 		return;
 	}
 
-	hard_keyboard = &kb_group->wlr_group->keyboard;
-	hard_mods = hard_keyboard ? wlr_keyboard_get_modifiers(hard_keyboard) : 0;
-
-	keyboard = wlr_seat_get_keyboard(seat);
-	mods = keyboard ? wlr_keyboard_get_modifiers(keyboard) : 0;
-
-	mods = mods | hard_mods;
+	mods = keyboard_hard_modifiers();
 
 	if (event->orientation == WL_POINTER_AXIS_VERTICAL_SCROLL)
 		adir = event->delta > 0 ? AxisDown : AxisUp;
@@ -1040,7 +1033,7 @@ void pointerfocus(Client *c, struct wlr_surface *surface, double sx, double sy,
 				  uint32_t time) {
 	struct timespec now;
 
-	if (config.sloppyfocus && !start_drag_window && c && time && c->scene &&
+		if (config.sloppyfocus && !start_drag_window && c && time && c->scene &&
 		c->scene->node.enabled && (!c->mon || !c->mon->isoverview) &&
 		!c->animation.tagining &&
 		(surface != seat->pointer_state.focused_surface ||

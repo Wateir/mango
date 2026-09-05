@@ -1,5 +1,5 @@
 project('mango', ['c'],
-  version : '0.16.2',
+  version : '0.16.3',
 )
 
 subdir('protocols')
@@ -167,4 +167,16 @@ portal_install_dir = join_paths(prefix, 'share/xdg-desktop-portal')
 install_data('assets/mango.desktop', install_dir : desktop_install_dir)
 install_data('assets/mango-portals.conf', install_dir : portal_install_dir)
 install_data('assets/config.conf', install_dir : join_paths(sysconfdir, 'mango'))
-install_data('mmsg/mmsg.1', install_dir : join_paths(mandir, 'man1'))
+
+# generate the mmsg man page at build time so the version always
+# matches the project version
+mmsg_man_conf = configuration_data()
+mmsg_man_conf.set('VERSION', meson.project_version())
+install_data(
+  configure_file(
+    input : 'mmsg/mmsg.1.in',
+    output : 'mmsg.1',
+    configuration : mmsg_man_conf,
+  ),
+  install_dir : join_paths(mandir, 'man1'),
+)

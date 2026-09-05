@@ -11,6 +11,7 @@ Client *xytoclient(double x, double y);
 bool layer_ignores_focus(LayerSurface *l);
 void xytonode(double x, double y, struct wlr_surface **psurface, Client **pc,
 			  LayerSurface **pl, MangoGroupBar **gb, double *nx, double *ny);
+
 /*
  * 额外协议：xdg-decoration、session lock、drm lease、image capture、
  * idle inhibit、seat selection（剪切板）等杂项协议处理。
